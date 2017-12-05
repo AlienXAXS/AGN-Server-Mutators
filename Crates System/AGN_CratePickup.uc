@@ -47,7 +47,7 @@ function InitCrateSystem()
 	{
 		tmpCrate.DeactivateCrate();
 	}
-	
+
 	// Activate random crates
 	for ( i = 0; i<Rx_MapInfo(WorldInfo.GetMapInfo()).NumCratesToBeActive ; i++ )
 	{
@@ -89,7 +89,7 @@ function ActivateRandomCrate()
       }
    }
    // activate a rnd one
-   
+
    CrateRespawnAfterPickup = 60.0f - Worldinfo.GRI.ElapsedTime % 60.0f;
    if(CrateRespawnAfterPickup == 0.0)
    		CrateRespawnAfterPickup = 1.0;
@@ -182,7 +182,7 @@ function AGN_CrateType DetermineCrateType(Rx_Pawn Recipient)
 		else
 			random -= probabilities[i];
 	}
-	
+
 	LogInternal("FAIL - Spawning last crate in the list");
 	return InstancedCrateTypes[InstancedCrateTypes.Length - 1]; // Should never happen
 }
@@ -266,7 +266,7 @@ DefaultProperties
 	DefaultCrateTypes[10] = class'AGN_CrateType_TSVehicle'
 	DefaultCrateTypes[11] = class'AGN_CrateType_SuperMoney'
 	DefaultCrateTypes[12] = class'AGN_CrateType_RandomWeapon'
-	DefaultCrateTypes[13] = class'AGN_CrateType_Beacon'
-	
-	DefaultCrateTypes[14] = class'AGN_CrateType_Veterancy'
+	//DefaultCrateTypes[13] = class'AGN_CrateType_Beacon'
+
+	DefaultCrateTypes[13] = class'AGN_CrateType_Veterancy'
 }
