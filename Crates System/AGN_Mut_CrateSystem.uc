@@ -26,7 +26,7 @@ function InitMutator(string options, out string errorMessage)
 		oldCratesNukeSpawning.AddItem(CratePickup.bNoNukeDeath);
 	}
 	
-	Super.InitMutator(options, errorMessage);
+	NextMutator.InitMutator(options, errorMessage);
 	
 	setTimer(5, false, 'ReplaceCrates');
 }
@@ -172,24 +172,18 @@ function bool CheckReplacement(Actor Other)
 		LogInternal("[AGN] Attempting to write over Rx_CratePickup (AllCrates)...");
 		ReplaceWith(Other, "AGN_Mut_CrateSystem.AGN_Pickup");
 	}
-	
-	if (Other.IsA('Rx_Message_Crates') && !Other.IsA('AGN_Message_Crates'))
-	{
-		LogInternal("[AGN] Attempting to write over Rx_Message_Crates...");
-		ReplaceWith(Other, "AGN_Message_Crates");
-	}
-	
+
 	if (other.isA('Rx_CratePickup') && !other.isA('AGN_CratePickup'))
 	{	
 		ReplaceWith(Other,"AGN_Mut_CrateSystem.AGN_CratePickup");
 	}
-		
+
 	if(Other.IsA('Rx_TeamInfo'))
 	{
 		Rx_Game(WorldInfo.Game).GameReplicationInfoClass = class'AGN_GRI';
 		Rx_Game(WorldInfo.Game).PlayerControllerClass = class'AGN_Rx_Controller';
 	}
-	
+
 	return true;
 }
 

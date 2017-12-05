@@ -1,0 +1,36 @@
+== Date: 30/11/2017
+== Version: 0.2.1
+ Change Log:
+	* [FIX] Fixed Kills, Joins, Quits etc messages appearing twice on the left side of the HUD.
+
+-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-
+
+== Date: 30/11/2017
+== Version: 0.2
+ Change Log:
+	* [FIX] Crates will now respawn after being picked up
+	* [FIX] Crates now will adhere to their map settings, no more vehicles in tunnels.
+	* [ADD] Added AGN_Messages_Crates class for customising the BroadcastMessageIdentifer for EVA messages
+	* [FIX] Crates can now support custom broadcasted messages via the new AGN_Messages_Crates class
+	* [FIX] Replaces Rx_CratePickup for AGN_CratePickup in EVA's HUD files, this allows the custom crate messages to be displayed
+	* [FIX] Bounding box on the new crates now working
+	* [FIX] AGN_CratePickup can now be Spotted (using the Q key)
+	* [ADD] Random weapon crate added (thanks Sarah)
+	* [ADD] Random beacon death crate added (thanks Sarah)
+	* [ADD] Moved all crate logic (such as spawining, randomisation etc) from AGN_Game to AGN_CrateType, this allows further customisation
+
+-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-
+
+== Date: Unknown
+== Version: 0.1
+ Change log:
+	* Inital push
+
+ Known Issues:
+	* Crates never respawn
+	* All crates spawn at the start of a map, no matter what the RxMapInfo specifies
+	* Unable to process custom BroadcastMessage strings, so when adding a new crate you cannot customise the EVA message.
+	* Crates do not carry over their map settings (such as no nuke, no vehicle spawn)
+
+
+-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-

@@ -13,7 +13,7 @@ class AGN_CratePickup extends AGN_Pickup
 var()   bool                bNoVehicleSpawn; // vehicles will not spawn at this crate (use for tunnels!)
 var()   bool                bNoNukeDeath; // no nuke explosion (big death crate)
 var     bool                bRespawn;
-var bool                    bWillBeActive;
+var 	bool                bWillBeActive;
 
 var array<class<AGN_CrateType> >   DefaultCrateTypes;
 var array <AGN_CrateType> InstancedCrateTypes;
@@ -25,22 +25,85 @@ simulated function string GetHumanReadableName()
 
 simulated function PostBeginPlay()
 {
-   super.PostBeginPlay();
-
-   InstantiateDefaultCrateTypes();
-
-   // add self to global crates array
-   if (AGN_Game(WorldInfo.Game) != none)
-      AGN_Game(WorldInfo.Game).AddCrateAndActivateRnd_AGN(self);
+	super.PostBeginPlay();
+	InstantiateDefaultCrateTypes();
+	InitCrateSystem();
 }
 
 function SpawnCopyFor(Pawn Recipient)
 {
-   DeactivateCrate();
-   ExecutePickup(Recipient);
+	DeactivateCrate();
+	ExecutePickup(Recipient);
+	ActivateRandomCrate();
+}
 
-   if (AGN_Game(WorldInfo.Game) != none)
-	AGN_Game(WorldInfo.Game).ActivateRandomCrate_AGN();
+function InitCrateSystem()
+{
+	local int i;
+	local AGN_CratePickup tmpCrate;
+
+	// Deactivate all crates in preperation for activing random ones.
+	foreach Rx_Game(`WorldInfoObject.Game).AllActors(class'AGN_CratePickup', tmpCrate)
+	{
+		tmpCrate.DeactivateCrate();
+	}
+	
+	// Activate random crates
+	for ( i = 0; i<Rx_MapInfo(WorldInfo.GetMapInfo()).NumCratesToBeActive ; i++ )
+	{
+		GetInactiveCrate().ActivateCrate();
+	}
+}
+
+function AGN_CratePickup GetInactiveCrate()
+{
+	local AGN_CratePickup tmpCrate;
+	local array<AGN_CratePickup> CratesNotActive;
+
+	foreach Rx_Game(`WorldInfoObject.Game).AllActors(class'AGN_CratePickup', tmpCrate)
+	{
+		if(!tmpCrate.getIsActive())
+		{
+			CratesNotActive.AddItem(tmpCrate);
+		}
+	}
+
+	if ( CratesNotActive.Length == 0 )
+		return None;
+	else
+		return CratesNotActive[Rand(CratesNotActive.Length)];
+}
+
+function ActivateRandomCrate()
+{
+   local AGN_CratePickup tmpCrate;
+   local array<AGN_CratePickup> CratesNotActive;
+   local float CrateRespawnAfterPickup;
+
+   // get non active crates
+   foreach Rx_Game(`WorldInfoObject.Game).AllActors(class'AGN_CratePickup', tmpCrate)
+	{
+      if(!tmpCrate.getIsActive())
+      {
+         CratesNotActive.AddItem(tmpCrate);
+      }
+   }
+   // activate a rnd one
+   
+   CrateRespawnAfterPickup = 60.0f - Worldinfo.GRI.ElapsedTime % 60.0f;
+   if(CrateRespawnAfterPickup == 0.0)
+   		CrateRespawnAfterPickup = 1.0;
+
+   CratesNotActive[Rand(CratesNotActive.Length)].setActiveIn(CrateRespawnAfterPickup);
+}
+
+function SendMessageToAllPlayers(string message)
+{
+	local Controller c;
+	foreach class'WorldInfo'.static.GetWorldInfo().AllControllers(class'Controller', c)
+	{
+		Rx_Controller(c).CTextMessage("[AGN] " $ message,'LightGreen',50);
+	}
 }
 
 function bool isScheduledToBeActive()
@@ -119,7 +182,7 @@ function AGN_CrateType DetermineCrateType(Rx_Pawn Recipient)
 		else
 			random -= probabilities[i];
 	}
-
+	
 	LogInternal("FAIL - Spawning last crate in the list");
 	return InstancedCrateTypes[InstancedCrateTypes.Length - 1]; // Should never happen
 }
@@ -204,6 +267,6 @@ DefaultProperties
 	DefaultCrateTypes[11] = class'AGN_CrateType_SuperMoney'
 	DefaultCrateTypes[12] = class'AGN_CrateType_RandomWeapon'
 	DefaultCrateTypes[13] = class'AGN_CrateType_Beacon'
+	
 	DefaultCrateTypes[14] = class'AGN_CrateType_Veterancy'
-  DefaultCrateTypes[15] = class'AGN_CrateType_DropMoney'
 }

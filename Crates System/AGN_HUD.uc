@@ -19,7 +19,8 @@ function LocalizedMessage
 	optional object			OptionalObject
 )
 {
-
+	local UTHUDBase uthud;
+	
 	if (HudMovie == none || !HudMovie.bMovieIsOpen)
 		return;
 
@@ -76,9 +77,9 @@ function LocalizedMessage
 		}
 	}
 	else if (InMessageClass == class'AGN_CratePickup'.default.MessageClass)
-	{
+	{ 
 		HudMovie.AddEVAMessage(CriticalString);
-	}
+	} 
 	else if (InMessageClass == class'Rx_Message_Deployed')
 	{
 		if (Switch == -1)
@@ -102,5 +103,7 @@ function LocalizedMessage
 			break;
 		}
 	}
-
+	
+	//ForEach CratePickup.AllActors(class'UTHUDBase',uthud) { uthud = uthud; break; }
+	//uthud.LocalizedMessage(InMessageClass,RelatedPRI_1,RelatedPRI_2,CriticalString,Switch,Position,LifeTime,FontSize,DrawColor,OptionalObject);
 }

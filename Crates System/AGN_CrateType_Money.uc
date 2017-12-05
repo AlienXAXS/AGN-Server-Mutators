@@ -1,4 +1,5 @@
-class AGN_CrateType_Money extends AGN_CrateType;
+class AGN_CrateType_Money extends AGN_CrateType
+	config(AGN_Crates);
 
 var config float MinutesToGiveSmallSum;
 var config float ProbabilityIncreaseWhenPowerPlantDestroyed;

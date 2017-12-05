@@ -1,4 +1,5 @@
-class AGN_CrateType_Vehicle extends AGN_CrateType;
+class AGN_CrateType_Vehicle extends AGN_CrateType
+	config(AGN_Crates);
 
 var transient Rx_Vehicle GivenVehicle;
 var config float ProbabilityIncreaseWhenVehicleProductionDestroyed;

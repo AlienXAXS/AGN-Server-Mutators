@@ -1,4 +1,5 @@
-class AGN_CrateType_Spy extends AGN_CrateType;
+class AGN_CrateType_Spy extends AGN_CrateType
+	config(AGN_Crates);
 
 var int BroadcastMessageAltIndex;
 var config float MinutesUntilProbabiltyIncreaseStart;

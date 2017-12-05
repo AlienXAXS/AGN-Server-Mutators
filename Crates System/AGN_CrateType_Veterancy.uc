@@ -1,4 +1,5 @@
-class AGN_CrateType_Veterancy extends AGN_CrateType;
+class AGN_CrateType_Veterancy extends AGN_CrateType
+	config(AGN_Crates);
 
 var const int VPAmount;
 

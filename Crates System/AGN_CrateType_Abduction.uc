@@ -1,4 +1,5 @@
-class AGN_CrateType_Abduction extends AGN_CrateType;
+class AGN_CrateType_Abduction extends AGN_CrateType
+	config(AGN_Crates);
 
 function string GetGameLogMessage(Rx_PRI RecipientPRI, AGN_CratePickup CratePickup)
 {

@@ -34,6 +34,8 @@ function AddCrateAndActivateRnd_AGN(AGN_CratePickup InCrate)
  * called after crate was picked up and next one should be activated
  * used with config to delay crate respawn set by user
  * */
+ 
+//This is never called any more, now respawning crates inside AGN_CratePickup
 function ActivateRandomCrate_AGN()
 {
    local AGN_CratePickup tmpCrate;
@@ -53,7 +55,17 @@ function ActivateRandomCrate_AGN()
    if(CrateRespawnAfterPickup == 0.0)
    		CrateRespawnAfterPickup = 1.0;
    
+   SendMessageToAllPlayers ( "Activing a crate, it will appear in " $ CrateRespawnAfterPickup $ " seconds");
    CratesNotActive[Rand(CratesNotActive.Length)].setActiveIn(CrateRespawnAfterPickup);
+}
+
+function SendMessageToAllPlayers(string message)
+{
+	local Controller c;
+	foreach class'WorldInfo'.static.GetWorldInfo().AllControllers(class'Controller', c)
+	{
+		Rx_Controller(c).CTextMessage("[AGN] " $ message,'LightGreen',50);
+	}
 }
 
 DefaultProperties
