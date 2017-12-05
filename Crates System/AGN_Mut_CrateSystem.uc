@@ -74,11 +74,11 @@ function ReplaceCrates()
 	}
 }
 
-function Mutate(string MutateString, PlayerController Sender)
-{
-	MutateHandler(MutateString, Sender);
-	Super.Mutate(MutateString, Sender);
-}
+//function Mutate(string MutateString, PlayerController Sender)
+//{
+//	MutateHandler(MutateString, Sender);
+//	Super.Mutate(MutateString, Sender);
+//}
 
 /*reliable server function MutateHandler(string MutateString, PlayerController Sender)
 {
