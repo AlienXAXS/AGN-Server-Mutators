@@ -70,4 +70,5 @@ function SendMessageToAllPlayers(string message)
 
 DefaultProperties
 {
+	PlayerControllerClass = class'AGN_Veh_Controller';
 }

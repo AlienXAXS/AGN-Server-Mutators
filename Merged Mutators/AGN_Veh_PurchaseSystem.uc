@@ -1,0 +1,1 @@
+class AGN_Veh_PurchaseSystem extends Rx_PurchaseSystem;

@@ -1,0 +1,1 @@
+class AGN_Veh_VehicleManager extends Rx_VehicleManager;
