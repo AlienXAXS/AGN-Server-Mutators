@@ -11,10 +11,6 @@ var AGN_Veh_Mutator VehMutator;
 
 function InitMutator(string options, out string errorMessage)
 {
-	
-	// Spawn our class, and call the functions inside.
-	VehMutator = spawn(class'AGN_Veh_Mutator');
-	VehMutator.OnInitMutator(options, errorMessage);
 
 	if (Rx_Game(WorldInfo.Game) != None)
 	{
@@ -24,7 +20,14 @@ function InitMutator(string options, out string errorMessage)
 	
 	// This just doesnt work, maybe i'll fix it in the future when my brain doesnt feel like shit.
 	//InitMutator_BaseDefences(options, errorMessage);
+	
+	// Start our Crate System
 	InitMutator_CrateSystem();
+	
+	// Start our Veh System
+	// Spawn our class, and call the functions inside.
+	VehMutator = spawn(class'AGN_Veh_Mutator');
+	VehMutator.OnInitMutator(options, errorMessage);	
 }
 
 function InitMutator_CrateSystem()

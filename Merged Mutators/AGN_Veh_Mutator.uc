@@ -2,27 +2,14 @@ class AGN_Veh_Mutator extends Rx_Mutator;
 
 function OnInitMutator(string options, out string errorMessage)
 {
-
-	if (Rx_Game(WorldInfo.Game) != None)
-	{
-		LogInternal ( "~~~~~~~~ [AGN] Rx_Game PlayerControllerClass OVERWRITE" );
-		Rx_Game(WorldInfo.Game).PlayerControllerClass = class'AGN_Veh_Controller';
-	}
-	
-	if ( AGN_Game(WorldInfo.Game) != None)
-	{
-		LogInternal ( "~~~~~~~~ [AGN] AGN_Game PlayerControllerClass OVERWRITE" );
-		AGN_Game(WorldInfo.Game).PlayerControllerClass = class'AGN_Veh_Controller';
-	}
-
 	// Updates the Purchase System and VehicleManager
 	setTimer(0.5f, false, 'ChangePurchaseSystem');
 }
 
 function OnClassReplacement(Actor Other)
 {
-	if (other.isA('Rx_VehicleManager') && !other.isA('nBab_VehicleManager')) {
-		other.destroy();
+	if (Other.isA('Rx_VehicleManager') && !Other.isA('AGN_Veh_VehicleManager')) {
+		Other.destroy();
 	}
 }
 

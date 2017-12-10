@@ -213,3 +213,8 @@ exec function ReportSpotted()
 	bCanFocusSpot=false; 
 	bFocusSpotting= false; 
 }
+
+DefaultProperties
+{
+	PTMenuClass = class'AGN_Veh_GFxPurchaseMenu'
+}
