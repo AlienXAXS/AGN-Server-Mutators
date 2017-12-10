@@ -1,0 +1,40 @@
+<NotepadPlus>
+    <UserLang name="UnrealScript" ext="uc">
+        <Settings>
+            <Global caseIgnored="yes" escapeChar="\" />
+            <TreatAsSymbol comment="no" commentLine="no" />
+            <Prefix words1="no" words2="no" words3="no" words4="no" />
+        </Settings>
+        <KeywordLists>
+            <Keywords name="Delimiters">&apos;&quot;0&apos;&quot;0</Keywords>
+            <Keywords name="Folder+">{ &lt; (</Keywords>
+            <Keywords name="Folder-">} &gt; )</Keywords>
+            <Keywords name="Operators">&apos; - ! &quot; $ % &amp; ( ) , . : ; ? @ [ ] ^ | ~ + &lt; = &gt;</Keywords>
+            <Keywords name="Comment">1/* 1/** 2*/ 0//</Keywords>
+            <Keywords name="Words1">class extends const array var struct cpptext if else while replication event function Switch defaultproperties Super delegate none other editinline repnotify virtual default AddEventListener ConsoleCommand</Keywords>
+            <Keywords name="Words2">Actor Object ActorComponent Component Pawn WorldInfo PhysicalMaterial SoundCue ParticleSystem SkeletalMeshComponent Controller PlayerController DamageType StaticMeshComponent PlayerReplicationInfo Canvas HUD Volume PhysicsVolume FluidSurfaceActor SequenceEvent Sequence Object SpriteComponent Inventory PrimitiveComponent ParticleSystemComponent LightEnvironmentComponent ForceFeedbackWaveform AudioComponent DynamicLightEnvironmentComponent LightEnvironment Components StaticMesh MaterialInterface LadderVolume PlayerStart CylinderComponent InventoryManager Weapon Mesh PlayerInput GFxClikWidget GFxObject PlayerOwner Material WidgetBindings</Keywords>
+            <Keywords name="Words3">abstract native nativereplication hidecategories private transient deprecated editconst static final simulated out local localized globalconfig config protected auto notplaceable placeable dependson implements case break</Keywords>
+            <Keywords name="Words4">bool int vector rotator float enum Name Quat byte return string spawn true false state EPhysics void UBOOL Widget Add</Keywords>
+        </KeywordLists>
+        <Styles>
+            <WordsStyle name="DEFAULT" styleID="11" fgColor="000000" bgColor="FFFFFF" fontName="Courier New" fontStyle="0" fontSize="10" />
+            <WordsStyle name="FOLDEROPEN" styleID="12" fgColor="800040" bgColor="FFFFFF" fontName="Courier New" fontStyle="1" fontSize="10" />
+            <WordsStyle name="FOLDERCLOSE" styleID="13" fgColor="800040" bgColor="FFFFFF" fontName="Courier New" fontStyle="1" fontSize="10" />
+            <WordsStyle name="KEYWORD1" styleID="5" fgColor="0234B7" bgColor="FFFFFF" fontName="Courier New" fontStyle="1" fontSize="10" />
+            <WordsStyle name="KEYWORD2" styleID="6" fgColor="660066" bgColor="FFFFFF" fontName="Courier New" fontStyle="1" fontSize="10" />
+            <WordsStyle name="KEYWORD3" styleID="7" fgColor="008000" bgColor="FFFFFF" fontName="Courier New" fontStyle="0" fontSize="10" />
+            <WordsStyle name="KEYWORD4" styleID="8" fgColor="FF5C0F" bgColor="FFFFFF" fontName="Courier New" fontStyle="1" fontSize="10" />
+            <WordsStyle name="COMMENT" styleID="1" fgColor="0080C0" bgColor="FFFFFF" fontName="Courier New" fontStyle="3" fontSize="10" />
+            <WordsStyle name="COMMENT LINE" styleID="2" fgColor="FE0E62" bgColor="FFFFFF" fontName="Courier New" fontStyle="2" fontSize="10" />
+            <WordsStyle name="NUMBER" styleID="4" fgColor="CE0005" bgColor="FFFFFF" fontName="Courier New" fontStyle="1" fontSize="10" />
+            <WordsStyle name="OPERATOR" styleID="10" fgColor="8000FF" bgColor="FFFFFF" fontName="Courier New" fontStyle="0" fontSize="10" />
+            <WordsStyle name="DELIMINER1" styleID="14" fgColor="8080C0" bgColor="FFFFFF" fontName="Courier New" fontStyle="0" fontSize="10" />
+            <WordsStyle name="DELIMINER2" styleID="15" fgColor="800000" bgColor="FFFFFF" fontName="Courier New" fontStyle="0" fontSize="10" />
+            <WordsStyle name="DELIMINER3" styleID="16" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" />
+            <WordsStyle name="BACKGROUND" styleID="32" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" />
+            <WordsStyle name="WHITESPACE" styleID="0" fgColor="000000" bgColor="FFFFFF" fontName="" fontStyle="0" />
+        </Styles>
+    </UserLang>
+</NotepadPlus>
+
+<!--created by Doug Clayton-->
