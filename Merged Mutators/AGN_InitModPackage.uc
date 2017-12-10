@@ -7,8 +7,15 @@ class AGN_InitModPackage extends AGN_Mut_BaseDefenses;
 var() array<bool> oldCratesVehSpawning;
 var() array<bool> oldCratesNukeSpawning;
 
+var AGN_Veh_Mutator VehMutator;
+
 function InitMutator(string options, out string errorMessage)
 {
+	
+	// Spawn our class, and call the functions inside.
+	VehMutator = spawn(class'AGN_Veh_Mutator');
+	VehMutator.OnInitMutator(options, errorMessage);
+
 	if (Rx_Game(WorldInfo.Game) != None)
 	{
 		Rx_Game(WorldInfo.Game).PlayerControllerClass = class'AGN_Rx_Controller';
@@ -87,6 +94,10 @@ function ReplaceCrates()
 
 function Mutate(string MutateString, PlayerController Sender)
 {
+	// Call our VehicleMutator
+	if ( VehMutator != None )
+		VehMutator.OnMutate(MutateString, Sender);
+
 	MutateHandler(MutateString, Sender);
 	Super.Mutate(MutateString, Sender);
 }
@@ -178,6 +189,10 @@ function AGNAdmin_DespawnCrates(PlayerController Sender)
 
 function bool CheckReplacement(Actor Other)
 {
+	// Call our Vehicle Mutator
+	if ( VehMutator != None )
+		VehMutator.OnClassReplacement(Other);
+
 	if(Other.IsA('Rx_Pickup') && !Other.IsA('AGN_Pickup'))
 	{
 		LogInternal("[AGN] Attempting to write over Rx_CratePickup (AllCrates)...");

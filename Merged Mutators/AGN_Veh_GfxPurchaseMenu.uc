@@ -1,0 +1,2 @@
+class AGN_Veh_GfxPurchaseMenu extends Rx_GFxPurchaseMenu;
+
