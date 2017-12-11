@@ -8,9 +8,17 @@ var() array<bool> oldCratesVehSpawning;
 var() array<bool> oldCratesNukeSpawning;
 
 var AGN_Veh_Mutator VehMutator;
+var AGN_Sys_Mutator SystemMutator;
+
+simulated function Tick(float DeltaTime)
+{
+	if ( SystemMutator != None )
+		SystemMutator.OnTick(DeltaTime);
+}
 
 function InitMutator(string options, out string errorMessage)
 {
+	local String mapname;
 
 	if (Rx_Game(WorldInfo.Game) != None)
 	{
@@ -24,10 +32,24 @@ function InitMutator(string options, out string errorMessage)
 	// Start our Crate System
 	InitMutator_CrateSystem();
 	
+	mapname=string(WorldInfo.GetPackageName()) ; 			
+	if(right(mapname, 6) ~= "_NIGHT") mapname = Left(mapname, Len(mapname)-6);   	
+	if(right(mapname, 4) ~= "_DAY") mapname = Left(mapname, Len(mapname)-4);
+	
 	// Start our Veh System
 	// Spawn our class, and call the functions inside.
-	VehMutator = spawn(class'AGN_Veh_Mutator');
-	VehMutator.OnInitMutator(options, errorMessage);	
+	// We dont support flying maps.
+	if ( mapname ~= "CNC-Walls_Flying" || mapname ~= "CNC-Lakeside" || mapname ~= "CNC-Whiteout" )
+	{
+		// do nowt
+	}else{
+		VehMutator = spawn(class'AGN_Veh_Mutator');
+		VehMutator.OnInitMutator(options, errorMessage);
+	}
+	
+	SystemMutator = spawn(class'AGN_Sys_Mutator');
+	if ( SystemMutator != None )
+		SystemMutator.InitSystem();
 }
 
 function InitMutator_CrateSystem()
