@@ -39,6 +39,8 @@ simulated function PostBeginPlay()
 	{
 		`log("NodVehiclePricesAGN["$i$"] = "$NodVehiclePricesAGN[i]);
 	}
+	
+	Super.PostBeginPlay();
 }
 
 simulated function int GetClassPrices(byte teamID, int charid)
@@ -86,22 +88,22 @@ simulated function int GetVehiclePrices(byte teamID, int VehicleID, bool bViaAir
 	if (teamID == TEAM_GDI)
 	{
 		if (VehicleID == 5)
-			return 1000 * Multiplier;
+			return 1300 * Multiplier;
 		else if (VehicleID == 6)
 		{
 			if(bViaAirdrop)
-				return 1500;
+				return 1250;
 			else
-				return 1000;
+				return 700;
 		}
 		else if (VehicleID == 7)
-			return 1500 * Multiplier;
+			return 2350 * Multiplier;
 		else if (VehicleID == 8)
 			return 1000 * Multiplier;
 		else
 		{
 			price = GDIVehiclePricesAGN[VehicleID] * Multiplier;
-			`log("GetVehiclePrices Team:" $ teamID $ " vehID: " $ VehicleID $ " Price: " $ price);
+			//`log("GetVehiclePrices Team:" $ teamID $ " vehID: " $ VehicleID $ " Price: " $ price);
 			return price;
 		}
 	}
@@ -110,12 +112,12 @@ simulated function int GetVehiclePrices(byte teamID, int VehicleID, bool bViaAir
 		if (VehicleID == 6)
 		{
 			if(bViaAirdrop)
-				return 1200;
+				return 1150;
 			else
-				return 800;
+				return 700;
 		}
 		else if (VehicleID == 7)
-			return 800 * Multiplier;
+			return 600 * Multiplier;
 		else if (VehicleID == 8)
 			return 1200 * Multiplier;
 		else

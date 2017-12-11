@@ -1,5 +1,7 @@
 class AGN_Rx_Controller extends Rx_Controller;
 
+var class<Rx_GFxPurchaseMenu> PTMenuClassOriginal;
+
 exec function ReportSpotted()
 {
 	local Rx_Building Building;
@@ -214,7 +216,41 @@ exec function ReportSpotted()
 	bFocusSpotting= false; 
 }
 
+function OpenPT(Rx_BuildingAttachment_PT PT)
+{
+	local string mapName;
+
+	if( PTMenu == none || !PTMenu.bMovieIsOpen)
+	{
+		Rx_HUD(myHUD).CloseOverviewMap();
+
+		// AlienX
+		// Use original PT on Flying maps!
+		mapname=string(WorldInfo.GetPackageName()) ; 			
+		if(right(mapname, 6) ~= "_NIGHT") mapname = Left(mapname, Len(mapname)-6);   	
+		if(right(mapname, 4) ~= "_DAY") mapname = Left(mapname, Len(mapname)-4);
+
+		if ( mapname ~= "CNC-Walls_Flying" || mapname ~= "CNC-Lakeside" || mapname ~= "CNC-Whiteout" )
+		{
+			Rx_HUD(myHUD).PTMovie = new PTMenuClassOriginal;
+		}else{
+			Rx_HUD(myHUD).PTMovie = new PTMenuClass;
+		}
+
+		PTMenu = Rx_HUD(myHUD).PTMovie;
+		PTMenu.SetPurchaseSystem( (WorldInfo.NetMode == NM_StandAlone || (WorldInfo.NetMode == NM_ListenServer && RemoteRole == ROLE_SimulatedProxy) ) 
+			? Rx_Game(WorldInfo.Game).PurchaseSystem 
+			: Rx_GRI(WorldInfo.GRI).PurchaseSystem );
+
+		PTMenu.SetTeam(PT.GetTeamNum());
+		PTMenu.SetTimingMode(TM_Real);
+		PTMenu.Initialize(LocalPlayer(Player), PT);
+	}
+	PTUsed = PT;
+}
+
 DefaultProperties
 {
 	PTMenuClass = class'AGN_Veh_GFxPurchaseMenu'
+	PTMenuClassOriginal	= class'Rx_GFxPurchaseMenu'
 }
