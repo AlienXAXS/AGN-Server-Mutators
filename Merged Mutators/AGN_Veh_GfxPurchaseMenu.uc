@@ -1417,7 +1417,7 @@ function TickHUD()
 	
 	H.Canvas.SetDrawColor(0, 255, 0, 120);
 	
-	hudMessage = "[AGN] Purchase Terminal v0.4 (Team: " $ TeamID $ ")\n";
+	hudMessage = "[AGN] Purchase Terminal v0.5 Beta (Team: " $ TeamID $ ")\n";
 	if ( rxPurchaseSystem.AreHighTierPayClassesDisabled(byte(TeamID)) )
 		hudMessage $= " > Adv Tier Classes Disabled\n";
 	else
