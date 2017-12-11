@@ -23,8 +23,6 @@ reliable server function FindBaseDefences()
 	local int tmpYaw;
 	local AGN_CapturableMCT myActor;
 	local AGN_Memory agnMemory;
-	local Rx_CapturableMCT thisMCT;
-	local Rx_Building tmpBuilding;
 
 	foreach Rx_Game(`WorldInfoObject.Game).AllActors(class'Rx_Defence', thisTurret)
 	{

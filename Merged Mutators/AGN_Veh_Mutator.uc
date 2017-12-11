@@ -10,6 +10,7 @@ function OnClassReplacement(Actor Other)
 {
 	if (Other.isA('Rx_VehicleManager') && !Other.isA('AGN_Veh_VehicleManager')) {
 		Other.destroy();
+		`log("[AGN] Destroying Rx_VehicleManager");
 	}
 }
 
@@ -18,16 +19,14 @@ function OnMutate(string MutateString, PlayerController sender)
 	
 }
 
-
-simulated function bool ChangePurchaseSystem()
+function bool ChangePurchaseSystem()
 {
+
 	Rx_Game(WorldInfo.Game).PurchaseSystem.Destroy();
 	Rx_Game(WorldInfo.Game).PurchaseSystem = spawn(class'AGN_Veh_PurchaseSystem',self,'PurchaseSystem',Location,Rotation);
 	Rx_Game(WorldInfo.Game).VehicleManager = spawn(class'AGN_Veh_VehicleManager',self,'VehicleManager',Location,Rotation);
 	Rx_Game(WorldInfo.Game).VehicleManager.Initialize(Rx_Game(WorldInfo.Game), Rx_Game(WorldInfo.Game).Teams[TEAM_GDI], Rx_Game(WorldInfo.Game).Teams[TEAM_NOD]);
 	Rx_Game(WorldInfo.Game).VehicleManager.MessageClass = class'AGN_Veh_Message_VehicleProduced';
-	//Rx_Game(WorldInfo.Game).VehicleManager.SpawnInitialHarvesters();
 	Rx_Game(WorldInfo.Game).PurchaseSystem.SetVehicleManager(Rx_Game(WorldInfo.Game).VehicleManager);
-	
 	return true;
 }

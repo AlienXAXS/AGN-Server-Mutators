@@ -209,7 +209,6 @@ function bool CheckReplacement(Actor Other)
 
 	if(Other.IsA('Rx_TeamInfo'))
 	{
-		Rx_Game(WorldInfo.Game).GameReplicationInfoClass = class'AGN_GRI';
 		Rx_Game(WorldInfo.Game).PlayerControllerClass = class'AGN_Rx_Controller';
 	}
 
