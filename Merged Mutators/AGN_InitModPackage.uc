@@ -50,6 +50,8 @@ function InitMutator(string options, out string errorMessage)
 	SystemMutator = spawn(class'AGN_Sys_Mutator');
 	if ( SystemMutator != None )
 		SystemMutator.InitSystem();
+		
+	super(Mutator).InitMutator(Options, ErrorMessage);
 }
 
 function InitMutator_CrateSystem()
