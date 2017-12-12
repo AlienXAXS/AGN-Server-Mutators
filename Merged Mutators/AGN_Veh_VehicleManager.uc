@@ -16,8 +16,9 @@ function Initialize(GameInfo Game, UTTeamInfo GdiTeamInfo, UTTeamInfo NodTeamInf
 		Set_GDI_ProductionPlace(loc, rot);
 	}
 	
-	// Spawn the harvs, because - well their kinda important!
-	SpawnInitialHarvesters();
+	// Spawn the harvs on single player.
+	if(`WorldInfoObject.NetMode != NM_DedicatedServer)
+		SpawnInitialHarvesters();
 }
 
 DefaultProperties
