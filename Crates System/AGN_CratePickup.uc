@@ -266,7 +266,7 @@ DefaultProperties
 	DefaultCrateTypes[10] = class'AGN_CrateType_TSVehicle'
 	DefaultCrateTypes[11] = class'AGN_CrateType_SuperMoney'
 	DefaultCrateTypes[12] = class'AGN_CrateType_RandomWeapon'
-	//DefaultCrateTypes[13] = class'AGN_CrateType_Beacon'
-
 	DefaultCrateTypes[13] = class'AGN_CrateType_Veterancy'
+	//DefaultCrateTypes[x] = class'AGN_CrateType_Beacon'
+	//DefaultCrateTypes[x] = class'AGN_CrateType_SpeedBoost'
 }
