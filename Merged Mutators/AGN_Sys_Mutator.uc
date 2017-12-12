@@ -1,6 +1,6 @@
 class AGN_Sys_Mutator extends Rx_Mutator;
 
-var repnotify float ServerFPS;
+var float ServerFPS;
 
 function OnTick(float DeltaTime)
 {

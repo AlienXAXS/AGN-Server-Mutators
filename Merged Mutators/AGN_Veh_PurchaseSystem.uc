@@ -62,7 +62,7 @@ simulated function int GetClassPrices(byte teamID, int charid)
 		price = GDIInfantryPricesAGN[charid] * Multiplier;
 		//`log("GetClassPrices Team:" $ teamID $ " charID: " $ charid $ " Price: " $ price);
 		return price;
-	} 
+	}
 	else
 	{
 		price = NodInfantryPricesAGN[charid] * Multiplier;
