@@ -1,20 +1,16 @@
-class AGN_Veh_PurchaseSystem extends Rx_PurchaseSystem
-	config(AGN_Prices);
+class AGN_Veh_PurchaseSystem extends Rx_PurchaseSystem;
 
 // Maybe fix for UDKCrash?
 // Turns out yes -- AlienX
-var config int                          GDIInfantryPricesAGN[15];
-var config int                          NodInfantryPricesAGN[15];
-var config int                          GDIVehiclePricesAGN[7];
-var config int                          NodVehiclePricesAGN[8];
-
-/*
-	Crash, among other things related to:
-	Failed to find function GetClassPrices in AGN_Veh_PurchaseSystem CNC-Islands.TheWorld:PersistentLevel.AGN_Veh_PurchaseSystem_0
-	
-	Seems extending this class from Rx_PurchaseSystem works, however calling functions inside it doesnt work from other extended classes, re-writing the functions here
-	fixes this problem, but it does cause a larger file... but whatever. -- AlienX
-*/
+var int GDIInfantryPricesAGN[15];
+var int GDIVehiclePricesAGN[7];
+var int GDIWeaponPricesAGN[7];
+var int GDIItemPricesAGN[8];
+var int NodInfantryPricesAGN[15];
+var int NodVehiclePricesAGN[8];
+var int NodWeaponPricesAGN[7];
+var int NodItemPricesAGN[8];
+var int AirdropCooldownTime;
 
 simulated function PostBeginPlay()
 {
@@ -68,6 +64,18 @@ simulated function int GetClassPrices(byte teamID, int charid)
 		price = NodInfantryPricesAGN[charid] * Multiplier;
 		//`log("GetClassPrices Team:" $ teamID $ " charID: " $ charid $ " Price: " $ price);
 		return price;
+	}
+}
+
+simulated function int GetItemPrices(byte teamID, int charid)
+{
+	if (teamID == TEAM_GDI)
+	{
+		return GDIItemPricesAGN[charid];
+	} 
+	else
+	{
+		return NodItemPricesAGN[charid];
 	}
 }
 
@@ -149,4 +157,89 @@ DefaultProperties
 	NodVehicleClasses[6]   = class'AGN_Mut_AlienXSystem.AGN_Vehicle_ReconBike'
 	NodVehicleClasses[7]   = class'AGN_Mut_AlienXSystem.AGN_TS_Vehicle_Buggy'
 	NodVehicleClasses[8]   = class'AGN_Mut_AlienXSystem.AGN_Vehicle_TickTank'
+
+	AirdropCooldownTime = 470
+
+	GDIInfantryPricesAGN[0] = 0
+	GDIInfantryPricesAGN[1] = 0
+	GDIInfantryPricesAGN[2] = 0
+	GDIInfantryPricesAGN[3] = 0
+	GDIInfantryPricesAGN[4] = 0
+	GDIInfantryPricesAGN[5] = 175
+	GDIInfantryPricesAGN[6] = 225
+	GDIInfantryPricesAGN[7] = 250
+	GDIInfantryPricesAGN[8] = 500
+	GDIInfantryPricesAGN[9] = 400
+	GDIInfantryPricesAGN[10] = 450
+	GDIInfantryPricesAGN[11] = 1000
+	GDIInfantryPricesAGN[12] = 1000
+	GDIInfantryPricesAGN[13] = 1000
+	GDIInfantryPricesAGN[14] = 350
+
+	NodInfantryPricesAGN[0] = 0
+	NodInfantryPricesAGN[1] = 0
+	NodInfantryPricesAGN[2] = 0
+	NodInfantryPricesAGN[3] = 0
+	NodInfantryPricesAGN[4] = 0
+	NodInfantryPricesAGN[5] = 175
+	NodInfantryPricesAGN[6] = 225
+	NodInfantryPricesAGN[7] = 250
+	NodInfantryPricesAGN[8] = 500
+	NodInfantryPricesAGN[9] = 400
+	NodInfantryPricesAGN[10] = 450
+	NodInfantryPricesAGN[11] = 1000
+	NodInfantryPricesAGN[12] = 1000
+	NodInfantryPricesAGN[13] = 1000
+	NodInfantryPricesAGN[14] = 350
+
+	GDIVehiclePricesAGN[0] = 350
+	GDIVehiclePricesAGN[1] = 500
+	GDIVehiclePricesAGN[2] = 450
+	GDIVehiclePricesAGN[3] = 800
+	GDIVehiclePricesAGN[4] = 1500
+	GDIVehiclePricesAGN[5] = 700
+	GDIVehiclePricesAGN[6] = 900
+
+	NodVehiclePricesAGN[0] = 300
+	NodVehiclePricesAGN[1] = 500
+	NodVehiclePricesAGN[2] = 450
+	NodVehiclePricesAGN[3] = 800
+	NodVehiclePricesAGN[4] = 600
+	NodVehiclePricesAGN[5] = 900
+	NodVehiclePricesAGN[6] = 700
+	NodVehiclePricesAGN[7] = 900
+
+	GDIItemPricesAGN[0] = 1000 
+	GDIItemPricesAGN[1] = 800 
+	GDIItemPricesAGN[2] = 0
+	GDIItemPricesAGN[3] = 150 
+	GDIItemPricesAGN[4] = 150 
+	GDIItemPricesAGN[5] = 200 
+	GDIItemPricesAGN[6] = 300 
+	GDIItemPricesAGN[7] = 300 
+
+	NodItemPricesAGN[0] = 1000 
+	NodItemPricesAGN[1] = 800 
+	NodItemPricesAGN[2] = 0 
+	NodItemPricesAGN[3] = 150
+	NodItemPricesAGN[4] = 150
+	NodItemPricesAGN[5] = 200
+	NodItemPricesAGN[6] = 300
+	NodItemPricesAGN[7] = 300
+
+	GDIWeaponPricesAGN[0] = 100
+	GDIWeaponPricesAGN[1] = 250
+	GDIWeaponPricesAGN[2] = 400
+	GDIWeaponPricesAGN[3] = 400
+	GDIWeaponPricesAGN[4] = 300
+	GDIWeaponPricesAGN[5] = 250
+	GDIWeaponPricesAGN[6] = 100
+
+	NodWeaponPricesAGN[0] = 100
+	NodWeaponPricesAGN[1] = 250
+	NodWeaponPricesAGN[2] = 400
+	NodWeaponPricesAGN[3] = 400
+	NodWeaponPricesAGN[4] = 300
+	NodWeaponPricesAGN[5] = 250
+	NodWeaponPricesAGN[6] = 100
 }
