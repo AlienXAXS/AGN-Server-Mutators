@@ -5,7 +5,7 @@
  *  NOD:
  *	StaticMesh'RX_BU_RepairFacility.Meshes.SM_RepFacility_NOD'
  * */
-class AGN_Mut_RepairPad extends RX_Mutator;
+class AGN_Mut_RepairPad_v2 extends RX_Mutator;
 
 struct native RepairPadStruct {
 	var String MapName;
@@ -246,13 +246,13 @@ reliable server function createPad()
 	if ( ActiveRepairPad_GDI.Team != "" )
 	{
 		LogInternal ( "[AGN-RepairPads] SPAWNING GDI REPAIRPAD");
-		GDIPad = Spawn(class'AGN_Mut_RepairPad.AGN_RepairPad_GDI',,, ActiveRepairPad_GDI.Location, ActiveRepairPad_GDI.Rotation);
+		GDIPad = Spawn(class'AGN_Mut_RepairPad_v2.AGN_RepairPad_GDI',,, ActiveRepairPad_GDI.Location, ActiveRepairPad_GDI.Rotation);
 	}
 	
 	if ( ActiveRepairPad_Nod.Team != "" )
 	{
 		LogInternal ( "[AGN-RepairPads] SPAWNING NOD REPAIRPAD");
-		NodPad = Spawn(class'AGN_Mut_RepairPad.AGN_RepairPad_NOD',,, ActiveRepairPad_Nod.Location, ActiveRepairPad_Nod.Rotation);
+		NodPad = Spawn(class'AGN_Mut_RepairPad_v2.AGN_RepairPad_NOD',,, ActiveRepairPad_Nod.Location, ActiveRepairPad_Nod.Rotation);
 	}
 }
 
