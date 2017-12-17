@@ -20,6 +20,10 @@ static function string GetString(optional int Switch, optional bool bPRI1HUD, op
         {
             return RelatedPRI_1.PlayerName $ " found a Beacon crate!";
         }
+        if(Switch == 1005)
+        {
+            return RelatedPRI_1.PlayerName $ " found a Super Speed crate!";
+        }
     }
     return Repl(default.PickupBroadcastMessages[Switch], "`PlayerName`", RelatedPRI_1.PlayerName);
 }

@@ -1,6 +1,6 @@
 # Powershell script written by Mark "AlienX" Phillips
 #
-# What do?
+# Functionality?
 #   Copies the current mutator from github repo to network share, compiles scripts, copies compiled .u file to RenX Game and runs game if script compile was a success.
 #
 # Improvements?
@@ -8,7 +8,7 @@
 #   - This script does not automagically insert the mutator name into the UDKEngine INI File ModEditPackages section, do this yourself.
 #   - There is ZERO error checking, have fun with that.
 #
-# How Work?
+# How Does It Work?
 #   You'll probs have to change the ExecutionPolicy on your local PC, to do this:
 #   1) Run PoSh as an admin
 #   2) Execute the following: 'Set-ExecutionPolicy -ExecutionPolicy RemoteSigned'
