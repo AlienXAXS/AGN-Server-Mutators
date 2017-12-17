@@ -226,14 +226,17 @@ function OpenPT(Rx_BuildingAttachment_PT PT)
 
 		// AlienX
 		// Use original PT on Flying maps!
-		mapname=string(WorldInfo.GetPackageName()) ; 			
+		mapname=WorldInfo.GetmapName();		
+		`log ( "[AGN-MAP-FINDER] Found map " $ mapname);
 		if(right(mapname, 6) ~= "_NIGHT") mapname = Left(mapname, Len(mapname)-6);   	
 		if(right(mapname, 4) ~= "_DAY") mapname = Left(mapname, Len(mapname)-4);
 
-		if ( mapname ~= "CNC-Walls_Flying" || mapname ~= "CNC-Lakeside" || mapname ~= "CNC-Whiteout" )
+		if ( mapname ~= "Walls" || mapname ~= "Lakeside" || mapname ~= "Whiteout" )
 		{
+			`log("[AGN-PT] LOADING ORIGINAL PURCHASE TERMINAL");
 			Rx_HUD(myHUD).PTMovie = new PTMenuClassOriginal;
-		}else{
+		} else {
+			`log("[AGN-PT] LOADING FORT PURCHASE TERMINAL");
 			Rx_HUD(myHUD).PTMovie = new PTMenuClass;
 		}
 

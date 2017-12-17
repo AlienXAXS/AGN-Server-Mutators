@@ -10,6 +10,8 @@ var() array<bool> oldCratesNukeSpawning;
 var AGN_Veh_Mutator VehMutator;
 var AGN_Sys_Mutator SystemMutator;
 
+var bool modPackageInitComplete;
+
 simulated function Tick(float DeltaTime)
 {
 	if ( SystemMutator != None )
@@ -20,6 +22,8 @@ function InitMutator(string options, out string errorMessage)
 {
 	local String mapname;
 
+	modPackageInitComplete = false;
+	
 	if (Rx_Game(WorldInfo.Game) != None)
 	{
 		Rx_Game(WorldInfo.Game).PlayerControllerClass = class'AGN_Rx_Controller';
@@ -32,17 +36,19 @@ function InitMutator(string options, out string errorMessage)
 	// Start our Crate System
 	InitMutator_CrateSystem();
 	
-	mapname=string(WorldInfo.GetPackageName()) ; 			
+	mapname=WorldInfo.GetmapName();
+	`log ( "[AGN-MAP-FINDER] Found map " $ mapname);
 	if(right(mapname, 6) ~= "_NIGHT") mapname = Left(mapname, Len(mapname)-6);   	
 	if(right(mapname, 4) ~= "_DAY") mapname = Left(mapname, Len(mapname)-4);
 	
 	// Start our Veh System
 	// Spawn our class, and call the functions inside.
 	// We dont support flying maps.
-	if ( mapname ~= "CNC-Walls_Flying" || mapname ~= "CNC-Lakeside" || mapname ~= "CNC-Whiteout" )
+	if ( mapname ~= "Walls" || mapname ~= "Lakeside" || mapname ~= "Whiteout" )
 	{
-		// do nowt
-	}else{
+		`log("[AGN-Map-Decider] FLYING MAP FOUND, NOT LOADING AGN_VEH MUTATOR");
+	} else {
+		`log("[AGN-Map-Decider] NON FLYING MAP FOUND, LOADING AGN_VEH_MUTATOR INIT");
 		VehMutator = spawn(class'AGN_Veh_Mutator');
 		VehMutator.OnInitMutator(options, errorMessage);
 	}
@@ -67,7 +73,7 @@ function InitMutator_CrateSystem()
 		oldCratesNukeSpawning.AddItem(CratePickup.bNoNukeDeath);
 	}
 	
-	setTimer(5, false, 'ReplaceCrates');
+	setTimer(5, true, 'ReplaceCrates');
 }
 
 function InitMutator_BaseDefences(string options, out string errorMessage)
@@ -82,7 +88,28 @@ function ReplaceCrates()
 	local AGN_CratePickup CratePickup;
 	local Rx_CratePickup RxCratePickup;
 	local Controller c;
+	local Rx_Vehicle thisVehicle;
+	local bool foundHarvester;
 	
+	// Try to find the harvesters, this means the map has started (is there a better way?)
+	
+	if ( modPackageInitComplete )
+		return;
+	
+	foreach Rx_Game(`WorldInfoObject.Game).AllActors(class'Rx_Vehicle', thisVehicle)
+	{
+		if (thisVehicle.isA('Rx_Vehicle_Harvester'))
+		{
+			foundHarvester = true;
+		}
+	}
+	
+	if ( foundHarvester == false )
+		return;
+	
+	// Turn the timer off
+	setTimer(0, false, 'ReplaceCrates');
+	modPackageInitComplete = true;
 	
 	count = 0;
 	foreach Rx_Game(`WorldInfoObject.Game).AllActors(class'AGN_CratePickup', CratePickup)
