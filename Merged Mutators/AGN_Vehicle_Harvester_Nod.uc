@@ -8,8 +8,8 @@ simulated event PostBeginPlay()
 	Super.PostBeginPlay();
 	
 	// Half chance to get a cool camo skin
-	if ( FRand() < 0.5f )
-		return; 
+	if ( FRand() > 0.0f )
+		return;
 	
 	Temp = Mesh.CreateAndSetMaterialInstanceConstant(0);
 	Parent = MaterialInstanceConstant'RX_ENV_FORT.VehicleMaterials.MI_VH_Harvester_Nod';

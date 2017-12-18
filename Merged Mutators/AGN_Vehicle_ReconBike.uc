@@ -8,7 +8,7 @@ simulated event PostBeginPlay()
 	Super.PostBeginPlay();
 	
 	// Half chance to get a cool camo skin
-	if ( FRand() < 0.5f )
+	if ( FRand() > 0.0f )
 		return; 
 		
 	Temp = Mesh.CreateAndSetMaterialInstanceConstant(0);
