@@ -11,6 +11,7 @@ var AGN_Veh_Mutator VehMutator;
 var AGN_Sys_Mutator SystemMutator;
 
 var bool modPackageInitComplete;
+var bool mutatorInitDone;
 
 simulated function Tick(float DeltaTime)
 {
@@ -23,6 +24,14 @@ function InitMutator(string options, out string errorMessage)
 	local String mapname;
 
 	modPackageInitComplete = false;
+	
+	if ( mutatorInitDone )
+	{
+		`log("[AGN-Mutator] Attempted to InitMutator twice, stopped this...");
+		return;
+	}
+		
+	mutatorInitDone = true;
 	
 	if (Rx_Game(WorldInfo.Game) != None)
 	{

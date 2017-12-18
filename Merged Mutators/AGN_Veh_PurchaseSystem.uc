@@ -39,12 +39,6 @@ simulated function PostBeginPlay()
 	Super.PostBeginPlay();
 }
 
-// Bah - whoever removed the "s" off this function name in the new RenX, you are very naughty!!
-simulated function int GetClassPrice(byte teamID, int charid)
-{
-	return GetClassPrices(teamID, charID);
-}
-
 simulated function int GetClassPrices(byte teamID, int charid)
 {
 	local float Multiplier;

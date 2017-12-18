@@ -377,6 +377,59 @@ function OnPTButtonClick(EventData ev)
     //return;    
 }
 
+function SelectClassPurchase(GFxClikWidget ButtonGroup) 
+{
+	local GFxClikWidget selectedButton;
+	local int data;
+	local int Price;
+	selectedButton = GFxClikWidget(ButtonGroup.GetObject("selectedButton", class'GFxClikWidget'));
+
+	//if it is not selected or not existed, then exit?
+	if (selectedButton == none || !selectedButton.GetBool("selected")){
+		`log("Exitting due to button not being selected"); 
+		return;
+	}
+
+	data = int(selectedButton.GetString("data"));
+	Price = rxPurchaseSystem == None ? 0 : rxPurchaseSystem.GetClassPrices(TeamID, data);
+			`log("<PT Log> Purchase Information ::");
+			`log("<PT Log> Character: " $ rxPurchaseSystem.GetFamilyClass(TeamID, data));
+			`log("<PT Log> Price: " $ Price);
+			`log("<PT Log> PlayerCredits: " $ PlayerCredits);
+	//if we have enough credits, proceed with purchase
+	if (PlayerCredits >= Price) {
+		rxPC.PlaySound(SoundCue'RenXPurchaseMenu.Sounds.RenXPTSoundPurchase');
+		rxPC.PurchaseCharacter(TeamID, IndexToClass(data, byte(TeamID)));
+		`log("XXX: " @ rxPurchaseSystem.GetFamilyClass(TeamID, data).default.InvManagerClass);
+		`log("XXX2: " @ rxPurchaseSystem.GetFamilyClass(TeamID, data).default.InvManagerClass.default.SidearmWeapons[0]);
+		rxPC.CurrentSidearmWeapon = rxPurchaseSystem.GetFamilyClass(TeamID, data).default.InvManagerClass.default.SidearmWeapons[0];
+		rxPC.CurrentExplosiveWeapon = rxPurchaseSystem.GetFamilyClass(TeamID, data).default.InvManagerClass.default.ExplosiveWeapons[0];
+		SetLoadout(true);
+		rxPC.SwitchWeapon(0);
+		ClosePTMenu(false);
+	}
+}
+
+function class<Rx_FamilyInfo> IndexToClass(int Index, byte TeamNum)
+{
+    // End:0x75
+    if(rxPurchaseSystem != none)
+    {
+        // End:0x4C
+        if(TeamNum == 0)
+        {
+            return rxPurchaseSystem.GDIInfantryClasses[Index];
+        }
+        // End:0x75
+        else
+        {
+            return rxPurchaseSystem.NodInfantryClasses[Index];
+        }
+    }
+    return none;
+    //return ReturnValue;    
+}
+
 function bool FilterButtonInput(int ControllerId, name ButtonName, EInputEvent InputEvent)
 {
     // End:0x89
