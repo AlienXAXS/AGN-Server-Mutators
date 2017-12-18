@@ -1,9 +1,30 @@
 class AGN_HUD extends Rx_HUD;
 
+var AGN_HUD_AdminComponent AGN_HUDAdminComponent;
+
 DefaultProperties
 {
 	TargetingBoxClass = class'AGN_HUD_TargetingBox';
 }
+
+function CreateHudCompoenents()
+{
+	super.CreateHudCompoenents();
+	AGN_HUDAdminComponent = new class'AGN_HUD_AdminComponent';
+}
+
+function UpdateHudCompoenents(float DeltaTime, Rx_HUD HUD)
+{
+	super.UpdateHudCompoenents(DeltaTime, HUD);
+	AGN_HUDAdminComponent.Update(DeltaTime, HUD);
+}
+
+function DrawHudCompoenents()
+{
+	super.DrawHudCompoenents();
+	AGN_HUDAdminComponent.Draw();
+}
+
 
 function LocalizedMessage
 (
@@ -18,7 +39,7 @@ function LocalizedMessage
 	color					DrawColor,
 	optional object			OptionalObject
 )
-{	
+{
 	if (HudMovie == none || !HudMovie.bMovieIsOpen)
 		return;
 

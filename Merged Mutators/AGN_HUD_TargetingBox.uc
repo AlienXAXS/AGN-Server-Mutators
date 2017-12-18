@@ -18,7 +18,6 @@ function bool IsValidTarget (actor potentialTarget)
 		return false;
 		else return true;
 	}
-		
 	else return false;
 }
 
@@ -33,8 +32,6 @@ function UpdateTargetHealthPercent ()
 		return;
 	}
 	
-	
-
 	if (Rx_Pawn(TargetedActor) != none)
 	{
 		TargetHealthPercent =  (float(Rx_Pawn(TargetedActor).Health) + float(Rx_Pawn(TargetedActor).Armor)) / max(1,float(Rx_Pawn(TargetedActor).HealthMax) + float(Rx_Pawn(TargetedActor).ArmorMax));
