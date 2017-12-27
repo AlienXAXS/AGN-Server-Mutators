@@ -2,7 +2,8 @@
  *  This is an example of how to create a mutator that can be triggered with the mutate command.
  *  This gives the player a sniper rifle when they type "Mutate Sniper" into the commandline.
  * */
-class AGN_InitModPackage extends AGN_Mut_BaseDefenses;
+class AGN_InitModPackage extends AGN_Mut_BaseDefenses
+	config(AGN_Mutator);
 
 var() array<bool> oldCratesVehSpawning;
 var() array<bool> oldCratesNukeSpawning;
@@ -13,6 +14,8 @@ var AGN_Mut_RepairPad_v2 RepairPads;
 
 var bool modPackageInitComplete;
 var bool mutatorInitDone;
+
+var config int MaxPlayersAllowed;
 
 simulated function Tick(float DeltaTime)
 {
@@ -25,6 +28,13 @@ function InitMutator(string options, out string errorMessage)
 	local String mapname;
 
 	modPackageInitComplete = false;
+	
+	if ( MaxPlayersAllowed == 0 )
+		MaxPlayersAllowed = 40;
+	
+	// From an INI Now, yay!
+	WorldInfo.Game.MaxPlayersAllowed = MaxPlayersAllowed;
+	WorldInfo.Game.MaxPlayers = MaxPlayersAllowed;
 	
 	if ( mutatorInitDone )
 	{
