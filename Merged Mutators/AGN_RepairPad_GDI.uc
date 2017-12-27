@@ -1,4 +1,4 @@
-class AGN_RepairPad_GDI extends Rx_Building
+class AGN_RepairPad_GDI extends AGN_RepairPad
 	placeable;
 	
 simulated function String GetHumanReadableName()
@@ -15,27 +15,6 @@ simulated function bool IsEffectedByEMP()
 simulated function int GetMaxHealth()
 {
 	return 2400;
-}
-
-
-function SendMessageToAllPlayers(string message)
-{
-	local Controller c;
-	foreach class'WorldInfo'.static.GetWorldInfo().AllControllers(class'Controller', c)
-	{
-		if ( c != None )
-			Rx_Controller(c).CTextMessage("[AGN] " $ message,'LightGreen',50);
-	}
-}
-
-event Touch( Actor Other, PrimitiveComponent OtherComp, vector HitLocation, vector HitNormal )
-{
-	SendMessageToAllPlayers("I was touched, ooo!");
-}
-
-event UnTouch( Actor Other )
-{
-	
 }
 
 // ParticleSystem'AGN_FX_Package.Particles.Explosions.P_RepairField'
@@ -59,12 +38,6 @@ defaultproperties
     Begin Object Name=PT_Screens
         StaticMesh = None
     End Object
-	
-	Begin Object NAME=CollisionCylinder
-		CollisionRadius=+400.00
-		CollisionHeight=+20.00
-		CollideActors=true
-	End Object
 	
 	bStatic=false
 	bNoDelete=false
