@@ -10,7 +10,8 @@ var Rx_Building_Nod_MoneyFactory NodMoneyFactory;
 
 simulated function StartRepairPadVisuals()
 {
-	Spawn(class'AGN_Mut_AlienXSystem.AGN_RepairPad_Emitter',,, Location, Rotation);
+	if (WorldInfo.NetMode != NM_Client)
+		Spawn(class'AGN_Mut_AlienXSystem.AGN_RepairPad_Emitter',,, Location, Rotation);
 }
 
 // Start our timer

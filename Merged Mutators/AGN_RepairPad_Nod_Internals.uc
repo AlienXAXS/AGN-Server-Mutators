@@ -30,7 +30,7 @@ DefaultProperties
 	RepairedHPLevel         = 3400
 	RepairedArmorLevel		= 1200 
 	bBuildingRecoverable    = false
-	TeamID                  = TEAM_GDI
+	TeamID                  = TEAM_NOD
 	MessageClass            = class'Rx_Message_Buildings'
 	MessageWaitTime         = 15.0f
 
