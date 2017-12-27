@@ -12,11 +12,6 @@ simulated function bool IsEffectedByEMP()
 	return false;
 }
 
-simulated function int GetMaxHealth()
-{
-	return 2400;
-}
-
 // ParticleSystem'AGN_FX_Package.Particles.Explosions.P_RepairField'
 
 defaultproperties
@@ -45,4 +40,7 @@ defaultproperties
 	bMovable=true
 
 	Components.Add(AGN_RepairPad_GDI)
+	Components.Add(Static_Interior);
+	Components.Add(PT_Screens);
+	
 }

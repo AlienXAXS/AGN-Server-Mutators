@@ -23,14 +23,14 @@ DefaultProperties
 	HealPointsScale         = 0.04f
 	Destroyed_Score			= 1000 // Total number of points divided out when  
 	
-	HealthMax               = 4000
-	BA_HealthMax			= 4800 //Slightly more health for building armour, but obviously with half of it being unrepairable. 
+	HealthMax               = 4600
+	BA_HealthMax			= 4600
 	DestructionAnimName     = "BuildingDeath"
 	LowHPWarnLevel          = 200 // critical Health level
-	RepairedHPLevel         = 3400 // 85%
+	RepairedHPLevel         = 3400
 	RepairedArmorLevel		= 1200 
 	bBuildingRecoverable    = false
-	TeamID                  = TEAM_NOD
+	TeamID                  = TEAM_GDI
 	MessageClass            = class'Rx_Message_Buildings'
 	MessageWaitTime         = 15.0f
 

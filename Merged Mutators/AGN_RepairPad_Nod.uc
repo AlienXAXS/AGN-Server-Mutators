@@ -12,11 +12,6 @@ simulated function bool IsEffectedByEMP()
 	return false;
 }
 
-simulated function int GetMaxHealth()
-{
-	return 2400;
-}
-
 defaultproperties
 {
 	BuildingInternalsClass = AGN_RepairPad_Nod_Internals

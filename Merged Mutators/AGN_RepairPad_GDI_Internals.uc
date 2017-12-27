@@ -17,17 +17,17 @@ DefaultProperties
     EnemyBuildingSounds(BuildingDestroyed)              = SoundNodeWave'RX_EVA_VoiceClips.nod_eva.S_EVA_Nod_GDIRepairFacility_Destroyed'
     EnemyBuildingSounds(BuildingUnderAttack)            = SoundNodeWave'RX_EVA_VoiceClips.nod_eva.S_EVA_Nod_GDIRepairFacility_UnderAttack'
 
-		HDamagePointsScale		= 0.50f
+	HDamagePointsScale		= 0.50f
 	ADamagePointsScale		= 0.05f
 
 	HealPointsScale         = 0.04f
 	Destroyed_Score			= 1000 // Total number of points divided out when  
 	
-	HealthMax               = 4000
-	BA_HealthMax			= 5200 //Slightly more health for building armour, but obviously with half of it being unrepairable. 
+	HealthMax               = 4600
+	BA_HealthMax			= 4600
 	DestructionAnimName     = "BuildingDeath"
 	LowHPWarnLevel          = 200 // critical Health level
-	RepairedHPLevel         = 3400 // 85%
+	RepairedHPLevel         = 3400
 	RepairedArmorLevel		= 1200 
 	bBuildingRecoverable    = false
 	TeamID                  = TEAM_GDI
