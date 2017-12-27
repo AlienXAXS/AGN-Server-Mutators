@@ -17,3 +17,20 @@ simulated event PostBeginPlay()
 	Temp.SetScalarParameterValue('Camo_Offset_Seed', FRand());
 	Temp.SetScalarParameterValue('Camo_Scale_Seed', (FRand() % 0.4) + 0.8);
 }
+
+DefaultProperties
+{
+	Seats(0)={(GunClass=class'AGN_Vehicle_FlameTank_Weapon',
+                GunSocket=(Fire01,Fire02),
+                TurretControls=("TurretPitch","TurretRotate"),
+                TurretVarPrefix="",
+                GunPivotPoints=("MainTurretYaw"),
+                CameraTag=CamView3P,
+                CameraBaseOffset=(Z=-10),
+				SeatBone=Base,
+				SeatSocket=VH_Death,
+                CameraOffset=-460,
+                SeatIconPos=(X=0.5,Y=0.33),
+                MuzzleFlashLightClass=class'Rx_Light_Tank_MuzzleFlash'
+                )}
+}

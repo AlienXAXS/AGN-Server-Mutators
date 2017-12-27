@@ -17,3 +17,8 @@ simulated event PostBeginPlay()
 	Temp.SetScalarParameterValue('Camo_Offset_Seed', FRand());
 	Temp.SetScalarParameterValue('Camo_Scale_Seed', (FRand() % 0.4) + 2.8);
 }
+
+DefaultProperties
+{
+	bCollideActors=true
+}
