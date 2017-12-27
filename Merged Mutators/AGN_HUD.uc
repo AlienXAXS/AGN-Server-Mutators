@@ -25,6 +25,110 @@ function DrawHudCompoenents()
 	AGN_HUDAdminComponent.Draw();
 }
 
+function Message( PlayerReplicationInfo PRI, coerce string Msg, name MsgType, optional float LifeTime )
+{
+	local string cName, fMsg, rMsg;
+	local bool bEVA;
+
+	if (Len(Msg) == 0)
+		return;
+	
+	if ( bMessageBeep )
+		PlayerOwner.PlayBeepSound();
+ 
+	// Create Raw and Formatted Chat Messages
+
+	if (PRI != None)
+		cName = CleanHTMLMessage(PRI.PlayerName);
+	else
+		cName = "Host";
+	
+	if (MsgType == 'Say') {
+		if (PRI == None)
+			fMsg = "<font color='" $HostColor$"'>" $cName$"</font>: <font color='#FFFFFF'>"$CleanHTMLMessage(Msg)$"</font>";
+		else if (PRI.Team.GetTeamNum() == TEAM_GDI)
+			fMsg = "<font color='" $GDIColor $"'>" $cName $"</font>: ";
+		else if (PRI.Team.GetTeamNum() == TEAM_NOD)
+			fMsg = "<font color='" $NodColor $"'>" $cName $"</font>: ";
+			
+		if ( PRI.bAdmin ) 
+		{
+			fMsg $= "<font color='#00FF00'>" $ CleanHTMLMessage(Msg) $ "</font>";
+		} else {
+			fMsg $= CleanHTMLMessage(Msg);
+		}
+		PublicChatMessageLog $= "\n" $ fMsg;
+		rMsg = cName $": "$ Msg;
+	}
+	else if (MsgType == 'TeamSay') {
+		if (PRI.GetTeamNum() == TEAM_GDI)
+		{
+			fMsg = "<font color='" $GDIColor $"'>" $ cName $": "$ CleanHTMLMessage(Msg) $"</font>";
+			PublicChatMessageLog $= "\n" $ fMsg;
+			rMsg = cName $": "$ Msg;
+		}
+		else if (PRI.GetTeamNum() == TEAM_NOD)
+		{
+			fMsg = "<font color='" $NodColor $"'>" $ cName $": "$ CleanHTMLMessage(Msg) $"</font>";
+			PublicChatMessageLog $= "\n" $ fMsg;
+			rMsg = cName $": "$ Msg;
+		}
+	}
+	else if (MsgType == 'Radio') 
+		{
+			fMsg = "<font color='" $RadioColor $"'>" $ cName $": "$ CleanHTMLMessage(Msg) $"</font>";
+			//PublicChatMessageLog $= "\n" $ fMsg;
+			rMsg = cName $": "$ Msg;
+		}
+	else if (MsgType == 'System') {
+		if(InStr(Msg, "entered the game") >= 0)
+			return;
+		fMsg = Msg;
+		PublicChatMessageLog $= "\n" $ fMsg;
+		rMsg = Msg;
+	}
+	else if (MsgType == 'PM') {
+		if (PRI != None)
+			fMsg = "<font color='"$PrivateFromColor$"'>Private from "$cName$": "$CleanHTMLMessage(Msg)$"</font>";
+		else
+			fMsg = "<font color='"$HostColor$"'>Private from "$cName$": "$CleanHTMLMessage(Msg)$"</font>";
+		PrivateChatMessageLog $= "\n" $ fMsg;
+		rMsg = "Private from "$ cName $": "$ Msg;
+	}
+	else if (MsgType == 'PM_Loopback') {
+		fMsg = "<font color='"$PrivateToColor$"'>Private to "$cName$": "$CleanHTMLMessage(Msg)$"</font>";
+		PrivateChatMessageLog $= "\n" $ fMsg;
+		rMsg = "Private to "$ cName $": "$ Msg;
+	}
+	else
+		bEVA = true;
+
+	// Add to currently active GUI | Edit by Yosh : Don't bother spamming the non-HUD chat logs with radio messages... it's pretty pointless for them to be there. 
+	if (bEVA)
+	{
+		if (HudMovie != none && HudMovie.bMovieIsOpen)
+			HudMovie.AddEVAMessage(Msg);
+	}
+	else
+	{
+		if (HudMovie != none && HudMovie.bMovieIsOpen)
+			HudMovie.AddChatMessage(fMsg, rMsg);
+
+		if (Scoreboard != none && MsgType != 'Radio' && Scoreboard.bMovieIsOpen) {
+			if (PlayerOwner.WorldInfo.GRI.bMatchIsOver) {
+				Scoreboard.AddChatMessage(fMsg, rMsg);
+			}
+		}
+		
+		if (RxPauseMenuMovie != none && MsgType != 'Radio' && RxPauseMenuMovie.bMovieIsOpen) {
+			if (RxPauseMenuMovie.ChatView != none) {
+				RxPauseMenuMovie.ChatView.AddChatMessage(fMsg, rMsg, MsgType=='PM' || MsgType=='PM_Loopback');
+			}
+		}
+
+	}
+}
+
 
 function LocalizedMessage
 (
