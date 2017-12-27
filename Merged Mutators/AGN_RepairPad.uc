@@ -8,7 +8,7 @@ var Rx_Building_Nod_PowerFactory NodPowerFactory;
 var Rx_Building_Nod_MoneyFactory NodMoneyFactory;
 
 
-function StartRepairPadVisuals()
+simulated function StartRepairPadVisuals()
 {
 	Spawn(class'AGN_Mut_AlienXSystem.AGN_RepairPad_Emitter',,, Location, Rotation);
 }
