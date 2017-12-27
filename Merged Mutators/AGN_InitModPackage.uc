@@ -9,6 +9,7 @@ var() array<bool> oldCratesNukeSpawning;
 
 var AGN_Veh_Mutator VehMutator;
 var AGN_Sys_Mutator SystemMutator;
+var AGN_Mut_RepairPad_v2 RepairPads;
 
 var bool modPackageInitComplete;
 var bool mutatorInitDone;
@@ -65,6 +66,10 @@ function InitMutator(string options, out string errorMessage)
 	SystemMutator = spawn(class'AGN_Sys_Mutator');
 	if ( SystemMutator != None )
 		SystemMutator.InitSystem();
+		
+	RepairPads = spawn(class'AGN_Mut_RepairPad_v2');
+	if ( RepairPads != None )
+		RepairPads.OnInitMutator();
 		
 	super(Mutator).InitMutator(Options, ErrorMessage);
 }
@@ -153,6 +158,8 @@ function ReplaceCrates()
 			RxCratePickup.DeactivateCrate();
 		}
 	}
+	
+	SetTimer(10, false, 'WelcomeMessages');
 }
 
 function Mutate(string MutateString, PlayerController Sender)
