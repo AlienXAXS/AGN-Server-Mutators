@@ -51,10 +51,10 @@ function Message( PlayerReplicationInfo PRI, coerce string Msg, name MsgType, op
 		else if (PRI.Team.GetTeamNum() == TEAM_NOD)
 			fMsg = "<font color='" $NodColor $"'>" $cName $"</font>: ";
 			
-		if ( PRI.bAdmin ) 
+		if ( PRI != None && PRI.bAdmin ) 
 		{
 			fMsg $= "<font color='#00FF00'>" $ CleanHTMLMessage(Msg) $ "</font>";
-		} else {
+		} else if ( cName != "Host" ) {
 			fMsg $= CleanHTMLMessage(Msg);
 		}
 		PublicChatMessageLog $= "\n" $ fMsg;
