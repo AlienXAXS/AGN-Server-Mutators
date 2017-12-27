@@ -30,11 +30,11 @@ function OnInitMutator()
 	
 	LogInternal ( "[AGN-RepairPads-DEBUG] GDI: " $ string(GDIPad) $ " NOD: " $ string(NodPad) );
 	
-	if ( NodPad != None || GDIPad != None )
-		setTimer(1, true, 'FindAndRepair');
+	//if ( NodPad != None || GDIPad != None )
+	//	setTimer(1, true, 'FindAndRepair');
 }
 
-
+/*
 // Scans all vehicles, finds the vehicle loc and checks distance from the repair pad.
 reliable server function FindAndRepair()
 {
@@ -130,6 +130,7 @@ function bool IsDistanceLessThan(vector a, vector b, float distance)
 {
    return (VSizeSq(a-b) < distance**2 );
 }
+*/
 
 function RepairPadStruct FindRepairPadForThisMap(string TeamName)
 {
@@ -170,32 +171,22 @@ reliable server function SetRepairPadsForMaps()
 	AddRepairPad("CNC-Fort", "Nod", vect(-8214, 5872, -69), rot(0, 3072, 0)); //NOD
 
 	// CNC-Under
-	// GDI: Object.Movement.Location (X=-1777.700439,Y=-3044.976074,Z=-9.931030) | Object.Movement.Rotation (Pitch=0,Yaw=5760,Roll=0)
-	// NOD: Object.Movement.Location (X=8260.000000,Y=3788.000000,Z=-6.000000) | Object.Movement.Rotation (Pitch=0,Yaw=-4096,Roll=0)
 	AddRepairPad("CNC-Under", "GDI", vect(-1777.700439,-3044.976074,-9.931030), rot(0, 5760, 0));
 	AddRepairPad("CNC-Under", "Nod", vect(8260.000000,3788.000000,-6.000000), rot(0, -4096, 0));
 
-	//CNC-Island
-	//GDI: Object.Movement.Location (X=13345.544922,Y=13167.833984,Z=-390.768707) | Object.Movement.Rotation (Pitch=-416,Yaw=1120,Roll=-173)
-	//NOD: Object.Movement.Location (X=11518.041992,Y=-1853.886475,Z=-422.133636) | Object.Movement.Rotation (Pitch=-878,Yaw=597,Roll=-188)
+	//CNC-Islands
 	AddRepairPad("CNC-Islands", "GDI", vect(13345.544922,13167.833984,-390.768707), rot(-416,1120,-173));
 	AddRepairPad("CNC-Islands", "Nod", vect(11518.041992,-1853.886475,-422.133636), rot(-878,597,-188));
 
 	//CNC-Walls_Flying
-	//GDI: Object.Movement.Location (X=-15026.807617,Y=6580.989258,Z=-26.022339) | Object.Movement.Rotation (Pitch=-361,Yaw=-7791,Roll=1034)
-	//NOD: Object.Movement.Location (X=-6602.080566,Y=-7998.065918,Z=-217.232254) | Object.Movement.Rotation (Pitch=288,Yaw=0,Roll=224)
 	AddRepairPad("CNC-Walls_Flying", "GDI", vect(-15026.807617,6580.989258,-26.022339), rot(-361,-7791,1034));
 	AddRepairPad("CNC-Walls_Flying", "Nod", vect(-6602.080566,-7998.065918,-217.232254), rot(288,0,224));
 
 	//CNC-Xmountain
-	//GDI: Object.Movement.Location (X=21039.857422,Y=18616.523438,Z=1411.893677) | Object.Movement.Rotation (Pitch=0,Yaw=-3232,Roll=704)
-	//NOD: Object.Movement.Location (X=16000.715820,Y=9112.289063,Z=1442.319946) | Object.Movement.Rotation (Pitch=-1312,Yaw=-28,Roll=-640)
 	AddRepairPad("CNC-Xmountain", "GDI", vect(21039.857422,18616.523438,1411.893677), rot(0,-3232,704));
 	AddRepairPad("CNC-Xmountain", "Nod", vect(16000.715820,9112.289063,1442.319946), rot(-1312,-28,-640));
 
 	//CNC-Field
-	//GDI: Object.Movement.Location (X=234.495621,Y=8966.664063,Z=85.967491) | Object.Movement.Rotation (Pitch=0,Yaw=0,Roll=-544)
-	//NOD: Object.Movement.Location (X=6677.260254,Y=115.203735,Z=44.816742) | Object.Movement.Rotation (Pitch=0,Yaw=0,Roll=0)
 	AddRepairPad("CNC-Field", "GDI", vect(234.495621,8966.664063,85.967491), rot(0,0,-544));
 	AddRepairPad("CNC-Field", "Nod", vect(6677.260254,115.203735,44.816742), rot(0,0,0));
 
@@ -211,6 +202,7 @@ reliable server function SetRepairPadsForMaps()
 	AddRepairPad("CNC-Complex", "GDI", vect(12394.444336, 1651.816406, 461.762970), rot(0, 0, 0));
 	AddRepairPad("CNC-Complex", "Nod", vect(-4705.955566, 4071.534424, 479.759766), rot(-36, -2624, -64));
 
+	//CNC-Whiteout
 	AddRepairPad("CNC-Whiteout", "GDI", vect(-9790.363281, 9821.301758, -107.533974), rot(0, 0, 0));
 	AddRepairPad("CNC-Whiteout", "Nod", vect(-13344.160156, -8841.881836, -52.702999), rot(0, 8032, 0));
 
