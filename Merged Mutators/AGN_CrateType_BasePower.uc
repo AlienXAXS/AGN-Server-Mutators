@@ -1,4 +1,4 @@
-class AGN_CrateType_BasePower extends Object within AGN_CrateType
+class AGN_CrateType_BasePower extends AGN_CrateType
 	config(AGN_Crates);
 
 function string GetGameLogMessage(Rx_PRI RecipientPRI, AGN_CratePickup CratePickup)
@@ -8,7 +8,7 @@ function string GetGameLogMessage(Rx_PRI RecipientPRI, AGN_CratePickup CratePick
 
 function float GetProbabilityWeight(Rx_Pawn Recipient, AGN_CratePickup CratePickup)
 {
-	//return super.GetProbabilityWeight(Recipient,CratePickup);
+	return super.GetProbabilityWeight(Recipient,CratePickup);
 }
 
 function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, AGN_CratePickup CratePickup)
