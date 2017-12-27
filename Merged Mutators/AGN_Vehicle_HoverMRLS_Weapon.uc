@@ -7,7 +7,7 @@ DefaultProperties
     ReloadTime(1) = 4.5 //4.0
 	
 	// Shorter lock range
-	LockRange = 9750 //12000
+	LockRange = 10000 //12000
 	
 	// Vet changes 
 	Vet_ClipSizeModifier(0)=0 //Normal (should be 1)
@@ -20,6 +20,6 @@ DefaultProperties
 	WeaponProjectiles(1) = Class'AGN_Vehicle_HoverMRLS_Projectile'
 	
 	// Slightly slower firing speed
-	FireInterval(0)=0.45
-    FireInterval(1)=0.45
+	FireInterval(0)=0.4
+    FireInterval(1)=0.4
 }
