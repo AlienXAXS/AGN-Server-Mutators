@@ -63,6 +63,10 @@ if ( (Test-Path $UDKMutatorSourcePath -PathType Container) -ne $true )
     Write-Output "Directory $UDKMutatorSourcePath does not exist, creating it"
     New-Item -ItemType Directory -Path $UDKMutatorSourcePath | Out-Null
 }
+
+Write-Output "Removing files from dest dir"
+Remove-Item -Path $UDKMutatorSourcePath\* -Filter *.* -Confirm:$false -Recurse
+Sleep -seconds 1
 Write-Output "Copying files from $GitHubMutatorPath to $UDKMutatorSourcePath"
 Copy-Item ($GitHubMutatorPath + "\*") $UDKMutatorSourcePath -Force | Out-Null
 Write-Output " --> Done"
