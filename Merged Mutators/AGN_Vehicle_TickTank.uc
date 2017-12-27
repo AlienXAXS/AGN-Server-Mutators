@@ -20,5 +20,8 @@ simulated event PostBeginPlay()
 
 DefaultProperties
 {
-SkeletalMeshForPT=SkeletalMesh'TS_VH_TickTank.Mesh.SK_VH_TickTank'
+
+	TakeDamageMultiplier = 0.85; //0.65 (why the hell was it ever this?)
+
+	SkeletalMeshForPT=SkeletalMesh'TS_VH_TickTank.Mesh.SK_VH_TickTank'
 }
