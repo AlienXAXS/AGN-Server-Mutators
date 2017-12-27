@@ -33,7 +33,7 @@
 [string]$MutatorName = "AGN_Mut_AlienXSystem"
 
 # What is the name of the mutator plus the init class that's used during RenX startup?
-[string]$MutatorStartupParam = "AGN_Mut_AlienXSystem.AGN_InitModPackage,AGN_Mut_RepairPad_v2.AGN_Mut_RepairPad_v2"
+[string]$MutatorStartupParam = "AGN_Mut_AlienXSystem.AGN_InitModPackage"
 
 # Where is RenX installed? (root path, not to the binary - we'll work that out for you)
 [string]$RenXBaseDirectory = "C:\Program Files (x86)\Renegade X"
