@@ -1,8 +1,5 @@
 class AGN_Mut_Controller extends ReplicationInfo;
 
-// Our replication info class
-var AGN_Mut_ReplicationInfo AGN_MutReplicationInfo;
-
 var repnotify float ServerFPS;
 var float PrivateServerFPS;
 var repnotify int CurrentActors;

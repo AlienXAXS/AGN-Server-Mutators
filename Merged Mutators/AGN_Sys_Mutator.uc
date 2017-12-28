@@ -29,7 +29,6 @@ function InitSystem()
 	if ( Rx_Game(WorldInfo.Game) != None )
 	{
 		AGNController = Rx_Game(WorldInfo.Game).Spawn(class'AGN_Mut_Controller');
-		AGNController.AGN_MutReplicationInfo = Rx_Game(WorldInfo.Game).Spawn(class'AGN_Mut_ReplicationInfo');
 		
 		`log("[AGN-SYSTEM] Spawned Controller and Replication Info classes");
 	}
