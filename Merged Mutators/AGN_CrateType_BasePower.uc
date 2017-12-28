@@ -139,6 +139,6 @@ function RestorePower()
 DefaultProperties
 {
 	//PickupSound = SoundCue'RX_EVA_VoiceClips.Nod_EVA.S_EVA_Nod_Beacon_NuclearStrikeImminent_Cue'
-	BroadcastMessageIndex = 3
+	BroadcastMessageIndex = 1005
 	RestorePowerInSeconds = 60
 }
