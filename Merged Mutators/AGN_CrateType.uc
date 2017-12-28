@@ -1,4 +1,4 @@
-class AGN_CrateType extends Object
+class AGN_CrateType extends Actor
 	abstract
 	transient
 	config(AGN_Crates);
