@@ -6,19 +6,19 @@ static function string GetString(optional int Switch, optional bool bPRI1HUD, op
     {
         if(Switch == 1001)
         {
-            return RelatedPRI_1.PlayerName $ " found a Super Money crate!";
+            return RelatedPRI_1.PlayerName $ " found a super money crate!";
         }
         if(Switch == 1002)
         {
-            return RelatedPRI_1.PlayerName $ " found a Weapon crate!";
+            return RelatedPRI_1.PlayerName $ " found a weapon crate!";
         }
         if(Switch == 1003)
         {
-            return RelatedPRI_1.PlayerName $ " found a Drop Money crate!";
+            return RelatedPRI_1.PlayerName $ " found a drop money crate!";
         }
         if(Switch == 1004)
         {
-            return RelatedPRI_1.PlayerName $ " found a Beacon crate!";
+            return RelatedPRI_1.PlayerName $ " found a beacon crate!";
         }
 		if(Switch == 1005)
 		{
