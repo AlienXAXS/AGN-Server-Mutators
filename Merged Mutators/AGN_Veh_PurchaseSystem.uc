@@ -242,4 +242,8 @@ DefaultProperties
 	NodWeaponPricesAGN[4] = 300
 	NodWeaponPricesAGN[5] = 250
 	NodWeaponPricesAGN[6] = 100
+	
+	
+	GDIItemClasses[0]  = class'AGN_Weapon_IonCannonBeacon'
+	NodItemClasses[0]  = class'AGN_Weapon_NukeBeacon'
 }
