@@ -6,6 +6,8 @@ function bool IsValidPosition()
 	local Actor HitActor;
 	local float ZDistToBuildingCenter;
 	
+	local vector traceDownwards;
+	
 	if(bBlockDeployCloseToOwnBase && GetNearestSpottargetLocationIsOwnTeamBuilding())
 	{
 	  Rx_Controller(Pawn(Owner).Controller).ClientMessage("Planting Beacon failed: This location is too close to your base!");
@@ -20,6 +22,17 @@ function bool IsValidPosition()
 	{
 		Rx_Controller(Pawn(Owner).Controller).ClientMessage("Planting Beacon failed: This location is invalid!");
 		return false; // to prevent beacons to be placed on chimneys, the Hand of the HON etc
+	}
+	
+	
+	traceDownwards = Pawn(Owner).location;
+	traceDownwards.z -= 100;  
+	HitActor = Trace(HitLocation, HitNormal, off, Pawn(Owner).location, true);
+	if ( Rx_Defence(HitActor) != None )
+	{
+		Rx_Controller(Pawn(Owner).Controller).ClientMessage("Planting Beacon failed: This location is invalid!");
+		class'AGN_UtilitiesX'.Static.SendMessageToOnlineAdministrators("[WARNING] " $ (Rx_Controller(Pawn(Owner).Controller).PlayerName) $ " has attempted to plant a beacon in a glitch spot ontop of a " $ string(HitActor);
+		return false;
 	}
 	
 	return true;
