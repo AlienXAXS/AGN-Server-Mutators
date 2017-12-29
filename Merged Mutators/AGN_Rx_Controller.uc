@@ -222,6 +222,11 @@ reliable server function ServerSetItem(class<Rx_Weapon> classname)
 	local Rx_InventoryManager invmngr;
 	local array<class<Rx_Weapon> > wclasses;
 	
+	if ( classname.class.Name == "Rx_Weapon_IonCannonBeacon" )
+		classname = class'AGN_Mut_AlienXSystem.AGN_Weapon_IonCannonBeacon';
+	if ( classname.class.Name == "Rx_Weapon_NukeBeacon" )
+		classname = class'AGN_Mut_AlienXSystem.AGN_Weapon_NukeBeacon';
+	
 	invmngr = Rx_InventoryManager(Pawn.InvManager);
 	if (invmngr == none) return;
 
