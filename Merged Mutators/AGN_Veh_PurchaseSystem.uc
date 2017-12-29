@@ -157,6 +157,38 @@ DefaultProperties
 	NodVehicleClasses[6]   = class'AGN_Mut_AlienXSystem.AGN_Vehicle_ReconBike'
 	NodVehicleClasses[7]   = class'AGN_Mut_AlienXSystem.AGN_TS_Vehicle_Buggy'
 	NodVehicleClasses[8]   = class'AGN_Mut_AlienXSystem.AGN_Vehicle_TickTank'
+	
+	NodInfantryClasses[0]  = class'AGN_FamilyInfo_Nod_Soldier'
+	NodInfantryClasses[1]  = class'AGN_FamilyInfo_Nod_Shotgunner'
+	NodInfantryClasses[2]  = class'AGN_FamilyInfo_Nod_FlameTrooper'
+	NodInfantryClasses[3]  = class'AGN_FamilyInfo_Nod_Marksman'
+	NodInfantryClasses[4]  = class'AGN_FamilyInfo_Nod_Engineer'
+	NodInfantryClasses[5]  = class'AGN_FamilyInfo_Nod_Officer'
+	NodInfantryClasses[6]  = class'AGN_FamilyInfo_Nod_RocketSoldier'	
+	NodInfantryClasses[7]  = class'AGN_FamilyInfo_Nod_ChemicalTrooper'
+	NodInfantryClasses[8]  = class'AGN_FamilyInfo_Nod_blackhandsniper'
+	NodInfantryClasses[9]  = class'AGN_FamilyInfo_Nod_Stealthblackhand'
+	NodInfantryClasses[10] = class'AGN_FamilyInfo_Nod_LaserChainGunner'
+	NodInfantryClasses[11] = class'AGN_FamilyInfo_Nod_Sakura'		
+	NodInfantryClasses[12] = class'AGN_FamilyInfo_Nod_Raveshaw'
+	NodInfantryClasses[13] = class'AGN_FamilyInfo_Nod_Mendoza'
+	NodInfantryClasses[14] = class'AGN_FamilyInfo_Nod_Technician'
+	
+	GDIInfantryClasses[0]  = class'AGN_FamilyInfo_GDI_Soldier'	
+	GDIInfantryClasses[1]  = class'AGN_FamilyInfo_GDI_Shotgunner'
+	GDIInfantryClasses[2]  = class'AGN_FamilyInfo_GDI_Grenadier'
+	GDIInfantryClasses[3]  = class'AGN_FamilyInfo_GDI_Marksman'
+	GDIInfantryClasses[4]  = class'AGN_FamilyInfo_GDI_Engineer'
+	GDIInfantryClasses[5]  = class'AGN_FamilyInfo_GDI_Officer'
+	GDIInfantryClasses[6]  = class'AGN_FamilyInfo_GDI_RocketSoldier'
+	GDIInfantryClasses[7]  = class'AGN_FamilyInfo_GDI_McFarland'
+	GDIInfantryClasses[8]  = class'AGN_FamilyInfo_GDI_Deadeye'
+	GDIInfantryClasses[9]  = class'AGN_FamilyInfo_GDI_Gunner'
+	GDIInfantryClasses[10] = class'AGN_FamilyInfo_GDI_Patch'
+	GDIInfantryClasses[11] = class'AGN_FamilyInfo_GDI_Havoc'
+	GDIInfantryClasses[12] = class'AGN_FamilyInfo_GDI_Sydney'
+	GDIInfantryClasses[13] = class'AGN_FamilyInfo_GDI_Mobius'
+	GDIInfantryClasses[14] = class'AGN_FamilyInfo_GDI_Hotwire'
 
 	AirdropCooldownTime = 470
 
@@ -242,8 +274,7 @@ DefaultProperties
 	NodWeaponPricesAGN[4] = 300
 	NodWeaponPricesAGN[5] = 250
 	NodWeaponPricesAGN[6] = 100
-	
-	
-	GDIItemClasses[0]  = class'AGN_Weapon_IonCannonBeacon'
-	NodItemClasses[0]  = class'AGN_Weapon_NukeBeacon'
+
+	GDIItemClasses[0]  = class'AGN_Mut_AlienXSystem.AGN_Weapon_IonCannonBeacon'
+	NodItemClasses[0]  = class'AGN_Mut_AlienXSystem.AGN_Weapon_NukeBeacon'
 }

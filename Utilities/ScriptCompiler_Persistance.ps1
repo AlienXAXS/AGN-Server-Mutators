@@ -27,13 +27,13 @@
 [string]$GithubRepoSource = "C:\Users\AlienX\Documents\GitHub\AGN-Server-Mutators"
 
 # What is the mutators sub folder name, where the class files are?
-[string]$GitFolderName = "Merged Mutators"
+[string]$GitFolderName = "AGNPersistence"
 
 # What's the end result mutator name?
-[string]$MutatorName = "AGN_Mut_AlienXSystem"
+[string]$MutatorName = "AGN_Mut_Persistence"
 
 # What is the name of the mutator plus the init class that's used during RenX startup?
-[string]$MutatorStartupParam = "AGN_Mut_AlienXSystem.AGN_InitModPackage"
+[string]$MutatorStartupParam = "AGN_Mut_Persistence.InitModPackage"
 
 # Where is RenX installed? (root path, not to the binary - we'll work that out for you)
 [string]$RenXBaseDirectory = "C:\Program Files (x86)\Renegade X"

@@ -23,6 +23,11 @@ simulated function Tick(float DeltaTime)
 		SystemMutator.OnTick(DeltaTime);
 }
 
+function ModifyPlayer(Pawn Other)
+{
+	`log ( "[ModifyPlayer] " $ string(Other) $ " has spawned" );
+}
+
 function InitMutator(string options, out string errorMessage)
 {
 	local String mapname;

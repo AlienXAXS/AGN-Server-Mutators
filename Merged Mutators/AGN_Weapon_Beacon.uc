@@ -17,6 +17,9 @@ function bool IsValidPosition()
 	off = Pawn(Owner).location;
 	off.z -= 100;  
 	HitActor = Trace(HitLocation, HitNormal, off, Pawn(Owner).location, true);
+	
+	`log("HitActor is " $ string(HitActor));
+	
 	if(Rx_Building(HitActor) != none) ZDistToBuildingCenter = abs(Rx_Building(HitActor).location.z - Pawn(Owner).location.z);
 	if((Rx_Building(HitActor) != None && ZDistToBuildingCenter > 440) && !(Rx_Building_WeaponsFactory(HitActor) != None && ZDistToBuildingCenter < 800) )
 	{
@@ -24,11 +27,14 @@ function bool IsValidPosition()
 		return false; // to prevent beacons to be placed on chimneys, the Hand of the HON etc
 	}
 	
-	if ( Rx_Defence(HitActor) != None )
+	if ( Rx_Defence_RocketEmplacement(HitActor) != None || Rx_Defence_SAMSite(HitActor) != None || Rx_Defence_Turret(HitActor) != None )
 	{
+		`log("Hit actor is a Defence, blocking beacon placement");
 		Rx_Controller(Pawn(Owner).Controller).ClientMessage("Planting Beacon failed: This location is invalid!");
 		class'AGN_UtilitiesX'.Static.SendMessageToOnlineAdministrators("[WARNING] " $ (Rx_PRI(Rx_Controller(Pawn(Owner).Controller).PlayerReplicationInfo).PlayerName) $ " has attempted to plant a beacon in a glitch spot ontop of a " $ string(HitActor));
 		return false;
+	} else {
+		`log("Hit actor is not a defence");
 	}
 	
 	return true;
