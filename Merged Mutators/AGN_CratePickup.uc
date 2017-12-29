@@ -262,9 +262,7 @@ DefaultProperties
 
 	bHasLocationSpeech=true
 	LocationSpeech(0)=SoundNodeWave'A_Character_IGMale.BotStatus.A_BotStatus_IGMale_HeadingForTheSuperHealth'
-
-	DefaultCrateTypes[0] = class'AGN_CrateType_BasePower'
-	/*
+	
 	DefaultCrateTypes[0] = class'AGN_CrateType_Money'
 	DefaultCrateTypes[1] = class'AGN_CrateType_Spy'
 	DefaultCrateTypes[2] = class'AGN_CrateType_Refill'
@@ -279,7 +277,8 @@ DefaultProperties
 	DefaultCrateTypes[11] = class'AGN_CrateType_SuperMoney'
 	DefaultCrateTypes[12] = class'AGN_CrateType_RandomWeapon'
 	DefaultCrateTypes[13] = class'AGN_CrateType_Beacon'
+	DefaultCrateTypes[14] = class'AGN_CrateType_BasePower'
+	DefaultCrateTypes[15] = class'AGN_CrateType_MegaSpeed'
+	DefaultCrateTypes[16] = class'AGN_CrateType_Veterancy'
 	
-	DefaultCrateTypes[14] = class'AGN_CrateType_Veterancy'
-	*/
 }
