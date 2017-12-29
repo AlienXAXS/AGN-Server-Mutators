@@ -216,6 +216,31 @@ exec function ReportSpotted()
 	bFocusSpotting= false; 
 }
 
+// Beacon Overwrite
+reliable server function ServerSetItem(class<Rx_Weapon> classname)
+{
+	local Rx_InventoryManager invmngr;
+	local array<class<Rx_Weapon> > wclasses;
+	
+	//Rx_Weapon_NukeBeacon | Rx_Attachment_IonCannonBeacon
+
+	if ( classname.class.Name == "Rx_Attachment_IonCannonBeacon" )
+		classname = class'AGN_Mut_AlienXSystem.AGN_Weapon_IonCannonBeacon';
+	if ( classname.class.Name == "Rx_Weapon_NukeBeacon" )
+		classname = class'AGN_Mut_AlienXSystem.AGN_Weapon_NukeBeacon';
+	
+	invmngr = Rx_InventoryManager(Pawn.InvManager);
+	if (invmngr == none) return;
+
+	if (!invmngr.IsItemAllowed(classname)) return;
+	wclasses = invmngr.GetWeaponsOfClassification(CLASS_ITEM);
+	if (invmngr.GetItemSlots() == wclasses.Length)
+		invmngr.RemoveWeaponOfClass(wclasses[wclasses.Length - 1]);
+
+	// add requested weapon
+	invmngr.AddWeaponOfClass(classname, CLASS_ITEM);
+}
+
 function OpenPT(Rx_BuildingAttachment_PT PT)
 {
 	local string mapName;
