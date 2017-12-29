@@ -4,216 +4,341 @@ var class<Rx_GFxPurchaseMenu> PTMenuClassOriginal;
 
 exec function ReportSpotted()
 {
-	local Rx_Building Building;
-	local Rx_Bot bot;
-	local string BuildingName;
-	local Actor PrimarySpot; 
-	local string RMSG, CMSG; //Remote message, and Client Message  
-	local int	nr; 
-	local byte UIS; 
-	
-	ClearTimer('ReportSpotted'); 
-	if(bCommandSpotting) 
-	{
-	ProcessCommandSpot(); 
-	ClearCommandSpotWaitTime();
-	return;
-	}
-	
-	if(isTimerActive('ClearFocusWaitTimer') && bCanFocusSpot) 
-	{
-	SetTimer((GetTimerRate('ClearFocusWaitTimer') - GetTimerCount('ClearFocusWaitTimer')), false, 'ReportSpotted');	
-	return; 	
-	}
-	
-	bSpotting = false;  
-	if(spotMessagesBlocked) // && !bFocusSpotting)
-	{
-	bCanFocusSpot=false;
-	return;		
-	}
-		
-		
-	nr = -1; 
-	if ( Rx_Hud(MyHUD) != None && Rx_Hud(MyHUD).SpotTargets.Length > 0) {
-	
-		PrimarySpot = Rx_Hud(MyHUD).SpotTargets[0] ;//Eliminate spamming the hell out of this line. 
-		
-		if(PrimarySpot == none || Rx_DestroyableObstaclePlus(PrimarySpot) != none) 
-		{
-			bCanFocusSpot=false;
-			return; 
-		}
-		
-		if(AGN_CratePickup(PrimarySpot) != none && numberOfRadioCommandsLastXSeconds++ < 5)
-		{
-			BroadCastSpotMessage(11, "CRATE SPOTTED:" @ GetSpottargetLocationInfo(Rx_CratePickup(PrimarySpot)));	
-		}
-		else
-		if(Rx_Building(Rx_Hud(MyHUD).SpotTargets[0]) != None) {
-			
-			if (numberOfRadioCommandsLastXSeconds++ < 5) {
-				Building = Rx_Building(Rx_Hud(MyHUD).SpotTargets[0]);
-				BroadcastBuildingSpotMessages(Building);
-			}
-		} else if(Rx_Defence(PrimarySpot) != none) {
-			if (numberOfRadioCommandsLastXSeconds++ < 5) {
-				BroadcastBaseDefenseSpotMessages(Rx_Defence(PrimarySpot));
-				if(Rx_DefencePRI(Rx_Defence(PrimarySpot).PlayerReplicationInfo) != none) SetPlayerSpotted(Rx_DefencePRI(Rx_Defence(PrimarySpot).PlayerReplicationInfo).PlayerID) ;
-			}
-		} else if(Rx_Weapon_DeployedBeacon(PrimarySpot) != None) {
-			if (numberOfRadioCommandsLastXSeconds++ < 5) {
-				if(PrimarySpot.GetTeamNum() == GetTeamNum())
-					BroadCastSpotMessage(15, "Defend BEACON"@GetSpottargetLocationInfo(Rx_Weapon_DeployedBeacon(PrimarySpot))@"!!!");
-				else
-					BroadCastSpotMessage(-1, "Spotted ENEMY BEACON"@GetSpottargetLocationInfo(Rx_Weapon_DeployedBeacon(PrimarySpot))@"!!!");	
-			}
-		}  else if(Rx_Weapon_DeployedC4(PrimarySpot) != None) {
-			if (numberOfRadioCommandsLastXSeconds++ < 5) {
-				BuildingName = Rx_Weapon_DeployedC4(PrimarySpot).ImpactedActor.GetHumanReadableName();
-				if(BuildingName == "MCT" || Rx_Building(Rx_Weapon_DeployedC4(PrimarySpot).ImpactedActor) != None)
-				{	
-					if(BuildingName == "MCT")
-						BuildingName = "MCT"@GetSpottargetLocationInfo(Rx_Weapon_DeployedC4(PrimarySpot));			
-					if(PrimarySpot.GetTeamNum() == GetTeamNum())
-						BroadCastSpotMessage(15, "Defend >>C4<< at "@BuildingName@"!!!");
-					else
-						BroadCastSpotMessage(-1, "Spotted ENEMY >>C4<< at "@BuildingName@"!!!");
-				}	
-			}
-		} else if(Rx_Vehicle_Harvester(PrimarySpot) != None) {
-			if (numberOfRadioCommandsLastXSeconds++ < 5) {
-				if(PrimarySpot.GetTeamNum() == GetTeamNum())
-					RadioCommand(26);
-				else
-				{
-				RadioCommand(21);
-				if(Rx_DefencePRI(Rx_Vehicle_Harvester(PrimarySpot).PlayerReplicationInfo) != none) SetPlayerSpotted(Rx_DefencePRI(Rx_Vehicle_Harvester(PrimarySpot).PlayerReplicationInfo).PlayerID) ;
-				if(bFocusSpotting) SetPlayerFocused(Rx_DefencePRI(Rx_Vehicle_Harvester(PrimarySpot).PlayerReplicationInfo).PlayerID) ;
-				bFocusSpotting = false; 
-				}
-					
-			}
-			bCanFocusSpot=false;
-			return;
-		} else if(Pawn(PrimarySpot).GetTeamNum() == GetTeamNum()) {
-			bot = Rx_Bot(Pawn(PrimarySpot).Controller);
-			if(bot != None) {
-				if(bot.Squad != None && Rx_SquadAI(bot.squad).SquadLeader == Self && bot.GetOrders() == 'Follow') {
-					UTTeamInfo(bot.Squad.Team).AI.SetBotOrders(bot);
-					BroadCastSpotMessage(17, "Stop following me"@Pawn(PrimarySpot).Controller.GetHumanReadableName());
-					RespondingBot = bot;
-					SetTimer(0.5 + FRand(), false, 'BotSayAffirmativeToplayer');
-				} else {
-					bot.SetBotOrders('Follow', self, true);
-					BroadCastSpotMessage(13, "Follow me"@Pawn(PrimarySpot).Controller.GetHumanReadableName());
-					RespondingBot = bot;
-					SetTimer(0.5 + FRand(), false, 'BotSayAffirmativeToplayer');
-				}
-			} else {
-				
-				/*Spotting Friendly Pawn*/
-				
-				if(numberOfRadioCommandsLastXSeconds++ < 5 && Rx_Pawn(PrimarySpot) != none && Rx_Pawn(PrimarySpot).PlayerReplicationInfo !=none) 
-				{
-					/*Infantry To Infantry*/
-					if(Rx_Pawn(Pawn) != none && Rx_Pawn(Pawn).Armor <= Rx_Pawn(Pawn).ArmorMax/1.5 && Rx_Pawn(PrimarySpot).IsHealer() ) //Send "I need repairs"
-					{
-					nr=10; 
-					RMSG=PlayerReplicationInfo.PlayerName @ "Needs Repairs" ;
-					CMSG="-Requested Repairs-"; 
-					UIS=1; 
-					}
-					else
-					if (Rx_Weapon_Beacon(Pawn.Weapon) != none) //Send "Cover Me" 
-					{
-					nr=15; 
-					RMSG=PlayerReplicationInfo.PlayerName @ "Needs Cover" ;
-					CMSG="-Requested Cover-"; 
-					UIS=3; 
-					}
-					else /*Vehicle to Infantry*/
-					if(Rx_Vehicle(Pawn) != none && Rx_Vehicle(Pawn).Health <= Rx_Vehicle(Pawn).HealthMax*0.85 && Rx_Pawn(PrimarySpot).IsHealer() ) //Send "I need repairs"
-					{
-					nr=10; 
-					RMSG=PlayerReplicationInfo.PlayerName @ "Needs Repairs" ;
-					CMSG="-Requested Repairs-"; 
-					UIS=1; 
-					}
-					else //Send "Get in the vehicle"
-					if(Rx_Vehicle(Pawn) != none && Rx_Pawn(PrimarySpot) != none)
-					{
-					nr=1; 
-					RMSG=PlayerReplicationInfo.PlayerName @ ": Requested Passenger" ;
-					CMSG="-Requested Passenger-"; 
-					UIS=2; 
-					}
-					else
-					{
-					nr=13; 
-					RMSG=PlayerReplicationInfo.PlayerName @ ": Follow Me" ;
-					CMSG="-Requested Follow-"; 
-					UIS=2; 
-					}
-					
-					
-				}
-				else
-				if(numberOfRadioCommandsLastXSeconds++ < 5 && Rx_Vehicle(PrimarySpot) != none && Rx_Vehicle(PrimarySpot).PlayerReplicationInfo !=none)
-				{
-					//Bacon
-					if (Rx_Weapon_Beacon(Pawn.Weapon) != none) //Send "Cover Me" 
-					{
-					nr=15; 
-					RMSG=PlayerReplicationInfo.PlayerName @ "needs beacon cover" ;
-					CMSG="-Requested Cover-"; 
-					UIS=3; 
-					}
-					else
-					if(Pawn(PrimarySpot).PlayerReplicationInfo != none && Rx_Vehicle(Pawn) == none) 
-					{
-					nr=14; 
-					RMSG=PlayerReplicationInfo.PlayerName @ "needs a ride" ;
-					CMSG="-Requested a Ride-"; 
-					UIS=2; 
-					}
-					else
-					if(Rx_Vehicle(Pawn) != none)
-					{
-					//Send "Follow Me"
-					nr=13; 
-					RMSG=PlayerReplicationInfo.PlayerName @ ": Follow Me" ;
-					CMSG="-Requested Follow-"; 
-					UIS=2; 
-					}
-					
-					
-					
-				}
-					if(Pawn(PrimarySpot) != none && nr > -1 )
-					{
-					numberOfRadioCommandsLastXSeconds++; 
-					WhisperSpotMessage(Pawn(PrimarySpot).PlayerReplicationInfo.PlayerID, nr, RMSG, UIS);
-					CTextMessage(CMSG,'Green',30);
-					ClientPlaySound(RadioCommands[nr]);
-					
-					spotMessagesBlocked = true;
-					SetTimer(1.5, false, 'resetSpotMessageCountTimer');
-					}
-				//BroadCastSpotMessage(13, "Follow me"@Pawn(Rx_Hud(MyHUD).SpotTargets[0]).Controller.GetHumanReadableName());
-			}
-		} else {
-			BroadcastEnemySpotMessages();
-		}
-		//@Shahman: SpotTargets Will be removed after 10 seconds.
-		//TODO: editor controllers
-		if(IsTimerActive('RemoveSpotTargets'))	{
-			ClearTimer('RemoveSpotTargets');
-		}
-		SetTimer (10.0, false, 'RemoveSpotTargets'); 
-	}
-	bCanFocusSpot=false; 
-	bFocusSpotting= false; 
+    local Rx_Building Building;
+    local Rx_Bot Bot;
+    local string BuildingName;
+    local Actor PrimarySpot;
+    local string RMSG, CMSG;
+    local int nr;
+    local byte UIS;
+
+    // End:0x2B
+    if(IsTimerActive('QHeldTimer'))
+    {
+        ClearTimer('QHeldTimer');
+    }
+    // End:0xE1
+    if((((Com_Menu != none) && Com_Menu.MenuTab != none) && Com_Menu.MenuTab.bQCast) && !bQHeld)
+    {
+        Com_Menu.MenuTab.QCast(false);
+        return;
+    }
+    bQHeld = false;
+    ClearTimer('ReportSpotted');
+    // End:0x161
+    if(IsTimerActive('ClearFocusWaitTimer') && bCanFocusSpot)
+    {
+        SetTimer(GetTimerRate('ClearFocusWaitTimer') - GetTimerCount('ClearFocusWaitTimer'), false, 'ReportSpotted');
+        return;
+    }
+    bSpotting = false;
+    // End:0x188
+    if(spotMessagesBlocked)
+    {
+        bCanFocusSpot = false;
+        return;
+    }
+    nr = -1;
+    // End:0x1372
+    if((Rx_HUD(myHUD) != none) && Rx_HUD(myHUD).SpotTargets.Length > 0)
+    {
+        PrimarySpot = Rx_HUD(myHUD).SpotTargets[0];
+        // End:0x249
+        if((PrimarySpot == none) || Rx_DestroyableObstaclePlus(PrimarySpot) != none)
+        {
+            bCanFocusSpot = false;
+            return;
+        }
+        // End:0x2B2
+        if((AGN_CratePickup(PrimarySpot) != none) && ++ numberOfRadioCommandsLastXSeconds < 5)
+        {
+            BroadCastSpotMessage(11, "CRATE SPOTTED:" @ (GetSpottargetLocationInfo(AGN_CratePickup(PrimarySpot))));
+        }
+        // End:0x1334
+        else
+        {
+            // End:0x34E
+            if(Rx_Building(Rx_HUD(myHUD).SpotTargets[0]) != none)
+            {
+                // End:0x34B
+                if(++ numberOfRadioCommandsLastXSeconds < 5)
+                {
+                    Building = Rx_Building(Rx_HUD(myHUD).SpotTargets[0]);
+                    BroadcastBuildingSpotMessages(Building);
+                }
+            }
+            // End:0x1334
+            else
+            {
+                // End:0x478
+                if(Rx_Defence(PrimarySpot) != none)
+                {
+                    // End:0x475
+                    if(++ numberOfRadioCommandsLastXSeconds < 5)
+                    {
+                        BroadcastBaseDefenseSpotMessages(Rx_Defence(PrimarySpot));
+                        // End:0x475
+                        if(Rx_DefencePRI(Rx_Defence(PrimarySpot).PlayerReplicationInfo) != none)
+                        {
+                            SetPlayerSpotted(Rx_DefencePRI(Rx_Defence(PrimarySpot).PlayerReplicationInfo).Defence_ID);
+                            // End:0x475
+                            if(bCommandSpotting)
+                            {
+                                SetPlayerCommandSpotted(Rx_DefencePRI(Rx_Defence(PrimarySpot).PlayerReplicationInfo).Defence_ID);
+                            }
+                        }
+                    }
+                }
+                // End:0x1334
+                else
+                {
+                    // End:0x564
+                    if(Rx_Weapon_DeployedBeacon(PrimarySpot) != none)
+                    {
+                        // End:0x561
+                        if(++ numberOfRadioCommandsLastXSeconds < 5)
+                        {
+                            // End:0x517
+                            if(PrimarySpot.GetTeamNum() == GetTeamNum())
+                            {
+                                BroadCastSpotMessage(15, ("Defend BEACON" @ (GetSpottargetLocationInfo(Rx_Weapon_DeployedBeacon(PrimarySpot)))) @ "!!!");
+                            }
+                            // End:0x561
+                            else
+                            {
+                                BroadCastSpotMessage(-1, ("Spotted ENEMY BEACON" @ (GetSpottargetLocationInfo(Rx_Weapon_DeployedBeacon(PrimarySpot)))) @ "!!!");
+                            }
+                        }
+                    }
+                    // End:0x1334
+                    else
+                    {
+                        // End:0x71C
+                        if(Rx_Weapon_DeployedC4(PrimarySpot) != none)
+                        {
+                            // End:0x719
+                            if(++ numberOfRadioCommandsLastXSeconds < 5)
+                            {
+                                BuildingName = Rx_Weapon_DeployedC4(PrimarySpot).ImpactedActor.GetHumanReadableName();
+                                // End:0x719
+                                if((BuildingName == "MCT") || Rx_Building(Rx_Weapon_DeployedC4(PrimarySpot).ImpactedActor) != none)
+                                {
+                                    // End:0x660
+                                    if(BuildingName == "MCT")
+                                    {
+                                        BuildingName = "MCT" @ (GetSpottargetLocationInfo(Rx_Weapon_DeployedC4(PrimarySpot)));
+                                    }
+                                    // End:0x6D2
+                                    if(PrimarySpot.GetTeamNum() == GetTeamNum())
+                                    {
+                                        BroadCastSpotMessage(15, ("Defend &gt;&gt;C4&lt;&lt; at " @ BuildingName) @ "!!!");
+                                    }
+                                    // End:0x719
+                                    else
+                                    {
+                                        BroadCastSpotMessage(-1, ("Spotted ENEMY &gt;&gt;C4&lt;&lt; at " @ BuildingName) @ "!!!");
+                                    }
+                                }
+                            }
+                        }
+                        // End:0x1334
+                        else
+                        {
+                            // End:0x8ED
+                            if(Rx_Vehicle_Harvester(PrimarySpot) != none)
+                            {
+                                // End:0x8DC
+                                if(++ numberOfRadioCommandsLastXSeconds < 5)
+                                {
+                                    // End:0x787
+                                    if(PrimarySpot.GetTeamNum() == GetTeamNum())
+                                    {
+                                        RadioCommand(26);
+                                    }
+                                    // End:0x8DC
+                                    else
+                                    {
+                                        RadioCommand(21);
+                                        // End:0x874
+                                        if(Rx_DefencePRI(Rx_Vehicle_Harvester(PrimarySpot).PlayerReplicationInfo) != none)
+                                        {
+                                            SetPlayerSpotted(Rx_DefencePRI(Rx_Vehicle_Harvester(PrimarySpot).PlayerReplicationInfo).Defence_ID);
+                                            // End:0x874
+                                            if(bCommandSpotting)
+                                            {
+                                                SetPlayerCommandSpotted(Rx_DefencePRI(Rx_Vehicle_Harvester(PrimarySpot).PlayerReplicationInfo).Defence_ID);
+                                            }
+                                        }
+                                        // End:0x8D0
+                                        if(bFocusSpotting)
+                                        {
+                                            SetPlayerFocused(Rx_DefencePRI(Rx_Vehicle_Harvester(PrimarySpot).PlayerReplicationInfo).Defence_ID);
+                                        }
+                                        bFocusSpotting = false;
+                                    }
+                                }
+                                bCanFocusSpot = false;
+                                return;
+                            }
+                            // End:0x1334
+                            else
+                            {
+                                // End:0x132A
+                                if(Pawn(PrimarySpot).GetTeamNum() == GetTeamNum())
+                                {
+                                    Bot = Rx_Bot(Pawn(PrimarySpot).Controller);
+                                    // End:0xBB0
+                                    if(Bot != none)
+                                    {
+                                        // End:0xB03
+                                        if(((Bot.Squad != none) && Rx_SquadAI(Bot.Squad).SquadLeader == self) && Bot.GetOrders() == 'Follow')
+                                        {
+                                            UTTeamInfo(Bot.Squad.Team).AI.SetBotOrders(Bot);
+                                            BroadCastSpotMessage(17, "Stop following me" @ Pawn(PrimarySpot).Controller.GetHumanReadableName());
+                                            RespondingBot = Bot;
+                                            SetTimer(0.50 + FRand(), false, 'BotSayAffirmativeToplayer');
+                                        }
+                                        // End:0xBAD
+                                        else
+                                        {
+                                            Bot.SetBotOrders('Follow', self, true);
+                                            BroadCastSpotMessage(13, "Follow me" @ Pawn(PrimarySpot).Controller.GetHumanReadableName());
+                                            RespondingBot = Bot;
+                                            SetTimer(0.50 + FRand(), false, 'BotSayAffirmativeToplayer');
+                                        }
+                                    }
+                                    // End:0x1327
+                                    else
+                                    {
+                                        // End:0xFF5
+                                        if(((++ numberOfRadioCommandsLastXSeconds < 5) && Rx_Pawn(PrimarySpot) != none) && Rx_Pawn(PrimarySpot).PlayerReplicationInfo != none)
+                                        {
+                                            // End:0xD23
+                                            if(((Rx_Pawn(Pawn) != none) && float(Rx_Pawn(Pawn).Armor) <= (float(Rx_Pawn(Pawn).ArmorMax) / 1.50)) && Rx_Pawn(PrimarySpot).IsHealer())
+                                            {
+                                                nr = 10;
+                                                RMSG = PlayerReplicationInfo.PlayerName @ "Needs Repairs";
+                                                CMSG = "-Requested Repairs-";
+                                                UIS = 1;
+                                            }
+                                            // End:0xFF2
+                                            else
+                                            {
+                                                // End:0xDBF
+                                                if(Rx_Weapon_Beacon(Pawn.Weapon) != none)
+                                                {
+                                                    nr = 15;
+                                                    RMSG = PlayerReplicationInfo.PlayerName @ "Needs Cover";
+                                                    CMSG = "-Requested Cover-";
+                                                    UIS = 3;
+                                                }
+                                                // End:0xFF2
+                                                else
+                                                {
+                                                    // End:0xED7
+                                                    if(((Rx_Vehicle(Pawn) != none) && float(Rx_Vehicle(Pawn).Health) <= (float(Rx_Vehicle(Pawn).HealthMax) * 0.850)) && Rx_Pawn(PrimarySpot).IsHealer())
+                                                    {
+                                                        nr = 10;
+                                                        RMSG = PlayerReplicationInfo.PlayerName @ "Needs Repairs";
+                                                        CMSG = "-Requested Repairs-";
+                                                        UIS = 1;
+                                                    }
+                                                    // End:0xFF2
+                                                    else
+                                                    {
+                                                        // End:0xF85
+                                                        if((Rx_Vehicle(Pawn) != none) && Rx_Pawn(PrimarySpot) != none)
+                                                        {
+                                                            nr = 1;
+                                                            RMSG = PlayerReplicationInfo.PlayerName @ ": Requested Passenger";
+                                                            CMSG = "-Requested Passenger-";
+                                                            UIS = 2;
+                                                        }
+                                                        // End:0xFF2
+                                                        else
+                                                        {
+                                                            nr = 13;
+                                                            RMSG = PlayerReplicationInfo.PlayerName @ ": Follow Me";
+                                                            CMSG = "-Requested Follow-";
+                                                            UIS = 2;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        // End:0x1230
+                                        else
+                                        {
+                                            // End:0x1230
+                                            if(((++ numberOfRadioCommandsLastXSeconds < 5) && Rx_Vehicle(PrimarySpot) != none) && Rx_Vehicle(PrimarySpot).PlayerReplicationInfo != none)
+                                            {
+                                                // End:0x10F3
+                                                if(Rx_Weapon_Beacon(Pawn.Weapon) != none)
+                                                {
+                                                    nr = 15;
+                                                    RMSG = PlayerReplicationInfo.PlayerName @ "needs beacon cover";
+                                                    CMSG = "-Requested Cover-";
+                                                    UIS = 3;
+                                                }
+                                                // End:0x1230
+                                                else
+                                                {
+                                                    // End:0x11AB
+                                                    if((Pawn(PrimarySpot).PlayerReplicationInfo != none) && Rx_Vehicle(Pawn) == none)
+                                                    {
+                                                        nr = 14;
+                                                        RMSG = PlayerReplicationInfo.PlayerName @ "needs a ride";
+                                                        CMSG = "-Requested a Ride-";
+                                                        UIS = 2;
+                                                    }
+                                                    // End:0x1230
+                                                    else
+                                                    {
+                                                        // End:0x1230
+                                                        if(Rx_Vehicle(Pawn) != none)
+                                                        {
+                                                            nr = 13;
+                                                            RMSG = PlayerReplicationInfo.PlayerName @ ": Follow Me";
+                                                            CMSG = "-Requested Follow-";
+                                                            UIS = 2;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        // End:0x1327
+                                        if((Pawn(PrimarySpot) != none) && nr > -1)
+                                        {
+                                            ++ numberOfRadioCommandsLastXSeconds;
+                                            WhisperSpotMessage(Pawn(PrimarySpot).PlayerReplicationInfo.PlayerID, nr, RMSG, UIS);
+                                            CTextMessage(CMSG, 'Green', 30.0);
+                                            ClientPlaySound(RadioCommands[nr]);
+                                            spotMessagesBlocked = true;
+                                            SetTimer(1.50, false, 'resetSpotMessageCountTimer');
+                                        }
+                                    }
+                                }
+                                // End:0x1334
+                                else
+                                {
+                                    BroadcastEnemySpotMessages();
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        // End:0x135F
+        if(IsTimerActive('RemoveSpotTargets'))
+        {
+            ClearTimer('RemoveSpotTargets');
+        }
+        SetTimer(10.0, false, 'RemoveSpotTargets');
+    }
+    bCanFocusSpot = false;
+    bFocusSpotting = false;
+    //return;    
 }
 
 // Beacon Overwrite
@@ -222,9 +347,9 @@ reliable server function ServerSetItem(class<Rx_Weapon> classname)
 	local Rx_InventoryManager invmngr;
 	local array<class<Rx_Weapon> > wclasses;
 	
-	if ( classname.class.Name == "Rx_Weapon_IonCannonBeacon" )
+	if ( classname.class.Name == 'Rx_Weapon_IonCannonBeacon' )
 		classname = class'AGN_Mut_AlienXSystem.AGN_Weapon_IonCannonBeacon';
-	if ( classname.class.Name == "Rx_Weapon_NukeBeacon" )
+	if ( classname.class.Name == 'Rx_Weapon_NukeBeacon' )
 		classname = class'AGN_Mut_AlienXSystem.AGN_Weapon_NukeBeacon';
 	
 	invmngr = Rx_InventoryManager(Pawn.InvManager);
