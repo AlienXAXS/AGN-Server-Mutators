@@ -24,14 +24,10 @@ function bool IsValidPosition()
 		return false; // to prevent beacons to be placed on chimneys, the Hand of the HON etc
 	}
 	
-	
-	traceDownwards = Pawn(Owner).location;
-	traceDownwards.z -= 100;  
-	HitActor = Trace(HitLocation, HitNormal, off, Pawn(Owner).location, true);
 	if ( Rx_Defence(HitActor) != None )
 	{
 		Rx_Controller(Pawn(Owner).Controller).ClientMessage("Planting Beacon failed: This location is invalid!");
-		class'AGN_UtilitiesX'.Static.SendMessageToOnlineAdministrators("[WARNING] " $ (Rx_Controller(Pawn(Owner).Controller).PlayerName) $ " has attempted to plant a beacon in a glitch spot ontop of a " $ string(HitActor);
+		class'AGN_UtilitiesX'.Static.SendMessageToOnlineAdministrators("[WARNING] " $ (Rx_PRI(Rx_Controller(Pawn(Owner).Controller).PlayerReplicationInfo).PlayerName) $ " has attempted to plant a beacon in a glitch spot ontop of a " $ string(HitActor));
 		return false;
 	}
 	

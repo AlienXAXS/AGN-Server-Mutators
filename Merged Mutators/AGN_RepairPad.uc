@@ -131,10 +131,21 @@ function SendMessageToAllPlayers(string message)
 
 DefaultProperties
 {
+	// The distance to check for applicable vehicles to be repaired on each pad
 	RepairDistance = 350
+	
+	// How much HP to repair the Vehicle per second when power is online
 	RepairRate = 25
+	
+	// How much HP to repair the Vehicle per second when power is offline
 	RepairRatePowerOffline = 15
+	
+	// How much to charge the player per second when power is online
 	CostPerRepair = 4
+	
+	// How much to charge the player per second when power is offline
 	CostPerRepairRefinaryOffline = 2
+	
+	// Ignore this, do not change
 	IgnoreHiddenCollidingActors = true
 }
