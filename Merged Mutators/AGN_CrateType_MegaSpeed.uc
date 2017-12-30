@@ -28,7 +28,7 @@ function string GetPickupMessage()
 
 function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, AGN_CratePickup CratePickup)
 {
-    Recipient.SpeedUpgradeMultiplier += SpeedBoostPercent * 100.0;
+    Recipient.SpeedUpgradeMultiplier = 2;
     Recipient.UpdateRunSpeedNode();
     Recipient.SetGroundSpeed();
 
@@ -51,7 +51,7 @@ function RestoreNormalSpeed()
 	if ( ActivePawn == None )
 		return;
 	
-	ActivePawn.SpeedUpgradeMultiplier = 0;
+	ActivePawn.SpeedUpgradeMultiplier = 1;
 	ActivePawn.UpdateRunSpeedNode();
 	ActivePawn.SetGroundSpeed();
 	
