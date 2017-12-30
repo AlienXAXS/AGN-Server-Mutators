@@ -282,6 +282,6 @@ DefaultProperties
 	DefaultCrateTypes[14] = class'AGN_CrateType_BasePower'
 	DefaultCrateTypes[15] = class'AGN_CrateType_MegaSpeed'
 	DefaultCrateTypes[16] = class'AGN_CrateType_Veterancy'
-	
+	DefaultCrateTypes[17] = class'AGN_CrateType_PersonalObeliskCannon'
 }
 
