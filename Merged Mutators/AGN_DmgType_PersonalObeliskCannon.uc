@@ -8,15 +8,15 @@ defaultproperties
 
 //    DamageWeaponClass=class'Rx_Weapon_PersonalIonCannon'
     DamageWeaponFireMode=2
-    VehicleDamageScaling=0.428
+    VehicleDamageScaling=0.75
     NodeDamageScaling=0.5
     VehicleMomentumScaling=0.025
 
     CustomTauntIndex=10
     lightArmorDmgScaling=0.5
-    BuildingDamageScaling=0
-	MCTDamageScaling=0
-	MineDamageScaling=0
+    BuildingDamageScaling=0.2
+	MCTDamageScaling=0.4
+	MineDamageScaling=0.2
 	
 	BleedDamageFactor=0.01
 	BleedCount=8
