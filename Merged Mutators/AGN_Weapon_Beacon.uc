@@ -16,9 +16,7 @@ function bool IsValidPosition()
 	local vector HitLocation, HitNormal, off;
 	local Actor HitActor;
 	local float ZDistToBuildingCenter;
-	
-	local vector traceDownwards;
-	
+
 	if(bBlockDeployCloseToOwnBase && GetNearestSpottargetLocationIsOwnTeamBuilding())
 	{
 	  Rx_Controller(Pawn(Owner).Controller).ClientMessage("Planting Beacon failed: This location is too close to your base!");
