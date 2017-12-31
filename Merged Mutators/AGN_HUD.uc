@@ -12,6 +12,7 @@
 class AGN_HUD extends Rx_HUD;
 
 var AGN_HUD_AdminComponent AGN_HUDAdminComponent;
+var AGN_HUD_CrateStatus AGN_HUDCrateStatus;
 
 DefaultProperties
 {
@@ -21,19 +22,27 @@ DefaultProperties
 function CreateHudCompoenents()
 {
 	super.CreateHudCompoenents();
+	
+	`log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+	`log("~ Creating AGN HUD Components ~");
+	`log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+	
 	AGN_HUDAdminComponent = new class'AGN_HUD_AdminComponent';
+	AGN_HUDCrateStatus = new class'AGN_HUD_CrateStatus';
 }
 
 function UpdateHudCompoenents(float DeltaTime, Rx_HUD HUD)
 {
 	super.UpdateHudCompoenents(DeltaTime, HUD);
-	AGN_HUDAdminComponent.Update(DeltaTime, HUD);
+	if ( AGN_HUDAdminComponent != None ) AGN_HUDAdminComponent.Update(DeltaTime, HUD);
+	if ( AGN_HUDCrateStatus != None ) AGN_HUDCrateStatus.Update(DeltaTime, HUD);
 }
 
 function DrawHudCompoenents()
 {
 	super.DrawHudCompoenents();
-	AGN_HUDAdminComponent.Draw();
+	if ( AGN_HUDAdminComponent != None ) AGN_HUDAdminComponent.Draw();
+	if ( AGN_HUDCrateStatus != None ) AGN_HUDCrateStatus.Draw();
 }
 
 function Message( PlayerReplicationInfo PRI, coerce string Msg, name MsgType, optional float LifeTime )

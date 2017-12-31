@@ -34,6 +34,12 @@ function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, AGN_Crate
 
     `log("Increasing speed by" @ SpeedBoostPercent * 100.0 @ " percent to " @ Recipient.SpeedUpgradeMultiplier);
 	SetTimer(60, false, 'RestoreNormalSpeed');
+	
+	if ( AGN_Rx_Controller(Recipient.Controller) != None )
+	{
+		AGN_Rx_Controller(Recipient.Controller).AddNewCrateStatus("Mega Speed Crate", 60);
+	}
+	
 	isActive = true;
 	ActivePawn = Recipient;
 }

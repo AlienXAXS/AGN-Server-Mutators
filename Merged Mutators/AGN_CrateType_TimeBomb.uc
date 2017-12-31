@@ -32,6 +32,11 @@ function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, AGN_Crate
 	C4.InstigatorController = Recipient.Controller;
 	C4.SetDamageAll(true);
 	C4.TeamNum = Recipient.GetTeamNum();
+	
+	if ( AGN_Rx_Controller(Recipient.Controller) != None )
+	{
+		AGN_Rx_Controller(Recipient.Controller).AddNewCrateStatus("Time Bomb", 30);
+	}
 }
 
 DefaultProperties

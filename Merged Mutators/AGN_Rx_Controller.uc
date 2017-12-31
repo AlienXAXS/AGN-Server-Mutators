@@ -12,6 +12,39 @@
 class AGN_Rx_Controller extends Rx_Controller;
 
 var class<Rx_GFxPurchaseMenu> PTMenuClassOriginal;
+var() array<AGN_CrateHUDStatus> CrateStatuses;
+
+simulated function PostBeginPlay()
+{
+	Super.PostBeginPlay();
+	SetTimer(1, true, 'HUDCountdownTicker');
+}
+
+function HUDCountdownTicker()
+{
+	local AGN_CrateHUDStatus thisCrateHUDStatus;
+		
+	// Loop around each Crate HUD element, and count down the timer by 1
+	// If the counter has reached zero, delete the item in the array
+	foreach CrateStatuses(thisCrateHUDStatus)
+	{
+		//`log ( "  > Found one with counter left of " $ string(thisCrateHUDStatus.CountdownTimer) );
+		thisCrateHUDStatus.CountdownTimer--;
+		if ( thisCrateHUDStatus.CountdownTimer == -1 )
+		{
+			CrateStatuses.RemoveItem(thisCrateHUDStatus);
+		}
+	}
+}
+
+function AddNewCrateStatus(string message, int counter)
+{
+	local AGN_CrateHUDStatus thisCrateHUDStatus;
+	thisCrateHUDStatus = new class'AGN_CrateHUDStatus';
+	thisCrateHUDStatus.CountdownTimer = 60;
+	thisCrateHUDStatus.Message = "Mega Speed Crate";
+	CrateStatuses.AddItem(thisCrateHUDStatus);
+}
 
 exec function ReportSpotted()
 {

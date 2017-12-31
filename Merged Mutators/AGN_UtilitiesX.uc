@@ -45,6 +45,18 @@ static function SendMessageToPlayersInTeam(int TeamID, string message, optional 
 	}
 }
 
+static function SetCratePickupMessageForTeam(int TeamID, string message, int counter)
+{
+	local Controller c;
+		
+	foreach class'WorldInfo'.static.GetWorldInfo().AllControllers(class'Controller', c)
+	{
+		if ( c != None && c.GetTeamNum() == TeamID )
+			if ( Rx_Controller(c) != none )
+				AGN_Rx_Controller(c).AddNewCrateStatus(message, counter);
+	}
+}
+
 static function PlayAudioForTeam(int TeamID, SoundCue mySoundCue )
 {
 	local Controller c;
