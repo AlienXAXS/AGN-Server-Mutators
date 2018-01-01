@@ -1,4 +1,4 @@
-class Rx_Weapon_PersonalIonCannon extends Rx_Weapon_Reloadable;
+class AGN_Weapon_PersonalIonCannon extends Rx_Weapon_Reloadable;
 
 var	SoundCue WeaponDistantFireSnd;	// A second firing sound to be played when weapon fires. (Used for distant sound)
 
