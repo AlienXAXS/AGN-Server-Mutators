@@ -45,6 +45,66 @@ function DrawHudCompoenents()
 	if ( AGN_HUDCrateStatus != None ) AGN_HUDCrateStatus.Draw();
 }
 
+function UpdateScreenCentreActor()
+{
+	local Vector CameraOrigin, CameraDirection, HitLoc,HitNormal,TraceRange;
+	local float ClosestHit, extendedDist, tempDist;
+	local Actor HitActor, PotentialTarget;
+	local float WeaponTargetingRange;
+	local Weapon OurWeapon;
+
+	PotentialTarget = none;
+	WeaponAimingActor = none;
+	
+	//  --- AGN ---
+	// If we're using a custom projectile or custom weapon
+	// GetWeaponTargetingRange always returns zero
+	// So, We crudly check if the current weapon is of a custom type and get the WeaponRange from default properties.
+	WeaponTargetingRange = GetWeaponTargetingRange();
+	if ( WeaponTargetingRange == 0 )
+	{
+		if (UTVehicle(PlayerOwner.ViewTarget) != none && UTVehicle(PlayerOwner.ViewTarget).Weapon != none)
+			OurWeapon = UTVehicle(PlayerOwner.ViewTarget).Weapon;
+		else if (UTPawn(PlayerOwner.ViewTarget) != none && UTPawn(PlayerOwner.ViewTarget).Weapon != none)
+			OurWeapon = UTPawn(PlayerOwner.ViewTarget).Weapon;
+			
+		if ( OurWeapon.default.WeaponRange > 0 )
+			WeaponTargetingRange = OurWeapon.default.WeaponRange;
+		else
+			WeaponTargetingRange = 10000;
+	}
+	
+	ClosestHit = WeaponTargetingRange;
+
+	GetCameraOriginAndDirection(CameraOrigin,CameraDirection);
+	
+	TraceRange = CameraOrigin + CameraDirection * WeaponTargetingRange;
+	extendedDist = VSize(CameraOrigin - PlayerOwner.ViewTarget.location);
+	TraceRange += CameraDirection * extendedDist;
+	
+	// This trace will ignore the view target so we don't target ourselves.
+	foreach TraceActors(class'actor',HitActor,HitLoc,HitNormal,TraceRange,CameraOrigin,vect(0,0,0),,1)
+	{
+		AimLoc = HitLoc;
+		if (Landscape(HitActor) != None)
+			break;
+		if (StaticMeshActor(HitActor) != None)
+			break;			
+		tempDist = VSize(CameraOrigin - HitLoc) - extendedDist;
+		if (HitActor != PlayerOwner.ViewTarget && ClosestHit >= tempDist)
+		{
+			ClosestHit = tempDist;
+			if (ClosestHit < GetWeaponRange()) // If the hit actor is also within weapon range, then weapon aiming actor is it.
+				WeaponAimingActor = HitActor;
+			PotentialTarget = HitActor;
+			TargetingBox.TargetActorHitLoc = HitLoc;
+			break;
+		}
+	}
+
+	ScreenCentreActor = PotentialTarget;
+}
+
 function Message( PlayerReplicationInfo PRI, coerce string Msg, name MsgType, optional float LifeTime )
 {
 	local string cName, fMsg, rMsg;

@@ -11,6 +11,24 @@
 
 class AGN_HUD_TargetingBox extends Rx_HUD_TargetingBox;
 
+function Update(float DeltaTime, Rx_HUD HUD)
+{
+	super.Update(DeltaTime, HUD);
+
+	TimeSinceNewTarget += DeltaTime;
+
+	UpdateTargetedObject(DeltaTime);
+
+	if (TargetedActor != none)
+	{
+		UpdateTargetName();
+		UpdateTargetHealthPercent();
+		UpdateTargetDescription();
+		UpdateBoundingBox();
+		//UpdateTargetStance(TargetedActor);
+	}
+}
+
 function bool IsValidTarget (actor potentialTarget)
 {
 	if (Rx_Building(potentialTarget) != none ||
@@ -19,8 +37,8 @@ function bool IsValidTarget (actor potentialTarget)
 		(Rx_Vehicle(potentialTarget) != none && Rx_Vehicle(potentialTarget).Health > 0) ||
 		(Rx_Weapon_DeployedActor(potentialTarget) != none && Rx_Weapon_DeployedActor(potentialTarget).GetHealth() > 0) ||
 		(Rx_Pawn(potentialTarget) != none && Rx_Pawn(potentialTarget).Health > 0)||
-		(Rx_DestroyableObstaclePlus(potentialTarget) !=none && Rx_DestroyableObstaclePlus(potentialTarget).bShowHealth && Rx_DestroyableObstaclePlus(potentialTarget).GetHealth() > 0) ||
-		(AGN_CratePickup(potentialTarget) != none && !AGN_CratePickup(potentialTarget).bPickupHidden)
+		(Rx_DestroyableObstaclePlus(potentialTarget) !=none && Rx_DestroyableObstaclePlus(potentialTarget).bShowHealth && Rx_DestroyableObstaclePlus(potentialTarget).GetHealth() > 0) /* ||
+		(AGN_Pickup(potentialTarget) != none && !AGN_Pickup(potentialTarget).isHiddenCrate) */
 		)
 	{
 		if (IsStealthedEnemyUnit(Pawn(potentialTarget)) ||
@@ -30,6 +48,60 @@ function bool IsValidTarget (actor potentialTarget)
 		else return true;
 	}
 	else return false;
+}
+
+function UpdateTargetedObject (float DeltaTime)
+{
+	local Actor potentialTarget;
+	
+	// Our potential target is the actor we're looking at.
+	potentialTarget = GetActorAtScreenCentre();
+	// If that's a valid target, then it becomes our target.
+	if (IsValidTarget(potentialTarget) && IsTargetInRange(potentialTarget)) {
+		SetTarget(potentialTarget);
+	}
+	// If we're not looking at the targetted building anymore, automatically untarget it.
+	else if (TargetedActor != none && IsBuildingComponent(TargetedActor) && !IsPTorMCT(TargetedActor)) {
+		TargetedActor = none;
+	}
+	// If the targeted actor is out of view, or out of range we should untarget it.
+	else if (TargetedActor != none && (!IsValidTarget(TargetedActor) || !IsActorInView(TargetedActor,true) || !IsTargetInRange(TargetedActor)) ) {
+		if (Rx_Pawn(TargetedActor) != none) {
+			Rx_Pawn(TargetedActor).bTargetted = false;
+		} else if (Rx_Vehicle(TargetedActor) != none) {
+			Rx_Vehicle(TargetedActor).bTargetted = false;
+		}
+		TargetedActor = none;
+	}		
+	// If we're here, that means we're not looking at it, but it's still on screen and in range, so start countdown to untarget it
+	else {
+		TimeSinceTargetLost += DeltaTime;
+	}
+		
+
+	// If our target has expired, clear it.
+	if (TimeSinceTargetLost > TargetStickTime){
+		if (Rx_Pawn(TargetedActor) != none) {
+			Rx_Pawn(TargetedActor).bTargetted = false;
+		} else if (Rx_Vehicle(TargetedActor) != none) {
+			Rx_Vehicle(TargetedActor).bTargetted = false;
+		}
+		TargetedActor = none;	
+	}
+}
+
+function bool IsTargetInRange(actor a)
+{
+	local float TargetDistance, WeaponTargetRange;
+
+	if (IsBuildingComponent(a))
+		return true;
+
+	TargetDistance = GetTargetDistance(a);
+	WeaponTargetRange = GetWeaponTargetingRange();
+	if (TargetDistance >= WeaponTargetRange)
+			return false;
+	else return true;
 }
 
 function UpdateTargetHealthPercent ()
