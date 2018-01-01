@@ -91,8 +91,8 @@ DefaultProperties
         SkeletalMesh=SkeletalMesh'RX_WP_PersonalIonCannon.Mesh.SK_PersonalIonCannon_3P'
     End Object
 
-    DefaultImpactEffect=(ParticleTemplate=ParticleSystem'RX_FX_Munitions.Beams.P_PersonalIonCannon_Impact',Sound=SoundCue'RX_SoundEffects.Explosions.SC_Explosion_Electric')
-    DefaultAltImpactEffect=(ParticleTemplate=ParticleSystem'RX_FX_Munitions.Beams.P_PersonalIonCannon_Impact',Sound=SoundCue'RX_SoundEffects.Explosions.SC_Explosion_Electric')
+    DefaultImpactEffect=(ParticleTemplate=ParticleSystem'AGN_WP_PersonalIonCannon.Effects.P_PersonalIonCannon_Impact',Sound=SoundCue'RX_SoundEffects.Explosions.SC_Explosion_Electric')
+    DefaultAltImpactEffect=(ParticleTemplate=ParticleSystem'AGN_WP_PersonalIonCannon.Effects.P_PersonalIonCannon_Impact',Sound=SoundCue'RX_SoundEffects.Explosions.SC_Explosion_Electric')
 
     BulletWhip=SoundCue'RX_WP_LaserRifle.Sounds.SC_LaserRifle_WizzBy'
     BeamTemplate=ParticleSystem'AGN_WP_PersonalIonCannon.Effects.P_PersonalIonCannon_Beam'
