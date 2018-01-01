@@ -12,23 +12,55 @@
 class AGN_Rx_Controller extends Rx_Controller;
 
 var class<Rx_GFxPurchaseMenu> PTMenuClassOriginal;
+
 var() array<AGN_CrateHUDStatus> CrateStatuses;
+var AGN_CrateHUDStatus NewCrateStatus;
+var repnotify string CrateStatus;
+
+replication
+{
+	if (bNetDirty && Role == ROLE_Authority)
+		CrateStatus;
+}
+
+simulated event ReplicatedEvent(name VarName)
+{
+	local array<string> StringSplit;
+	
+	Super.ReplicatedEvent(VarName);
+	
+	`log("Replicated Event for " $ string(VarName));
+		
+	if (VarName == 'CrateStatus')
+	{
+		if ( CrateStatus == "NONE" )
+			return;
+		
+		`log("~~~~~~~~~ CrateStatus = " $ CrateStatus);
+		StringSplit = SplitString(CrateStatus, ":", false);
+		AddNewCrateStatus(StringSplit[0], int(StringSplit[1]));
+	}
+}
 
 simulated function PostBeginPlay()
 {
 	Super.PostBeginPlay();
-	SetTimer(1, true, 'HUDCountdownTicker');
+	
+	// Client only
+	if(`WorldInfoObject.NetMode != NM_DedicatedServer)
+		SetTimer(1, true, 'HUDCountdownTicker');
 }
 
 function HUDCountdownTicker()
 {
 	local AGN_CrateHUDStatus thisCrateHUDStatus;
 		
+	`log("Crate Counter: " $ string(CrateStatuses.Length) $ " Crate status messages");
 	// Loop around each Crate HUD element, and count down the timer by 1
 	// If the counter has reached zero, delete the item in the array
 	foreach CrateStatuses(thisCrateHUDStatus)
 	{
-		//`log ( "  > Found one with counter left of " $ string(thisCrateHUDStatus.CountdownTimer) );
+		`log ( "  > Found one with counter left of " $ string(thisCrateHUDStatus.CountdownTimer) );
 		thisCrateHUDStatus.CountdownTimer--;
 		if ( thisCrateHUDStatus.CountdownTimer == -1 )
 		{
@@ -37,13 +69,21 @@ function HUDCountdownTicker()
 	}
 }
 
-function AddNewCrateStatus(string message, int counter)
+reliable server function ServerAddNewCrateStatus(string message, int counter)
+{
+	`log("[SERVER] Adding a new crate to the array on the client via replication");
+	CrateStatus = message $ ":" $ counter;
+}
+
+simulated function AddNewCrateStatus(string message, int counter)
 {
 	local AGN_CrateHUDStatus thisCrateHUDStatus;
 	thisCrateHUDStatus = new class'AGN_CrateHUDStatus';
 	thisCrateHUDStatus.CountdownTimer = 60;
 	thisCrateHUDStatus.Message = "Mega Speed Crate";
 	CrateStatuses.AddItem(thisCrateHUDStatus);
+	`log("Added crate status message to array, new size: " $ string(CrateStatuses.Length));
+	CrateStatus = "NONE";
 }
 
 exec function ReportSpotted()

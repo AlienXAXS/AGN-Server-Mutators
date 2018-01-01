@@ -13,6 +13,19 @@ class AGN_Pickup extends UTItemPickupFactory;
 
 var int PickupsRemaining;
 var float DespawnTime;
+var bool bWillBeActive;
+var repnotify bool isHiddenCrate;
+
+replication
+{
+	if(bNetDirty || bNetInitial)
+		isHiddenCrate;
+}
+
+simulated function string GetHumanReadableName()
+{
+	return "[AGN] Mystery Crate";
+}
 
 auto state Pickup
 {

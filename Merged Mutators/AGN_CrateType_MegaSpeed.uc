@@ -37,7 +37,7 @@ function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, AGN_Crate
 	
 	if ( AGN_Rx_Controller(Recipient.Controller) != None )
 	{
-		AGN_Rx_Controller(Recipient.Controller).AddNewCrateStatus("Mega Speed Crate", 60);
+		AGN_Rx_Controller(Recipient.Controller).ServerAddNewCrateStatus("Mega Speed Crate", 60);
 	}
 	
 	isActive = true;

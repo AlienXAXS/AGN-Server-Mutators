@@ -53,7 +53,7 @@ static function SetCratePickupMessageForTeam(int TeamID, string message, int cou
 	{
 		if ( c != None && c.GetTeamNum() == TeamID )
 			if ( Rx_Controller(c) != none )
-				AGN_Rx_Controller(c).AddNewCrateStatus(message, counter);
+				AGN_Rx_Controller(c).ServerAddNewCrateStatus(message, counter);
 	}
 }
 

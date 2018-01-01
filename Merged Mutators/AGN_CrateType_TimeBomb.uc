@@ -35,7 +35,7 @@ function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, AGN_Crate
 	
 	if ( AGN_Rx_Controller(Recipient.Controller) != None )
 	{
-		AGN_Rx_Controller(Recipient.Controller).AddNewCrateStatus("Time Bomb", 30);
+		AGN_Rx_Controller(Recipient.Controller).ServerAddNewCrateStatus("Time Bomb", 30);
 	}
 }
 
