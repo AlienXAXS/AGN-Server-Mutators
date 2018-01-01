@@ -34,8 +34,8 @@ DefaultProperties
 
     // Weapon SkeletalMesh
     Begin Object Name=FirstPersonMesh
-        SkeletalMesh=SkeletalMesh'AGN_WP_PersonalIonCannon.Mesh.SK_PersonalIonCannon_1P'
-        AnimSets(0)=AnimSet'AGN_WP_PersonalIonCannon.Anims.AS_PersonalIonCannon_1P'
+        SkeletalMesh=SkeletalMesh'RX_WP_PersonalIonCannon.Mesh.SK_PersonalIonCannon_1P'
+        AnimSets(0)=AnimSet'RX_WP_PersonalIonCannon.Anims.AS_PersonalIonCannon_1P'
         Animations=MeshSequenceA
         FOV=55
 		Scale=2.0
@@ -43,13 +43,13 @@ DefaultProperties
 
     // Weapon SkeletalMesh
     Begin Object Name=PickupMesh
-        SkeletalMesh=SkeletalMesh'AGN_WP_PersonalIonCannon.Mesh.SK_PersonalIonCannon_Back'
+        SkeletalMesh=SkeletalMesh'RX_WP_PersonalIonCannon.Mesh.SK_PersonalIonCannon_Back'
         Scale=1.0
     End Object
 
     AttachmentClass = class'Rx_Attachment_PersonalIonCannon'
 	
-	ArmsAnimSet=AnimSet'AGN_WP_PersonalIonCannon.Anims.AS_PersonalIonCannon_Arms'
+	ArmsAnimSet=AnimSet'RX_WP_PersonalIonCannon.Anims.AS_PersonalIonCannon_Arms'
 	
 	PlayerViewOffset=(X=-2.0,Y=0.0,Z=-1.0)
 	
@@ -128,24 +128,24 @@ DefaultProperties
 	RefireBoltReloadInterrupt(0) = 1.1f
 	RefireBoltReloadInterrupt(1) = 1.1f
 
-    WeaponFireSnd[0]=SoundCue'AGN_WP_PersonalIonCannon.Sounds.SC_PIC_Fire'
+    WeaponFireSnd[0]=SoundCue'RX_WP_PersonalIonCannon.Sounds.SC_PIC_Fire'
     WeaponFireSnd[1]=None
 	
-	WeaponDistantFireSnd=SoundCue'AGN_WP_PersonalIonCannon.Sounds.SC_PersonalIonCannon_DistantFire'
+	WeaponDistantFireSnd=SoundCue'RX_WP_PersonalIonCannon.Sounds.SC_PersonalIonCannon_DistantFire'
 
-    WeaponPutDownSnd=SoundCue'AGN_WP_SniperRifle.Sounds.SC_Sniper_PutDown'
-	WeaponEquipSnd=SoundCue'AGN_WP_SniperRifle.Sounds.SC_Sniper_Equip'
-	ReloadSound(0)=SoundCue'AGN_WP_PersonalIonCannon.Sounds.SC_PIC_Reload'
-	ReloadSound(1)=SoundCue'AGN_WP_PersonalIonCannon.Sounds.SC_PIC_Reload'
-	BoltReloadSound(0)=SoundCue'AGN_WP_PersonalIonCannon.Sounds.SC_PIC_BoltReload'
-	BoltReloadSound(1)=SoundCue'AGN_WP_PersonalIonCannon.Sounds.SC_PIC_BoltReload'
+    WeaponPutDownSnd=SoundCue'RX_WP_SniperRifle.Sounds.SC_Sniper_PutDown'
+	WeaponEquipSnd=SoundCue'RX_WP_SniperRifle.Sounds.SC_Sniper_Equip'
+	ReloadSound(0)=SoundCue'RX_WP_PersonalIonCannon.Sounds.SC_PIC_Reload'
+	ReloadSound(1)=SoundCue'RX_WP_PersonalIonCannon.Sounds.SC_PIC_Reload'
+	BoltReloadSound(0)=SoundCue'RX_WP_PersonalIonCannon.Sounds.SC_PIC_BoltReload'
+	BoltReloadSound(1)=SoundCue'RX_WP_PersonalIonCannon.Sounds.SC_PIC_BoltReload'
 
     PickupSound=SoundCue'RX_WP_SniperRifle.Sounds.SC_Sniper_Equip'
 
     FireSocket="MuzzleFlashSocket"
 
     MuzzleFlashSocket="MuzzleFlashSocket"
-    MuzzleFlashPSCTemplate=ParticleSystem'RX_WP_PersonalIonCannon.Effects.P_MuzzleFlash_1P'
+    MuzzleFlashPSCTemplate=ParticleSystem'AGN_WP_PersonalIonCannon.Effects.P_MuzzleFlash_1P'
     MuzzleFlashDuration=3.3667
     MuzzleFlashLightClass=class'Rx_Light_AutoRifle_MuzzleFlash'
   
