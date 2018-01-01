@@ -47,7 +47,7 @@ DefaultProperties
         Scale=1.0
     End Object
 
-    AttachmentClass = class'Rx_Attachment_PersonalIonCannon'
+    AttachmentClass = class'AGN_Attachment_PersonalIonCannon'
 	
 	ArmsAnimSet=AnimSet'RX_WP_PersonalIonCannon.Anims.AS_PersonalIonCannon_Arms'
 	
