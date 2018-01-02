@@ -1,4 +1,3 @@
-
 /* 
  * YOU ARE NOT UNDER ANY CIRCUMSTANCES ALLOWED TO REDISTRUBUTE OR USE THE SOURCE CODE IN ANY NON-AGN SERVER WITHOUT THE WRITTEN PERMISSION BY THE OWNER.
  * 
@@ -8,6 +7,7 @@
  * 
  * BY BROWSING THIS CONTENT YOU HEREBY AGREE TO THE VPS-SOLUTIONS TERMS OF SERVICE (https://www.vps-solutions.co.uk/terms-of-service.php)
  */
+
 
 class AGN_Weapon_TiberiumFlechetteRifle extends Rx_Weapon_Charged;	
 
