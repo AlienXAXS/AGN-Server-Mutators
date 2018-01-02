@@ -13,18 +13,10 @@ class AGN_HUD extends Rx_HUD;
 
 var AGN_HUD_AdminComponent AGN_HUDAdminComponent;
 var AGN_HUD_CrateStatus AGN_HUDCrateStatus;
-var private const float DefaultTargettingRange;
 
-function CreateHUDMovie()
+DefaultProperties
 {
-    HudMovie = new class'AGN_GfxHud';
-    HudMovie.SetTimingMode(1);
-    HudMovie.Initialize();
-    HudMovie.SetTimingMode(1);
-    HudMovie.SetViewScaleMode(3);
-    HudMovie.SetAlignment(5);
-    HudMovie.RenxHud = self;
-    //return;    
+	TargetingBoxClass = class'AGN_HUD_TargetingBox';
 }
 
 function CreateHudCompoenents()
@@ -36,63 +28,21 @@ function CreateHudCompoenents()
 	`log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 	
 	AGN_HUDAdminComponent = new class'AGN_HUD_AdminComponent';
-	//AGN_HUDCrateStatus = new class'AGN_HUD_CrateStatus';
+	AGN_HUDCrateStatus = new class'AGN_HUD_CrateStatus';
 }
 
 function UpdateHudCompoenents(float DeltaTime, Rx_HUD HUD)
 {
 	super.UpdateHudCompoenents(DeltaTime, HUD);
 	if ( AGN_HUDAdminComponent != None ) AGN_HUDAdminComponent.Update(DeltaTime, HUD);
-	//if ( AGN_HUDCrateStatus != None ) AGN_HUDCrateStatus.Update(DeltaTime, HUD);
+	if ( AGN_HUDCrateStatus != None ) AGN_HUDCrateStatus.Update(DeltaTime, HUD);
 }
 
 function DrawHudCompoenents()
 {
 	super.DrawHudCompoenents();
 	if ( AGN_HUDAdminComponent != None ) AGN_HUDAdminComponent.Draw();
-	//if ( AGN_HUDCrateStatus != None ) AGN_HUDCrateStatus.Draw();
-}
-
-function float GetWeaponTargetingRange()
-{
-    local Weapon OurWeapon;
-	local float weaponRange;
-
-    if((PlayerOwner != none) && PlayerOwner.ViewTarget != none)
-    {
-        if((UTVehicle(PlayerOwner.ViewTarget) != none) && UTVehicle(PlayerOwner.ViewTarget).Weapon != none)
-        {
-            OurWeapon = UTVehicle(PlayerOwner.ViewTarget).Weapon;
-        }
-        else
-        {
-            if((UTPawn(PlayerOwner.ViewTarget) != none) && UTPawn(PlayerOwner.ViewTarget).Weapon != none)
-            {
-                OurWeapon = UTPawn(PlayerOwner.ViewTarget).Weapon;
-            }
-        }
-        if(((OurWeapon != none) && Rx_Weapon_Deployable(OurWeapon) == none) && Rx_Weapon_RepairGun(OurWeapon) == none)
-        {
-            weaponRange = GetWeaponRange();
-			if ( weaponRange == 0 )
-			{
-				if ( OurWeapon.default.WeaponRange > 0 )
-					return OurWeapon.default.WeaponRange;
-				else
-					return DefaultTargettingRange;
-			} else {
-				return weaponRange;
-			}
-        }
-        else
-        {
-            return DefaultTargettingRange;
-        }
-    }
-    else
-    {
-        return DefaultTargettingRange;
-    }
+	if ( AGN_HUDCrateStatus != None ) AGN_HUDCrateStatus.Draw();
 }
 
 function UpdateScreenCentreActor()
@@ -151,8 +101,6 @@ function UpdateScreenCentreActor()
 			break;
 		}
 	}
-	
-	//`log( "[Find Centre Actor] Found " $ string(PotentialTarget) $ " with a distance of " $ string(ClosestHit) );
 
 	ScreenCentreActor = PotentialTarget;
 }
@@ -360,8 +308,3 @@ function LocalizedMessage
 	}
 }
 
-DefaultProperties
-{
-	TargetingBoxClass = class'AGN_HUD_TargetingBox';
-	DefaultTargettingRange=10000.0
-}
