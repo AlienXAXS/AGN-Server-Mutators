@@ -23,7 +23,16 @@ function string GetGameLogMessage(Rx_PRI RecipientPRI, AGN_CratePickup CratePick
 
 function string GetPickupMessage()
 {
-    return ("You were given a " $ WeaponClass.default.PickupMessage) $ "!";
+	local string wepName;
+	
+	if ( WeaponClass.IsA('AGN_Weapon_PersonalIonCannon') )
+		wepName = "Personal Unicorn Cannon";
+	else if ( WeaponClass.IsA('AGN_Weapon_TiberiumFlechetteRifle') )
+		wepName = "Tiberium Flechette Rifle";
+	else
+		wepName = WeaponClass.default.PickupMessage;
+		
+    return "You were given a " $ wepName $ "!";
 }
 
 function float GetProbabilityWeight(Rx_Pawn Recipient, AGN_CratePickup CratePickup)

@@ -45,6 +45,7 @@ static function SendMessageToPlayersInTeam(int TeamID, string message, optional 
 	}
 }
 
+/*
 static function SetCratePickupMessageForTeam(int TeamID, string message, int counter)
 {
 	local Controller c;
@@ -56,6 +57,7 @@ static function SetCratePickupMessageForTeam(int TeamID, string message, int cou
 				AGN_Rx_Controller(c).ServerAddNewCrateStatus(message, counter);
 	}
 }
+*/
 
 static function PlayAudioForTeam(int TeamID, SoundCue mySoundCue )
 {
@@ -67,5 +69,17 @@ static function PlayAudioForTeam(int TeamID, SoundCue mySoundCue )
 			if ( Rx_Controller(c) != none )
 					Rx_Controller(c).PlaySound(mySoundCue);
 	}
+}
+
+static function string GetWeaponNameIncludingCustomWeapons(UTWeapon WeaponClass)
+{
+	if ( WeaponClass.IsA('AGN_Weapon_PersonalIonCannon') )
+		return "Personal Unicorn Cannon";
+	else if ( WeaponClass.IsA('AGN_Weapon_TiberiumFlechetteRifle') )
+		return "Tiberium Flechette Rifle";
+	else if ( WeaponClass.IsA('AGN_Weapon_PersonalObeliskCannon') )
+		return "Personal Obelisk Cannon";
+	else
+		return WeaponClass.ItemName;
 }
 

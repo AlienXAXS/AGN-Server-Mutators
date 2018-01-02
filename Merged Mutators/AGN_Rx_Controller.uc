@@ -13,6 +13,7 @@ class AGN_Rx_Controller extends Rx_Controller;
 
 var class<Rx_GFxPurchaseMenu> PTMenuClassOriginal;
 
+/*
 var() array<AGN_CrateHUDStatus> CrateStatuses;
 var AGN_CrateHUDStatus NewCrateStatus;
 var repnotify string CrateStatus;
@@ -85,6 +86,7 @@ simulated function AddNewCrateStatus(string message, int counter)
 	`log("Added crate status message to array, new size: " $ string(CrateStatuses.Length));
 	CrateStatus = "NONE";
 }
+*/
 
 exec function ReportSpotted()
 {
