@@ -105,3 +105,4 @@ DefaultProperties
 	AvailableItems(6) = class'AGN_Weapon_NukeBeacon'
 }
 
+

@@ -117,7 +117,7 @@ function Initialize(LocalPlayer player, Rx_BuildingAttachment_PT PTOwner)
 		OwnedSidearm2            =   rxInv.SidearmWeapons[rxInv.SidearmWeapons.Length - 1];
 	}
 	if (rxInv.ExplosiveWeapons.Length > 0){
-		if (OwnedFamilyInfo2 == class'Rx_FamilyInfo_GDI_Hotwire' || OwnedFamilyInfo2 == class'Rx_FamilyInfo_Nod_Technician') {
+		if (OwnedFamilyInfo2 == class'AGN_FamilyInfo_GDI_Hotwire' || OwnedFamilyInfo2 == class'AGN_FamilyInfo_Nod_Technician') {
 			OwnedExplosive2      =   rxInv.ExplosiveWeapons[rxInv.ExplosiveWeapons.Length - 1];
 		} else {
 			OwnedExplosive2      =   rxInv.ExplosiveWeapons[rxInv.ExplosiveWeapons.Length - 1];
@@ -229,8 +229,8 @@ function Initialize(LocalPlayer player, Rx_BuildingAttachment_PT PTOwner)
 	EquipSideArmButton.SetObject("group", EquipmentMenuGroup);
 
 	if (rxPC.bJustBaughtEngineer 
-		|| Rx_Pawn(rxPC.Pawn).GetRxFamilyInfo() == class'Rx_FamilyInfo_GDI_Hotwire' 
-		|| Rx_Pawn(rxPC.Pawn).GetRxFamilyInfo() == class'Rx_FamilyInfo_Nod_Technician'){
+		|| Rx_Pawn(rxPC.Pawn).GetRxFamilyInfo() == class'AGN_FamilyInfo_GDI_Hotwire' 
+		|| Rx_Pawn(rxPC.Pawn).GetRxFamilyInfo() == class'AGN_FamilyInfo_Nod_Technician'){
 			explosiveData.RemoveItem(explosiveData[explosiveData.Find('WeaponClass', class'Rx_Weapon_TimedC4')]);
 			explosiveData.RemoveItem(explosiveData[explosiveData.Find('WeaponClass', class'Rx_Weapon_RemoteC4')]);
 			explosiveData[explosiveData.Find('WeaponClass', class'Rx_Weapon_ProxyC4')].bFree = true;
@@ -243,8 +243,8 @@ function Initialize(LocalPlayer player, Rx_BuildingAttachment_PT PTOwner)
 			}
 
 	} else if (rxPC.bJustBaughtHavocSakura 
-		|| Rx_Pawn(rxPC.Pawn).GetRxFamilyInfo() == class'Rx_FamilyInfo_GDI_Havoc'
-		|| Rx_Pawn(rxPC.Pawn).GetRxFamilyInfo() == class'Rx_FamilyInfo_Nod_Sakura' ) {
+		|| Rx_Pawn(rxPC.Pawn).GetRxFamilyInfo() == class'AGN_FamilyInfo_GDI_Havoc'
+		|| Rx_Pawn(rxPC.Pawn).GetRxFamilyInfo() == class'AGN_FamilyInfo_Nod_Sakura' ) {
 			explosiveData.RemoveItem(explosiveData[explosiveData.Find('WeaponClass', class'Rx_Weapon_TimedC4')]);
 			explosiveData.RemoveItem(explosiveData[explosiveData.Find('WeaponClass', class'Rx_Weapon_ProxyC4')]);
 			explosiveData[explosiveData.Find('WeaponClass', class'Rx_Weapon_RemoteC4')].bFree = true;
@@ -266,8 +266,8 @@ function Initialize(LocalPlayer player, Rx_BuildingAttachment_PT PTOwner)
 		AssignEquipmentData(EquipExplosivesButton, EquipExplosivesList, explosiveData , rxInv.AvailableExplosiveWeapons, rxPC.CurrentExplosiveWeapon);
 	} else {
 		if (rxPC.bJustBaughtEngineer 
-		|| Rx_Pawn(rxPC.Pawn).GetRxFamilyInfo() == class'Rx_FamilyInfo_GDI_Hotwire' 
-		|| Rx_Pawn(rxPC.Pawn).GetRxFamilyInfo() == class'Rx_FamilyInfo_Nod_Technician'){
+		|| Rx_Pawn(rxPC.Pawn).GetRxFamilyInfo() == class'AGN_FamilyInfo_GDI_Hotwire' 
+		|| Rx_Pawn(rxPC.Pawn).GetRxFamilyInfo() == class'AGN_FamilyInfo_Nod_Technician'){
 			`log("<PT Log> engi rxPC.Pawn.InvManager= " $ rxPC.Pawn.InvManager);
 			if (TeamID == TEAM_GDI) {
 				AssignEquipmentData(EquipExplosivesButton, EquipExplosivesList, explosiveData , rxInv.AvailableExplosiveWeapons, class'Rx_InventoryManager_GDI_Hotwire'.default.ExplosiveWeapons[0]);
@@ -275,8 +275,8 @@ function Initialize(LocalPlayer player, Rx_BuildingAttachment_PT PTOwner)
 				AssignEquipmentData(EquipExplosivesButton, EquipExplosivesList, explosiveData , rxInv.AvailableExplosiveWeapons, class'Rx_InventoryManager_Nod_Technician'.default.ExplosiveWeapons[0]);
 			}
 		} else if (rxPC.bJustBaughtHavocSakura 
-		|| Rx_Pawn(rxPC.Pawn).GetRxFamilyInfo() == class'Rx_FamilyInfo_GDI_Havoc'
-		|| Rx_Pawn(rxPC.Pawn).GetRxFamilyInfo() == class'Rx_FamilyInfo_Nod_Sakura' ) {
+		|| Rx_Pawn(rxPC.Pawn).GetRxFamilyInfo() == class'AGN_FamilyInfo_GDI_Havoc'
+		|| Rx_Pawn(rxPC.Pawn).GetRxFamilyInfo() == class'AGN_FamilyInfo_Nod_Sakura' ) {
 			`log("<PT Log> Hvc/Skr rxPC.Pawn.InvManager= " $ rxPC.Pawn.InvManager);
 			if (TeamID == TEAM_GDI) {
 				AssignEquipmentData(EquipExplosivesButton, EquipExplosivesList, explosiveData , rxInv.AvailableExplosiveWeapons, class'Rx_InventoryManager_GDI_Havoc'.default.ExplosiveWeapons[0]);
@@ -795,10 +795,10 @@ function bool FilterButtonInput(int ControllerId, name ButtonName, EInputEvent I
                 else
                 {
                     // End:0x108C
-                    if((bClassDrawerOpen && ClassMenuButton[8].GetBool("enabled")) || bItemDrawerOpen && ItemMenuButton[8].GetBool("enabled"))
+                    if((bClassDrawerOpen && ClassMenuButton[7].GetBool("enabled")) || bItemDrawerOpen && ItemMenuButton[8].GetBool("enabled"))
                     {
                         PlaySoundFromTheme('buttonClick', 'Default');
-                        SetSelectedButtonByIndex(8);
+                        SetSelectedButtonByIndex(7);
                         SelectPurchase();
                     }
                 }
@@ -1345,8 +1345,8 @@ function SelectMenu(int selectedIndex)
 				//`log("<PT Log> rxPC.CurrentExplosiveWeapon? " $ rxPC.CurrentExplosiveWeapon);
 				if (rxPC.CurrentExplosiveWeapon == none) {
 					if (rxPC.bJustBaughtEngineer 
-					|| Rx_Pawn(rxPC.Pawn).GetRxFamilyInfo() == class'Rx_FamilyInfo_GDI_Hotwire' 
-					|| Rx_Pawn(rxPC.Pawn).GetRxFamilyInfo() == class'Rx_FamilyInfo_Nod_Technician'){
+					|| Rx_Pawn(rxPC.Pawn).GetRxFamilyInfo() == class'AGN_FamilyInfo_GDI_Hotwire' 
+					|| Rx_Pawn(rxPC.Pawn).GetRxFamilyInfo() == class'AGN_FamilyInfo_Nod_Technician'){
 						rxPC.RemoveAllExplosives();
 						//class<Rx_InventoryManager>(rxPC.Pawn.InventoryManagerClass).default.ExplosiveWeapons[0]
 						if (TeamID == TEAM_GDI) {
@@ -1357,8 +1357,8 @@ function SelectMenu(int selectedIndex)
 						//`log("<PT Log> new rxPC.CurrentExplosiveWeapon? " $ rxPC.CurrentExplosiveWeapon);
 						rxPC.SetAdvEngineerExplosives(rxPC.CurrentExplosiveWeapon);
 					} else if (rxPC.bJustBaughtHavocSakura 
-					|| Rx_Pawn(rxPC.Pawn).GetRxFamilyInfo() == class'Rx_FamilyInfo_GDI_Havoc'
-					|| Rx_Pawn(rxPC.Pawn).GetRxFamilyInfo() == class'Rx_FamilyInfo_Nod_Sakura' ) {
+					|| Rx_Pawn(rxPC.Pawn).GetRxFamilyInfo() == class'AGN_FamilyInfo_GDI_Havoc'
+					|| Rx_Pawn(rxPC.Pawn).GetRxFamilyInfo() == class'AGN_FamilyInfo_Nod_Sakura' ) {
 						rxPC.RemoveAllExplosives();
 						//rxPC.CurrentExplosiveWeapon = class'Rx_InventoryManager'.default.ExplosiveWeapons[0];
 						if (TeamID == TEAM_GDI) {

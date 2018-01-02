@@ -1,0 +1,1 @@
+class Rx_WeaponAbility extends Rx_Weapon;

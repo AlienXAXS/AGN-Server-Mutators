@@ -13,10 +13,8 @@ class AGN_InventoryManager_Nod_Mendoza extends AGN_InventoryManager_Adv_NOD;
 
 DefaultProperties
 {
-	PrimaryWeapons[0] = class'Rx_Weapon_TiberiumAutoRifle_Blue'	//2	//class'Rx_Weapon_VoltAutoRifle_Nod'
-	
-	SidearmWeapons[0] = class'Rx_Weapon_HeavyPistol' //1
-	
-	AvailableSidearmWeapons(0) = class'Rx_Weapon_HeavyPistol'
+    PrimaryWeapons(0)=class'Rx_Weapon_TiberiumAutoRifle_Blue'
+    SidearmWeapons(0)=class'Rx_Weapon_HeavyPistol'
+    AvailableSidearmWeapons(0)=class'Rx_Weapon_HeavyPistol'
 }
 

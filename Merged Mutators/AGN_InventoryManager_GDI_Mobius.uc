@@ -13,9 +13,8 @@ class AGN_InventoryManager_GDI_Mobius extends AGN_InventoryManager_Adv_GDI;
 
 DefaultProperties
 {
-	PrimaryWeapons[0] = class'Rx_Weapon_VoltAutoRifle_GDI' //2
-	SidearmWeapons[0] = class'Rx_Weapon_HeavyPistol' //1
-	
-	AvailableSidearmWeapons(0) = class'Rx_Weapon_HeavyPistol' 
+    PrimaryWeapons(0)=class'Rx_Weapon_VoltAutoRifle_GDI'
+    SidearmWeapons(0)=class'Rx_Weapon_HeavyPistol'
+    AvailableSidearmWeapons(0)=class'Rx_Weapon_HeavyPistol'
 }
 
