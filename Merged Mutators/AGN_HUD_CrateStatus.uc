@@ -8,8 +8,10 @@
  * BY BROWSING THIS CONTENT YOU HEREBY AGREE TO THE VPS-SOLUTIONS TERMS OF SERVICE (https://www.vps-solutions.co.uk/terms-of-service.php)
  */
 
+ 
 class AGN_HUD_CrateStatus extends Rx_Hud_Component;
 
+/*
 function Update(float DeltaTime, Rx_HUD HUD) 
 {
 	super.Update(DeltaTime, HUD);
@@ -42,3 +44,4 @@ function Draw()
 	}
 }
 
+*/
