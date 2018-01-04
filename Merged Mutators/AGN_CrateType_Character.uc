@@ -25,7 +25,7 @@ function float GetProbabilityWeight(Rx_Pawn Recipient, AGN_CratePickup CratePick
 	local float Probability;
 	Probability = Super.GetProbabilityWeight(Recipient,CratePickup);
 
-	if (!HasFreeUnit(Recipient)) // Don't swap character if we have paid for a unit
+	if (!HasFreeUnit(Recipient)) // Don't swap character if we have paid for a unit 
 		return 0;
 
 	ForEach CratePickup.AllActors(class'Rx_Building',building)
