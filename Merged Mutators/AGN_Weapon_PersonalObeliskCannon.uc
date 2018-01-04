@@ -217,25 +217,25 @@ DefaultProperties
 	/******************/
 	
 	Vet_DamageModifier(0)=1  //Applied to instant-hits only
-	Vet_DamageModifier(1)=1.15 //1.10 
-	Vet_DamageModifier(2)=1.25 
-	Vet_DamageModifier(3)=1.50 
+	Vet_DamageModifier(1)=1 //1.10 
+	Vet_DamageModifier(2)=1 
+	Vet_DamageModifier(3)=1 
 	
 	//Bolt action reload interupt is affected by this. 
 	Vet_ROFModifier(0) = 1
-	Vet_ROFModifier(1) = 0.90 
-	Vet_ROFModifier(2) = 0.75  
-	Vet_ROFModifier(3) = 0.40  
+	Vet_ROFModifier(1) = 1 
+	Vet_ROFModifier(2) = 1  
+	Vet_ROFModifier(3) = 1  
 	
 	Vet_ClipSizeModifier(0)=0 //Normal (should be 1)	
 	Vet_ClipSizeModifier(1)=0 //Veteran 
-	Vet_ClipSizeModifier(2)=1 //Elite
-	Vet_ClipSizeModifier(3)=2 //Heroic
+	Vet_ClipSizeModifier(2)=0 //Elite
+	Vet_ClipSizeModifier(3)=0 //Heroic
 
 	Vet_ReloadSpeedModifier(0)=1 //Normal (should be 1)
-	Vet_ReloadSpeedModifier(1)=0.95 //Veteran 
-	Vet_ReloadSpeedModifier(2)=0.9 //Elite
-	Vet_ReloadSpeedModifier(3)=0.85 //Heroic
+	Vet_ReloadSpeedModifier(1)=1 //Veteran 
+	Vet_ReloadSpeedModifier(2)=1 //Elite
+	Vet_ReloadSpeedModifier(3)=1 //Heroic
 	/**********************/
 	
 	bLocSync = true; 
