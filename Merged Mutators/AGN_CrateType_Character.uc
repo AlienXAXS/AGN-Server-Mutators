@@ -42,26 +42,26 @@ function float GetProbabilityWeight(Rx_Pawn Recipient, AGN_CratePickup CratePick
 
 function bool HasFreeUnit(Rx_Pawn Recipient)
 {
-	if(Recipient.GetRxFamilyInfo() == class'Rx_FamilyInfo_GDI_Soldier')
+	if(Recipient.GetRxFamilyInfo() == class'AGN_FamilyInfo_GDI_Soldier')
 		return true;
-	if(Recipient.GetRxFamilyInfo() == class'Rx_FamilyInfo_GDI_Shotgunner')
+	if(Recipient.GetRxFamilyInfo() == class'AGN_FamilyInfo_GDI_Shotgunner')
 		return true;
-	if(Recipient.GetRxFamilyInfo() == class'Rx_FamilyInfo_GDI_Grenadier')
+	if(Recipient.GetRxFamilyInfo() == class'AGN_FamilyInfo_GDI_Grenadier')
 		return true;
-	if(Recipient.GetRxFamilyInfo() == class'Rx_FamilyInfo_GDI_Marksman')
+	if(Recipient.GetRxFamilyInfo() == class'AGN_FamilyInfo_GDI_Marksman')
 		return true;
-	if(Recipient.GetRxFamilyInfo() == class'Rx_FamilyInfo_GDI_Engineer')
+	if(Recipient.GetRxFamilyInfo() == class'AGN_FamilyInfo_GDI_Engineer')
 		return true;
 		
-	if(Recipient.GetRxFamilyInfo() == class'Rx_FamilyInfo_Nod_Soldier')
+	if(Recipient.GetRxFamilyInfo() == class'AGN_FamilyInfo_Nod_Soldier')
 	 	return true;
-	if(Recipient.GetRxFamilyInfo() == class'Rx_FamilyInfo_Nod_Shotgunner')
+	if(Recipient.GetRxFamilyInfo() == class'AGN_FamilyInfo_Nod_Shotgunner')
 		return true;
-	if(Recipient.GetRxFamilyInfo() == class'Rx_FamilyInfo_Nod_FlameTrooper')
+	if(Recipient.GetRxFamilyInfo() == class'AGN_FamilyInfo_Nod_FlameTrooper')
 		return true;
-	if(Recipient.GetRxFamilyInfo() == class'Rx_FamilyInfo_Nod_Marksman')
+	if(Recipient.GetRxFamilyInfo() == class'AGN_FamilyInfo_Nod_Marksman')
 		return true;
-	if(Recipient.GetRxFamilyInfo() == class'Rx_FamilyInfo_Nod_Engineer')
+	if(Recipient.GetRxFamilyInfo() == class'AGN_FamilyInfo_Nod_Engineer')
 		return true;		
 		
 	return false;	
@@ -71,8 +71,8 @@ function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, AGN_Crate
 {
 	RecipientPRI.SetChar(
 		(Recipient.GetTeamNum() == TEAM_GDI ?
-		class'Rx_PurchaseSystem'.default.GDIInfantryClasses[RandRange(5,class'Rx_PurchaseSystem'.default.GDIInfantryClasses.Length-1)] : 
-		class'Rx_PurchaseSystem'.default.NodInfantryClasses[RandRange(5,class'Rx_PurchaseSystem'.default.NodInfantryClasses.Length-1)]),
+		class'AGN_Veh_PurchaseSystem'.default.GDIInfantryClasses[RandRange(5,class'AGN_Veh_PurchaseSystem'.default.GDIInfantryClasses.Length-1)] : 
+		class'AGN_Veh_PurchaseSystem'.default.NodInfantryClasses[RandRange(5,class'AGN_Veh_PurchaseSystem'.default.NodInfantryClasses.Length-1)]),
 		Recipient);
 }
 
