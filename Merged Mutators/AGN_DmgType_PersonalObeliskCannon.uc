@@ -22,9 +22,9 @@ defaultproperties
 	BleedCount=8
 	
 	////Infantry Armour Types//////
-	Inf_FLAKDamageScaling = 0.95     //FLAK infantry armour (Standard rule is splash damage does  50% less, while gun damage does 30% more)
-	Inf_KevlarDamageScaling = 0.95	//Kevlar (General rule is 15% less damage from direct hits/bullets, but no penalties) - EDIT: 20% -Remotes OP 
-	Inf_LazarusDamageScaling = 0.95  // Lazarus SBH armour, standard rule is +40% to Electrical damage but likely no other damage modifiers.
+	Inf_FLAKDamageScaling = 1.00     //FLAK infantry armour (Standard rule is splash damage does  50% less, while gun damage does 30% more)
+	Inf_KevlarDamageScaling = 1.00	//Kevlar (General rule is 15% less damage from direct hits/bullets, but no penalties) - EDIT: 20% -Remotes OP 
+	Inf_LazarusDamageScaling = 1.00  // Lazarus SBH armour, standard rule is +40% to Electrical damage but likely no other damage modifiers.
 
 	
 	KDamageImpulse=20000
