@@ -232,6 +232,11 @@ reliable server function SetRepairPadsForMaps()
 	//CNC-Mesa
 	AddRepairPad("CNC-Mesa", "GDI", vect(-5063.855957, 1628.243286, 35.749413), rot(0, 0, 0));
 	AddRepairPad("CNC-Mesa", "Nod", vect(2659.239258, -3863.669922, 47.344437), rot(0, 0, 0));
+	
+	//CNC-Goldrush
+	AddRepairPad("CNC-Goldrush", "GDI", vect(9459.473633, 22183.117188, -30.831394), rot(0, 0, 0));
+	AddRepairPad("CNC-Goldrush", "Nod", vect(27328, 17328, -18.5), rot(0, 0, 0));
+
 }
 
 reliable server function createPad()
