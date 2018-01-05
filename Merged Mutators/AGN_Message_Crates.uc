@@ -31,19 +31,18 @@ static function string GetString(optional int Switch, optional bool bPRI1HUD, op
         {
             return RelatedPRI_1.PlayerName $ " found a beacon crate!";
         }
-		if(Switch == 1005)
-		{
-			return RelatedPRI_1.PlayerName $ " found a base defense EMP crate!"; 
-		}
-		if(Switch == 1006)
-		{
-			return RelatedPRI_1.PlayerName $ " found a mega speed crate!"; 
-		}
-		if(Switch == 1007)
-		{
-			                                        // plz dont 'fix caps' on this, it is grammatically correct :P
-			return RelatedPRI_1.PlayerName $ " found a Personal Obelisk Cannon crate!"; 
-		}
+        if(Switch == 1005)
+	{
+	    return RelatedPRI_1.PlayerName $ " found a base defense EMP crate!"; 
+	}
+	if(Switch == 1006)
+	{
+	    return RelatedPRI_1.PlayerName $ " found a mega speed crate!"; 
+	}
+	if(Switch == 1007)
+	{
+	    return RelatedPRI_1.PlayerName $ " found a Personal Obelisk Cannon crate!"; 
+	}
     }
     return Repl(default.PickupBroadcastMessages[Switch], "`PlayerName`", RelatedPRI_1.PlayerName);
 }
