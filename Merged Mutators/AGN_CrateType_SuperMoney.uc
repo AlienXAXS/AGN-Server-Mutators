@@ -25,7 +25,7 @@ function string GetGameLogMessage(Rx_PRI RecipientPRI, AGN_CratePickup CratePick
 
 function string GetPickupMessage()
 {
-	return Repl("You found a Super Money crate and have shared `credsum` credits with your team!", "`credsum`", credits, false);
+	return Repl("You found a Super Money crate and have shared `credsum` credits to each teammate!", "`credsum`", credits, false);
 }
 
 function float GetProbabilityWeight(Rx_Pawn Recipient, AGN_CratePickup CratePickup)
