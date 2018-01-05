@@ -43,6 +43,25 @@ function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, AGN_Crate
     }
 }
 
+function float GetProbabilityWeight(Rx_Pawn Recipient, AGN_CratePickup CratePickup)
+{
+    local float Probability;
+    Probability = Super.GetProbabilityWeight(Recipient,CratePickup);
+
+    if (isSBH(Recipient)) // Don't give if it's an SBH.
+        return 0;
+
+        return Probability;
+    }
+
+  function bool isSBH(Rx_Pawn Recipient)
+    {
+        if(Recipient.GetRxFamilyInfo() == class'AGN_FamilyInfo_Nod_StealthBlackHand' || class'Rx_FamilyInfo_Nod_StealthBlackHand')
+            return true;
+
+        return false;
+    }
+
 defaultproperties
 {
     BroadcastMessageIndex=1007
