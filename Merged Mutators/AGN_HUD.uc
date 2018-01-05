@@ -188,13 +188,6 @@ function Message( PlayerReplicationInfo PRI, coerce string Msg, name MsgType, op
 			fMsg $= "<font color='#00FF00'>" $ CleanHTMLMessage(Msg) $ "</font>";
 		} else if ( cName != "Host" ) {
 			fMsg $= CleanHTMLMessage(Msg);
-			
-		//if ( PRI != None && PRI.bModeratorOnly ) Please check this code, it should make mod's chat pink.
-		//{
-			//fMsg $= "<font color='#F00C93'>" $ CleanHTMLMessage(Msg) $ "</font>";
-		//} else if ( cName != "Host" ) {
-			//fMsg $= CleanHTMLMessage(Msg);
-		//}
 		PublicChatMessageLog $= "\n" $ fMsg;
 		rMsg = cName $": "$ Msg;
 	}
