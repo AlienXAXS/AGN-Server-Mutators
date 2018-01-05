@@ -73,8 +73,8 @@ function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, AGN_Crate
 		
 		// NOD POWER OFFLINE HERE
 		
-		class'AGN_UtilitiesX'.Static.SendMessageToPlayersInTeam(TEAM_GDI, "INFORMATION: Nod BASE POWER OFFLINED BY CRATE PICKUP (" $ string(RestorePowerInSeconds) $ " Seconds)");
-		class'AGN_UtilitiesX'.Static.SendMessageToPlayersInTeam(TEAM_NOD, "WARNING: BASE POWER OFFLINE BY CRATE PICKUP (" $ string(RestorePowerInSeconds) $ " Seconds)!", 'Red');
+		class'AGN_UtilitiesX'.Static.SendMessageToPlayersInTeam(TEAM_GDI, "INFORMATION: NOD BASE POWER DISABLED BY CRATE PICKUP (" $ string(RestorePowerInSeconds) $ " Seconds)");
+		class'AGN_UtilitiesX'.Static.SendMessageToPlayersInTeam(TEAM_NOD, "WARNING: BASE POWER DISABLED BY CRATE PICKUP (" $ string(RestorePowerInSeconds) $ " Seconds)!", 'Red');
 		
 		
 		/* SEND AUDIO
@@ -102,8 +102,8 @@ function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, AGN_Crate
 		
 		// GDI POWER OFFLINE
 		
-		class'AGN_UtilitiesX'.Static.SendMessageToPlayersInTeam(TEAM_GDI, "WARNING: BASE POWER OFFLINE BY CRATE PICKUP (" $ string(RestorePowerInSeconds) $ " Seconds)!", 'Red');
-		class'AGN_UtilitiesX'.Static.SendMessageToPlayersInTeam(TEAM_NOD, "INFORMATION: Nod BASE POWER OFFLINED BY CRATE PICKUP (" $ string(RestorePowerInSeconds) $ " Seconds)");
+		class'AGN_UtilitiesX'.Static.SendMessageToPlayersInTeam(TEAM_GDI, "WARNING: GDI BASE POWER DISABLED BY CRATE PICKUP (" $ string(RestorePowerInSeconds) $ " Seconds)!", 'Red');
+		class'AGN_UtilitiesX'.Static.SendMessageToPlayersInTeam(TEAM_NOD, "INFORMATION: NOD BASE POWER DISABLED BY CRATE PICKUP (" $ string(RestorePowerInSeconds) $ " Seconds)");
 		
 		/* SEND AUDIO
 			RX_EVA_VoiceClips.gdi_EVA.S_EVA_GDI_GDIPowerPlant_PowerOffline_Cue
