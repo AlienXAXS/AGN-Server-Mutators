@@ -79,6 +79,10 @@ static function string GetWeaponNameIncludingCustomWeapons(UTWeapon WeaponClass)
 		return "Tiberium Flechette Rifle";
 	else if ( WeaponClass.IsA('AGN_Weapon_PersonalObeliskCannon') )
 		return "Personal Obelisk Cannon";
+	else if ( WeaponClass.IsA('AGN_Weapon_NuclearStrikeBeacon') )
+		return "Nuclear Strike Beacon";
+	else if ( WeaponClass.IsA('AGN_Weapon_IonCannonBeacon') )
+		return "Ion Cannon Beacon";
 	else
 		return WeaponClass.ItemName;
 }
