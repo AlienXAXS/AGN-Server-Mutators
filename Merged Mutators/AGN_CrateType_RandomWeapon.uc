@@ -1,17 +1,17 @@
-/* 
+/*
  * YOU ARE NOT UNDER ANY CIRCUMSTANCES ALLOWED TO REDISTRUBUTE OR USE THE SOURCE CODE IN ANY NON-AGN SERVER WITHOUT THE WRITTEN PERMISSION BY THE OWNER.
- * 
+ *
  * THE FILES CONTAINED WITHIN ARE COPYRIGHT VIRTUAL PRIVATE SERVER SOLUTIONS LTD (https://beta.companieshouse.gov.uk/company/10750173).
- * 
+ *
  * IF YOU WISH TO USE THESE FILES, INCLUDING ANY OF IT'S CONTENT FOR YOUR OWN WORK, ONCE AGAIN YOU WILL HAVE TO HAVE WRITTEN PERMISSION FROM THE CONTENT OWNER https://www.vps-solutions.co.uk
- * 
+ *
  * BY BROWSING THIS CONTENT YOU HEREBY AGREE TO THE VPS-SOLUTIONS TERMS OF SERVICE (https://www.vps-solutions.co.uk/terms-of-service.php)
  */
 
 class AGN_CrateType_RandomWeapon extends AGN_CrateType
     transient
     config(AGN_Crates);
-	
+
 var config float ProbabilityIncreaseWhenInfantryProductionDestroyed;
 var class<Rx_Weapon> WeaponClass;
 var array< class<Rx_Weapon> > WeaponList;
@@ -24,14 +24,16 @@ function string GetGameLogMessage(Rx_PRI RecipientPRI, AGN_CratePickup CratePick
 function string GetPickupMessage()
 {
 	local string wepName;
-	
+
 	if ( WeaponClass.IsA('AGN_Weapon_PersonalIonCannon') )
 		wepName = "Personal Unicorn Cannon";
 	else if ( WeaponClass.IsA('AGN_Weapon_TiberiumFlechetteRifle') )
 		wepName = "Tiberium Flechette Rifle";
+	else if ( WeaponClass.IsA('AGN_Weapon_Carbine_Silencer') )
+		wepName = "Silenced Carbine";
 	else
 		wepName = WeaponClass.default.PickupMessage;
-		
+
     return "You were given a " $ wepName $ "!";
 }
 
@@ -58,7 +60,7 @@ function float GetProbabilityWeight(Rx_Pawn Recipient, AGN_CratePickup CratePick
 
   function bool isSBH(Rx_Pawn Recipient)
     {
-        if(Recipient.GetRxFamilyInfo() == class'Rx_FamilyInfo_Nod_StealthBlackHand')
+        if (class<Rx_FamilyInfo_Nod_StealthBlackHand>(Recipient.GetRxFamilyInfo()) != )
             return true;
 
         return false;
@@ -109,4 +111,3 @@ defaultproperties
     BroadcastMessageIndex=1002
     PickupSound=SoundCue'Rx_Pickups.Sounds.SC_Pickup_Ammo'
 }
-
