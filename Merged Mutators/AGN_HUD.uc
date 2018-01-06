@@ -191,7 +191,7 @@ function Message( PlayerReplicationInfo PRI, coerce string Msg, name MsgType, op
 		{
 			fMsg $= "<font color='#00FF00'>" $ CleanHTMLMessage(Msg) $ "</font>";
 		} else if ( cName == "[AGN] Sarah" ) {
-			fMsg $= "<font color='#A020F0'>" $ CleanHTMLMessage(Msg) $ "</font>";
+			fMsg $= "<font color='#FF00FF'>" $ CleanHTMLMessage(Msg) $ "</font>";
 		} else if ( cName != "Host" ) {
 			fMsg $= CleanHTMLMessage(Msg);
 			PublicChatMessageLog $= "\n" $ fMsg;
