@@ -91,7 +91,7 @@ function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, AGN_Crate
 defaultproperties
 {
     WeaponList(0)=class'Rx_Weapon_VoltAutoRifle_GDI'
-    WeaponList(1)=class'AGN_Weapon_TiberiumFlechetteRifle'
+    WeaponList(11)=class'Rx_Weapon_LaserRifle'
     WeaponList(2)=class'Rx_Weapon_TacticalRifle'
     WeaponList(3)=class'Rx_Weapon_GrenadeLauncher'
     WeaponList(4)=class'Rx_Weapon_Shotgun'
@@ -108,7 +108,6 @@ defaultproperties
     WeaponList(15)=class'Rx_Weapon_HeavyPistol'
     WeaponList(16)=class'AGN_Weapon_Carbine_Silencer'
     WeaponList(17)=class'Rx_Weapon_LaserChainGun'
-    WeaponList(18)=class'Rx_Weapon_LaserRifle'
     BroadcastMessageIndex=1002
     PickupSound=SoundCue'Rx_Pickups.Sounds.SC_Pickup_Ammo'
 }
