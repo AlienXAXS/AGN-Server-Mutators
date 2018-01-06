@@ -12,17 +12,17 @@ defaultproperties
 
 	// Weapon SkeletalMesh
 	Begin Object Name=FirstPersonMesh
-		SkeletalMesh=SkeletalMesh'RX_WP_Carbine.Mesh.SK_Carbine_1P'
-		AnimSets(0)=AnimSet'RX_WP_Carbine.Anims.AS_Carbine_1P'
-		Animations=MeshSequenceA
-		Scale=2.0
-		FOV=55
+	SkeletalMesh=SkeletalMesh'RX_WP_Carbine.Mesh.SK_Carbine_1P'
+	AnimSets(0)=AnimSet'RX_WP_Carbine.Anims.AS_Carbine_1P'
+	Animations=MeshSequenceA
+	Scale=2.0
+	FOV=55
 	End Object
 
 	// Weapon SkeletalMesh
 	Begin Object Name=PickupMesh
-		SkeletalMesh=SkeletalMesh'RX_WP_Carbine.Mesh.SK_Carbine_3P'
-		Scale=1.0
+	SkeletalMesh=SkeletalMesh'RX_WP_Carbine.Mesh.SK_Carbine_3P'
+	Scale=1.0
 	End Object
 
 	AttachmentClass=class'Rx_Attachment_Carbine_Silencer'
@@ -90,7 +90,7 @@ defaultproperties
 	InstantHitDamage(0)=12
 	InstantHitDamage(1)=12
 	
-	HeadShotDamageMult=2.5
+	HeadShotDamageMult=2.25
 
 	InstantHitDamageTypes(0)=class'Rx_DmgType_Carbine'
 	InstantHitDamageTypes(1)=class'Rx_DmgType_Carbine'
@@ -107,7 +107,7 @@ defaultproperties
 	bHasInfiniteAmmo=true
 	
 	FireDelayTime = 0.01
-    bCharge = true
+    	bCharge = true
 
 	ReloadAnimName(0) = "weaponreload"
 	ReloadAnimName(1) = "weaponreload2"
@@ -117,18 +117,18 @@ defaultproperties
 	ReloadArmAnimName(1) = "weaponreload2"
 	
 	WeaponPreFireAnim[0]="WeaponFireStart"
-    WeaponPreFireAnim[1]="WeaponFireStart"
-    WeaponFireAnim[0]="WeaponFireloop"
-    WeaponFireAnim[1]="WeaponFireloop"
-    WeaponPostFireAnim[0]="WeaponFireStop"
-    WeaponPostFireAnim[1]="WeaponFireStop"
+   	WeaponPreFireAnim[1]="WeaponFireStart"
+    	WeaponFireAnim[0]="WeaponFireloop"
+    	WeaponFireAnim[1]="WeaponFireloop"
+    	WeaponPostFireAnim[0]="WeaponFireStop"
+    	WeaponPostFireAnim[1]="WeaponFireStop"
 
-    ArmPreFireAnim[0]="WeaponFireStart"
-    ArmPreFireAnim[1]="WeaponFireStart"
-    ArmFireAnim[0]="WeaponFireloop"
-    ArmFireAnim[1]="WeaponFireloop"
-    ArmPostFireAnim[0]="WeaponFireStop"
-    ArmPostFireAnim[1]="WeaponFireStop"	
+    	ArmPreFireAnim[0]="WeaponFireStart"
+    	ArmPreFireAnim[1]="WeaponFireStart"
+    	ArmFireAnim[0]="WeaponFireloop"
+    	ArmFireAnim[1]="WeaponFireloop"
+    	ArmPostFireAnim[0]="WeaponFireStop"
+   	 ArmPostFireAnim[1]="WeaponFireStop"	
 	
 	WeaponADSFireAnim[0]="WeaponFireADS"
 	ArmADSFireAnim[0]="WeaponFireADS"
@@ -137,11 +137,11 @@ defaultproperties
 //	WeaponFireSnd[1]=none
 	
 	WeaponPreFireSnd[0]=none
-    WeaponPreFireSnd[1]=none
-    WeaponFireSnd[0]=SoundCue'RX_WP_Carbine.Sounds.SC_Carbine_FireLoop'
-    WeaponFireSnd[1]=none
-    WeaponPostFireSnd[0]=SoundCue'RX_WP_Carbine.Sounds.SC_Carbine_FireStop'
-    WeaponPostFireSnd[1]=none
+    	WeaponPreFireSnd[1]=none
+    	WeaponFireSnd[0]=SoundCue'RX_WP_Carbine.Sounds.SC_Carbine_FireLoop'
+    	WeaponFireSnd[1]=none
+    	WeaponPostFireSnd[0]=SoundCue'RX_WP_Carbine.Sounds.SC_Carbine_FireStop'
+    	WeaponPostFireSnd[1]=none
 
 	WeaponPutDownSnd=SoundCue'RX_WP_AutoRifle.Sounds.AutoRifle_PutDownCue'
 	WeaponEquipSnd=SoundCue'RX_WP_AutoRifle.Sounds.AutoRifle_EquipCue'
