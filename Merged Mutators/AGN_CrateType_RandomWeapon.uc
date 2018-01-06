@@ -8,6 +8,7 @@
  * BY BROWSING THIS CONTENT YOU HEREBY AGREE TO THE VPS-SOLUTIONS TERMS OF SERVICE (https://www.vps-solutions.co.uk/terms-of-service.php)
  */
 
+
 class AGN_CrateType_RandomWeapon extends AGN_CrateType
     transient
     config(AGN_Crates);
