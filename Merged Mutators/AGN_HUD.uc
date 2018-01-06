@@ -1,10 +1,10 @@
-/* 
+/*
  * YOU ARE NOT UNDER ANY CIRCUMSTANCES ALLOWED TO REDISTRUBUTE OR USE THE SOURCE CODE IN ANY NON-AGN SERVER WITHOUT THE WRITTEN PERMISSION BY THE OWNER.
- * 
+ *
  * THE FILES CONTAINED WITHIN ARE COPYRIGHT VIRTUAL PRIVATE SERVER SOLUTIONS LTD (https://beta.companieshouse.gov.uk/company/10750173).
- * 
+ *
  * IF YOU WISH TO USE THESE FILES, INCLUDING ANY OF IT'S CONTENT FOR YOUR OWN WORK, ONCE AGAIN YOU WILL HAVE TO HAVE WRITTEN PERMISSION FROM THE CONTENT OWNER https://www.vps-solutions.co.uk
- * 
+ *
  * BY BROWSING THIS CONTENT YOU HEREBY AGREE TO THE VPS-SOLUTIONS TERMS OF SERVICE (https://www.vps-solutions.co.uk/terms-of-service.php)
  */
 
@@ -24,17 +24,17 @@ function CreateHUDMovie()
     HudMovie.SetViewScaleMode(3);
     HudMovie.SetAlignment(5);
     HudMovie.RenxHud = self;
-    //return;    
+    //return;
 }
 
 function CreateHudCompoenents()
 {
 	super.CreateHudCompoenents();
-	
+
 	`log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 	`log("~ Creating AGN HUD Components ~");
 	`log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-	
+
 	AGN_HUDAdminComponent = new class'AGN_HUD_AdminComponent';
 	//AGN_HUDCrateStatus = new class'AGN_HUD_CrateStatus';
 }
@@ -105,7 +105,7 @@ function UpdateScreenCentreActor()
 
 	PotentialTarget = none;
 	WeaponAimingActor = none;
-	
+
 	//  --- AGN ---
 	// If we're using a custom projectile or custom weapon
 	// GetWeaponTargetingRange always returns zero
@@ -117,21 +117,21 @@ function UpdateScreenCentreActor()
 			OurWeapon = UTVehicle(PlayerOwner.ViewTarget).Weapon;
 		else if (UTPawn(PlayerOwner.ViewTarget) != none && UTPawn(PlayerOwner.ViewTarget).Weapon != none)
 			OurWeapon = UTPawn(PlayerOwner.ViewTarget).Weapon;
-			
+
 		if ( OurWeapon.default.WeaponRange > 0 )
 			WeaponTargetingRange = OurWeapon.default.WeaponRange;
 		else
 			WeaponTargetingRange = 10000;
 	}
-	
+
 	ClosestHit = WeaponTargetingRange;
 
 	GetCameraOriginAndDirection(CameraOrigin,CameraDirection);
-	
+
 	TraceRange = CameraOrigin + CameraDirection * WeaponTargetingRange;
 	extendedDist = VSize(CameraOrigin - PlayerOwner.ViewTarget.location);
 	TraceRange += CameraDirection * extendedDist;
-	
+
 	// This trace will ignore the view target so we don't target ourselves.
 	foreach TraceActors(class'actor',HitActor,HitLoc,HitNormal,TraceRange,CameraOrigin,vect(0,0,0),,1)
 	{
@@ -139,7 +139,7 @@ function UpdateScreenCentreActor()
 		if (Landscape(HitActor) != None)
 			break;
 		if (StaticMeshActor(HitActor) != None)
-			break;			
+			break;
 		tempDist = VSize(CameraOrigin - HitLoc) - extendedDist;
 		if (HitActor != PlayerOwner.ViewTarget && ClosestHit >= tempDist)
 		{
@@ -151,7 +151,7 @@ function UpdateScreenCentreActor()
 			break;
 		}
 	}
-	
+
 	//`log( "[Find Centre Actor] Found " $ string(PotentialTarget) $ " with a distance of " $ string(ClosestHit) );
 
 	ScreenCentreActor = PotentialTarget;
@@ -164,17 +164,17 @@ function Message( PlayerReplicationInfo PRI, coerce string Msg, name MsgType, op
 
 	if (Len(Msg) == 0)
 		return;
-	
+
 	if ( bMessageBeep )
 		PlayerOwner.PlayBeepSound();
- 
+
 	// Create Raw and Formatted Chat Messages
 
 	if (PRI != None)
 		cName = CleanHTMLMessage(PRI.PlayerName);
 	else
 		cName = "Host";
-	
+
 	if (MsgType == 'Say') {
 		if (PRI == None)
 			fMsg = "<font color='" $HostColor$"'>" $cName$"</font>: <font color='#FFFFFF'>"$CleanHTMLMessage(Msg)$"</font>";
@@ -183,9 +183,12 @@ function Message( PlayerReplicationInfo PRI, coerce string Msg, name MsgType, op
 		else if (PRI.Team.GetTeamNum() == TEAM_NOD)
 			fMsg = "<font color='" $NodColor $"'>" $cName $"</font>: ";
 	}
-		if ( PRI != None && PRI.bAdmin ) 
+		if ( PRI != None && cName == "[AGN] AlienX" )
 		{
 			fMsg $= "<font color='#00FF00'>" $ CleanHTMLMessage(Msg) $ "</font>";
+		} else if ( PRI != None && cName == "[AGN] Sarah" )
+		{
+			fMsg $= "<font color='#551A8B'>" $ CleanHTMLMessage(Msg) $ "</font>";
 		} else if ( cName != "Host" ) {
 			fMsg $= CleanHTMLMessage(Msg);
 		PublicChatMessageLog $= "\n" $ fMsg;
@@ -205,7 +208,7 @@ function Message( PlayerReplicationInfo PRI, coerce string Msg, name MsgType, op
 			rMsg = cName $": "$ Msg;
 		}
 	}
-	else if (MsgType == 'Radio') 
+	else if (MsgType == 'Radio')
 		{
 			fMsg = "<font color='" $RadioColor $"'>" $ cName $": "$ CleanHTMLMessage(Msg) $"</font>";
 			//PublicChatMessageLog $= "\n" $ fMsg;
@@ -234,7 +237,7 @@ function Message( PlayerReplicationInfo PRI, coerce string Msg, name MsgType, op
 	else
 		bEVA = true;
 
-	// Add to currently active GUI | Edit by Yosh : Don't bother spamming the non-HUD chat logs with radio messages... it's pretty pointless for them to be there. 
+	// Add to currently active GUI | Edit by Yosh : Don't bother spamming the non-HUD chat logs with radio messages... it's pretty pointless for them to be there.
 	if (bEVA)
 	{
 		if (HudMovie != none && HudMovie.bMovieIsOpen)
@@ -250,7 +253,7 @@ function Message( PlayerReplicationInfo PRI, coerce string Msg, name MsgType, op
 				Scoreboard.AddChatMessage(fMsg, rMsg);
 			}
 		}
-		
+
 		if (RxPauseMenuMovie != none && MsgType != 'Radio' && RxPauseMenuMovie.bMovieIsOpen) {
 			if (RxPauseMenuMovie.ChatView != none) {
 				RxPauseMenuMovie.ChatView.AddChatMessage(fMsg, rMsg, MsgType=='PM' || MsgType=='PM_Loopback');
@@ -259,7 +262,6 @@ function Message( PlayerReplicationInfo PRI, coerce string Msg, name MsgType, op
 
 	}
 }
-
 
 function LocalizedMessage
 (
@@ -331,9 +333,9 @@ function LocalizedMessage
 		}
 	}
 	else if (InMessageClass == class'AGN_CratePickup'.default.MessageClass)
-	{ 
+	{
 		HudMovie.AddEVAMessage(CriticalString);
-	} 
+	}
 	else if (InMessageClass == class'Rx_Message_Deployed')
 	{
 		if (Switch == -1)
