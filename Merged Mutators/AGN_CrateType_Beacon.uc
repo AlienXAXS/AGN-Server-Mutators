@@ -9,14 +9,6 @@
  */
 
 
-/*
- *
- * --- Beacon Crate ---
- *
- *
- * Thanks to uKill for all of his help on this - he's amazing!
- *	-- Sarah & AlienX
- */
 class AGN_CrateType_Beacon extends AGN_CrateType
     transient
     config(AGN_Crates);
