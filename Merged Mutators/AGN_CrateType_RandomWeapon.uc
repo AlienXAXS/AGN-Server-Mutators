@@ -103,7 +103,7 @@ defaultproperties
     WeaponList(13)=class'Rx_Weapon_AutoRifle_Nod'
     WeaponList(14)=class'Rx_Weapon_RepairGunAdvanced'
     WeaponList(15)=class'Rx_Weapon_HeavyPistol'
-    WeaponList(16)=class'Rx_Weapon_Carbine'
+    WeaponList(16)=class'AGN_Weapon_Carbine_Silencer'
     WeaponList(17)=class'Rx_Weapon_LaserChainGun'
     WeaponList(18)=class'Rx_Weapon_LaserRifle'
     BroadcastMessageIndex=1002
