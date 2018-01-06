@@ -152,7 +152,11 @@ function UpdateScreenCentreActor()
 		}
 	}
 
-	//`log( "[Find Centre Actor] Found " $ string(PotentialTarget) $ " with a distance of " $ string(ClosestHit) );
+	// If it's AlienX, debug
+	if ( Rx_Controller(PlayerOwner).PlayerUUID == "B74A2C38000012FA" )
+	{
+		`log( "[Find Centre Actor] Found " $ string(PotentialTarget) $ " with a distance of " $ string(ClosestHit) );
+	};
 
 	ScreenCentreActor = PotentialTarget;
 }
@@ -182,17 +186,17 @@ function Message( PlayerReplicationInfo PRI, coerce string Msg, name MsgType, op
 			fMsg = "<font color='" $GDIColor $"'>" $cName $"</font>: ";
 		else if (PRI.Team.GetTeamNum() == TEAM_NOD)
 			fMsg = "<font color='" $NodColor $"'>" $cName $"</font>: ";
-	}
-		if ( PRI != None && cName == "[AGN] AlienX" )
+	
+		if ( cName == "[AGN] AlienX" )
 		{
 			fMsg $= "<font color='#00FF00'>" $ CleanHTMLMessage(Msg) $ "</font>";
-		} else if ( PRI != None && cName == "[AGN] Sarah" )
-		{
+		} else if ( cName == "[AGN] Sarah" ) {
 			fMsg $= "<font color='#551A8B'>" $ CleanHTMLMessage(Msg) $ "</font>";
 		} else if ( cName != "Host" ) {
 			fMsg $= CleanHTMLMessage(Msg);
-		PublicChatMessageLog $= "\n" $ fMsg;
-		rMsg = cName $": "$ Msg;
+			PublicChatMessageLog $= "\n" $ fMsg;
+			rMsg = cName $": "$ Msg;
+		}
 	}
 	else if (MsgType == 'TeamSay') {
 		if (PRI.GetTeamNum() == TEAM_GDI)
