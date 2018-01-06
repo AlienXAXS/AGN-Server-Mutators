@@ -60,7 +60,7 @@ function float GetProbabilityWeight(Rx_Pawn Recipient, AGN_CratePickup CratePick
 
   function bool isSBH(Rx_Pawn Recipient)
     {
-        if (class<Rx_FamilyInfo_Nod_StealthBlackHand>(Recipient.GetRxFamilyInfo()) != )
+        if (class<Rx_FamilyInfo_Nod_StealthBlackHand>(Recipient.GetRxFamilyInfo()) != None)
             return true;
 
         return false;
