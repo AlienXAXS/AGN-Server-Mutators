@@ -17,6 +17,11 @@ function string GetGameLogMessage(Rx_PRI RecipientPRI, AGN_CratePickup CratePick
 	return "GAME" `s "Crate;" `s "refill" `s "by" `s `PlayerLog(RecipientPRI);
 }
 
+function string GetPickupMessage()
+{
+    return "You feel refreshed!";
+}
+
 function float GetProbabilityWeight(Rx_Pawn Recipient, AGN_CratePickup CratePickup)
 {
 	LogInternal("Refill GetProbabilityWeight returning " @ super.GetProbabilityWeight(Recipient,CratePickup));
