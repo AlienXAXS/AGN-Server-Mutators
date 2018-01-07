@@ -243,7 +243,7 @@ reliable server function MutateHandler(string MutateString, PlayerController Sen
             AGNAdmin_DespawnCrates(Sender);
         }else if ( MutateStringSplit[1] ~= "dump_actors" )
         {
-            class'AGN_UtilitiesX'.static.DumpAllActors();
+            class'AGN_UtilitiesX'.static.DumpAllActors(Sender);
         } else {
             Sender.ClientMessage("[AGN-Crates-Admin] Unknown command");
         }
