@@ -57,8 +57,8 @@ function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, AGN_Crate
 {
 	RecipientPRI.SetChar(
 		(Recipient.GetTeamNum() == TEAM_NOD ?
-		class'Rx_PurchaseSystem'.default.GDIInfantryClasses[Rand(14)] : 
-		class'Rx_PurchaseSystem'.default.NodInfantryClasses[Rand(14)]),
+		class'AGN_Veh_PurchaseSystem'.default.GDIInfantryClasses[Rand(14)] : 
+		class'AGN_Veh_PurchaseSystem'.default.NodInfantryClasses[Rand(14)]),
 		Recipient);
 	RecipientPRI.SetIsSpy(true);	
 }
