@@ -12,7 +12,6 @@
 class AGN_CrateType_MegaSpeed extends AGN_CrateType
     config(AGN_Crates);
 
-var int SpeedBoostPercent;
 var bool isActive; // Tracks if the crate is active or not
 var Rx_Pawn ActivePawn;
 
@@ -28,7 +27,7 @@ function string GetPickupMessage()
 
 function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, AGN_CratePickup CratePickup)
 {
-    Recipient.SpeedUpgradeMultiplier = 2;
+    Recipient.SpeedUpgradeMultiplier = 1.5f;
     Recipient.UpdateRunSpeedNode();
     Recipient.SetGroundSpeed();
 
@@ -69,6 +68,5 @@ DefaultProperties
 {
     BroadcastMessageIndex = 1006
     //PickupSound = SoundCue'Rx_Pickups.Sounds.SC_Crate_Refill' // This is not a refill, turn this off.
-    SpeedBoostPercent = 100 //Double speed
 }
 
