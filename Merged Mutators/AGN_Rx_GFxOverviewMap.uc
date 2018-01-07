@@ -27,6 +27,130 @@ function AddVehicleCount2(Rx_Vehicle RxV, class<Rx_Vehicle> TargetClass, class<R
     ++ Count;
 }
 
+function UpdateActorBlips()
+{
+	local Pawn P;
+	local Rx_Pawn RxP;
+	local Rx_Vehicle RxV;
+	local byte TeamVisibility; 
+	local Rx_Weapon_DeployedBeacon B;
+	local Rx_Weapon_DeployedProxyC4 DeployedProxyC4;
+
+	local array<Actor> GDI;
+	local array<Actor> GDIVehicle;
+	local array<Actor> Nod;
+	local array<Actor> NodVehicle;
+	local array<Actor> Neutral;
+	local array<Actor> NeutralVehicle;
+
+	foreach ThisWorld.AllPawns(class'Pawn', P)
+	{	
+		//if(P.Controller != none && Rx_Controller(P.Controller) !=none ) TeamVisibility = Rx_Controller(P.Controller).RadarVisibility; 
+		
+		if(Rx_Pawn(P) != none ) TeamVisibility = Rx_Pawn(P).RadarVisibility; 
+		else
+		if(Rx_Vehicle(P) != none )  TeamVisibility = Rx_Vehicle(P).RadarVisibility; 
+		
+		if (P.bHidden  
+			|| (P.Health <= 0) 
+			|| (P.DrivenVehicle != none)
+			//|| P.PlayerReplicationInfo == none    (NOTE: enabling this cause the vehicle to exit early.)
+			|| P == Pawn(RxPC.ViewTarget)
+			|| (TeamVisibility == 0)) 
+		{
+			//`log("Skipped Pawn --- ---" @ P @ "for: Visibility" @ TeamVisibility @ "Health:" @ P.Health @ "Driving Vehicle:" @ P.DrivenVehicle @ "Was view target : " @  P == Pawn(RxPC.ViewTarget)); 
+			continue;
+		}
+		RxP = Rx_Pawn(P);
+		RxV = Rx_Vehicle(P);
+		
+		if ((RxP == none) && (RxV == none)) continue;
+
+		if (Rx_Defence(P) != none) continue;
+
+		switch (P.GetTeamNum())
+		{
+			case TEAM_GDI:
+				if (RxP != none )
+				{
+					if(!RxP.isSpy()) GDI.AddItem(P);
+					else
+					Nod.AddItem(P);
+				}
+				else if (RxV != none)
+				{
+					GDIVehicle.AddItem(P);
+				}
+				break;
+			case TEAM_NOD:
+				if (RxP != none)
+				{
+					if(!RxP.isSpy()) Nod.AddItem(P);
+					else
+					GDI.AddItem(P); 
+				}
+				else if (RxV != none)
+				{
+					NodVehicle.AddItem(P);
+				}
+				break;
+			default:
+				if (RxP != none)
+				{
+					Neutral.AddItem(P);
+				}
+				else if (RxV != none)
+				{
+					NeutralVehicle.AddItem(P);
+				}
+				break;
+		}	
+		IconRotationOffset = 0;//180;
+	}
+
+	//Add deployed beacons to the vehicle array (nBab)
+	foreach ThisWorld.DynamicActors(class'Rx_Weapon_DeployedBeacon', B)
+	{
+		switch (B.GetTeamNum())
+		{
+			case TEAM_GDI:
+				GDIVehicle.AddItem(B);
+				break;
+			case TEAM_NOD:
+				NodVehicle.AddItem(B);
+				break;
+			default:
+				NeutralVehicle.AddItem(B);
+				break;
+		}
+	}
+	
+	//Add deployed beacons to the vehicle array (nBab)
+	foreach ThisWorld.DynamicActors(class'Rx_Weapon_DeployedProxyC4', DeployedProxyC4)
+	{
+		switch (DeployedProxyC4.GetTeamNum())
+		{
+			case TEAM_GDI:
+				GDIVehicle.AddItem(DeployedProxyC4);
+				break;
+			case TEAM_NOD:
+				NodVehicle.AddItem(DeployedProxyC4);
+				break;
+			default:
+				NeutralVehicle.AddItem(DeployedProxyC4);
+				break;
+		}
+	}
+	
+
+ 	UpdateIcons(GDI, GDITeamIcons, TEAM_GDI, false);
+ 	UpdateIcons(GDIVehicle, GDIVehicleIcons, TEAM_GDI, true);
+  	UpdateIcons(Nod, NodTeamIcons, TEAM_NOD, false);
+  	UpdateIcons(NodVehicle, NodVehicleIcons, TEAM_NOD, true);
+  	UpdateIcons(Neutral, NeutralIcons, TEAM_UNOWNED, false);
+  	UpdateIcons(NeutralVehicle, NeutralVehicleIcons, TEAM_UNOWNED, true);
+}
+
 function UpdatePawnInfoCount(  )
 {
 	local Pawn P;
@@ -399,6 +523,18 @@ function UpdateIcons(out array<Actor> Actors, out array<GFxObject> ActorIcons, T
 			//Only show the blip if on the same team (nBab)
 			if (GetPC().Pawn.getTeamNum() == Actors[i].getTeamNum())
 				displayInfo.Visible = true;
+			displayInfo.Rotation = 0;
+		}
+		
+		if (Rx_Weapon_DeployedProxyC4(Actors[i]) != None)
+		{
+			if (Actors[i].isA('Rx_Weapon_DeployedProxyC4'))
+				LoadTexture("img://" $ PathName(Texture2D'RenxHud.T_Beacon_Star'), ActorIcons[i].GetObject("vehicleG"));
+
+			//Only show the blip if on the same team (nBab)
+			if (GetPC().Pawn.getTeamNum() == Actors[i].getTeamNum())
+				displayInfo.Visible = true;
+				
 			displayInfo.Rotation = 0;
 		}
 
