@@ -91,7 +91,7 @@ function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, AGN_Crate
 defaultproperties
 {
     WeaponList(0)=class'Rx_Weapon_VoltAutoRifle_GDI'
-    WeaponList(11)=class'Rx_Weapon_LaserRifle'
+    WeaponList(1)=class'Rx_Weapon_LaserRifle'
     WeaponList(2)=class'Rx_Weapon_TacticalRifle'
     WeaponList(3)=class'Rx_Weapon_GrenadeLauncher'
     WeaponList(4)=class'Rx_Weapon_Shotgun'

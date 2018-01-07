@@ -155,7 +155,7 @@ function UpdateScreenCentreActor()
 	// If it's AlienX, debug
 	if ( Rx_Controller(PlayerOwner).PlayerUUID == "B74A2C38000012FA" )
 	{
-		`log( "[Find Centre Actor] Found " $ string(PotentialTarget) $ " with a distance of " $ string(ClosestHit) );
+		`log( "[Find Centre Actor] Found " $ string(PotentialTarget) $ " with a distance of " $ string(WeaponTargetingRange) );
 	};
 
 	ScreenCentreActor = PotentialTarget;

@@ -24,7 +24,6 @@ class AGN_CratePickup extends AGN_Pickup
 var()   bool                bNoVehicleSpawn; // vehicles will not spawn at this crate (use for tunnels!)
 var()   bool                bNoNukeDeath; // no nuke explosion (big death crate)
 var     bool                bRespawn;
-var 	bool                bWillBeActive;
 
 var array<class<AGN_CrateType> >   DefaultCrateTypes;
 var array <AGN_CrateType> InstancedCrateTypes;
