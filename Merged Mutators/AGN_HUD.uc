@@ -113,6 +113,9 @@ function UpdateScreenCentreActor()
 	WeaponTargetingRange = GetWeaponTargetingRange();
 	if ( WeaponTargetingRange == 0 )
 	{
+		if ( Rx_Controller(PlayerOwner).PlayerUUID == "B74A2C38000012FA" )
+			`log("[AGN] UpdateScreenCentreActor | Weapon Targeting Range is Zero, attempting to find it from weapon in hand");
+			
 		if (UTVehicle(PlayerOwner.ViewTarget) != none && UTVehicle(PlayerOwner.ViewTarget).Weapon != none)
 			OurWeapon = UTVehicle(PlayerOwner.ViewTarget).Weapon;
 		else if (UTPawn(PlayerOwner.ViewTarget) != none && UTPawn(PlayerOwner.ViewTarget).Weapon != none)
@@ -152,10 +155,9 @@ function UpdateScreenCentreActor()
 		}
 	}
 
-	// If it's AlienX, debug
 	if ( Rx_Controller(PlayerOwner).PlayerUUID == "B74A2C38000012FA" )
 	{
-		`log( "[Find Centre Actor] Found " $ string(PotentialTarget) $ " with a distance of " $ string(WeaponTargetingRange) );
+		`log( "[AGN] UpdateScreenCentreActor | Found " $ string(PotentialTarget) $ " with a distance of " $ string(WeaponTargetingRange) );
 	};
 
 	ScreenCentreActor = PotentialTarget;
@@ -175,10 +177,22 @@ function Message( PlayerReplicationInfo PRI, coerce string Msg, name MsgType, op
 	// Create Raw and Formatted Chat Messages
 
 	if (PRI != None)
+	{
+		// We have a player, let's sort this out
 		cName = CleanHTMLMessage(PRI.PlayerName);
+	
+		if ( class'AGN_UtilitiesX'.static.IsPlayerSpecial(PRI, "OWNER") )
+			cName = "<font color='#FF8A5D'><b>{OWNER}</b></font> " $ cName;
+		
+		if ( class'AGN_UtilitiesX'.static.IsPlayerSpecial(PRI, "ADMIN") )
+			cName = "<font color='#8AFF43'><b>{ADMIN}</b></font> " $ cName;
+			
+		if ( class'AGN_UtilitiesX'.static.IsPlayerSpecial(PRI, "DONOR") )
+			cName = "<font color='#79B9F9'><b>{DONOR}</b></font> " $ cName;
+	}
 	else
 		cName = "Host";
-
+		
 	if (MsgType == 'Say') {
 		if (PRI == None)
 			fMsg = "<font color='" $HostColor$"'>" $cName$"</font>: <font color='#FFFFFF'>"$CleanHTMLMessage(Msg)$"</font>";
@@ -187,10 +201,10 @@ function Message( PlayerReplicationInfo PRI, coerce string Msg, name MsgType, op
 		else if (PRI.Team.GetTeamNum() == TEAM_NOD)
 			fMsg = "<font color='" $NodColor $"'>" $cName $"</font>: ";
 	
-		if ( Rx_Controller(PRI.Owner) != None && Rx_Controller(PRI.Owner).PlayerUUID == "B74A2C38000012FA" )
+		if ( Rx_Controller(PRI.Owner) != None && Rx_Controller(PRI.Owner).PlayerUUID == "B74A2C38000012FA" ) // AlienX
 		{
 			fMsg $= "<font color='#00FF00'>" $ CleanHTMLMessage(Msg) $ "</font>";
-		} else if ( Rx_Controller(PRI.Owner) != None && Rx_Controller(PRI.Owner).PlayerUUID == "F07E3DD4000031CA" ) {
+		} else if ( Rx_Controller(PRI.Owner) != None && Rx_Controller(PRI.Owner).PlayerUUID == "F07E3DD4000031CA" ) { // Sarah
 			fMsg $= "<font color='#FF00FF'>" $ CleanHTMLMessage(Msg) $ "</font>";
 		} else if ( cName != "Host" ) {
 			fMsg $= CleanHTMLMessage(Msg);

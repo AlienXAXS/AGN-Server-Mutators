@@ -91,3 +91,27 @@ static function string GetWeaponNameIncludingCustomWeapons(UTWeapon WeaponClass)
 		return WeaponClass.ItemName;
 }
 
+static function bool IsPlayerSpecial(PlayerReplicationInfo pri, string SpecialHow)
+{
+	local string PlayerUUID;
+	
+	if ( Rx_Controller(PRI.Owner) != None )
+	{
+		PlayerUUID = Rx_Controller(PRI.Owner).PlayerUUID;
+
+		if ( SpecialHow == "OWNER" )
+			if ( PlayerUUID == "B74A2C38000012FA" ) // AlienX
+				return true;
+				
+		if ( SpecialHow == "ADMIN" )
+			if ( PlayerUUID == "F07E3DD4000031CA" ) //Sarah
+				return true;
+				
+		if ( SpecialHow == "DONOR" )
+			if ( PlayerUUID == "EF8ACBD80000AFE5" ) //Hackerham
+				return true;
+	}
+	
+	return false;
+}
+
