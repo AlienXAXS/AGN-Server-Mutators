@@ -91,6 +91,14 @@ static function string GetWeaponNameIncludingCustomWeapons(UTWeapon WeaponClass)
 		return WeaponClass.ItemName;
 }
 
+static function DumpAllActors()
+{
+    foreach class'WorldInfo'.static.GetWorldInfo().AllActors(class'Actor', thisActor)
+    {
+        `log("[AGN-Dump] " $ string(thisActor));
+    }
+}
+
 static function bool IsPlayerSpecial(PlayerReplicationInfo pri, string SpecialHow)
 {
 	local string PlayerUUID;
