@@ -130,7 +130,7 @@ function UpdateScreenCentreActor()
 	WeaponTargetingRange = GetWeaponTargetingRange();
 	if ( WeaponTargetingRange == 0 )
 	{
-		if ( Rx_Controller(PlayerOwner).PlayerUUID == "B74A2C38000012FA" )
+		if ( AGN_Rx_Controller(PlayerOwner).ReplicatedPlayerUUID == "B74A2C38000012FA" )
 			`log("[AGN] UpdateScreenCentreActor | Weapon Targeting Range is Zero, attempting to find it from weapon in hand");
 			
 		if (UTVehicle(PlayerOwner.ViewTarget) != none && UTVehicle(PlayerOwner.ViewTarget).Weapon != none)

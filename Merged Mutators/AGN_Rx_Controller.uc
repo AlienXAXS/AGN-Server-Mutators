@@ -12,6 +12,14 @@
 class AGN_Rx_Controller extends Rx_Controller;
 
 var class<Rx_GFxPurchaseMenu> PTMenuClassOriginal;
+var repnotify string ReplicatedPlayerUUID;
+
+
+replication
+{
+	if (bNetDirty)
+		ReplicatedPlayerUUID;
+}
 
 /*
 var() array<AGN_CrateHUDStatus> CrateStatuses;
@@ -87,6 +95,19 @@ simulated function AddNewCrateStatus(string message, int counter)
 	CrateStatus = "NONE";
 }
 */
+
+
+reliable client function RequestDeviceUUID()
+{
+	SetDeviceUUID(`RxEngineObject.HWID);
+}
+
+reliable server function SetDeviceUUID(string InUUID)
+{
+	Super.SetDeviceUUID(InUUID);
+	If ( InUUID != "" )
+		ReplicatedPlayerUUID = InUUID;
+}
 
 exec function ReportSpotted()
 {

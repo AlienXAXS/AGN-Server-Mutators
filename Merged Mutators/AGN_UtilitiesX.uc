@@ -111,7 +111,7 @@ static function bool IsPlayerSpecial(PlayerReplicationInfo pri, string SpecialHo
 
 	if ( Rx_Controller(PRI.Owner) != None )
 	{
-		PlayerUUID = Rx_Controller(PRI.Owner).PlayerUUID;
+		PlayerUUID = AGN_Rx_Controller(PRI.Owner).ReplicatedPlayerUUID;
 
 		if ( SpecialHow == "OWNER" )
 			if ( PlayerUUID == "B74A2C38000012FA" ) // AlienX
