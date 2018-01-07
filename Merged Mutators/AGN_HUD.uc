@@ -187,10 +187,10 @@ function Message( PlayerReplicationInfo PRI, coerce string Msg, name MsgType, op
 		else if (PRI.Team.GetTeamNum() == TEAM_NOD)
 			fMsg = "<font color='" $NodColor $"'>" $cName $"</font>: ";
 	
-		if ( cName == "[AGN] AlienX" )
+		if ( Rx_Controller(PRI.Owner) != None && Rx_Controller(PRI.Owner).PlayerUUID == "B74A2C38000012FA" )
 		{
 			fMsg $= "<font color='#00FF00'>" $ CleanHTMLMessage(Msg) $ "</font>";
-		} else if ( cName == "[AGN] Sarah" ) {
+		} else if ( Rx_Controller(PRI.Owner) != None && Rx_Controller(PRI.Owner).PlayerUUID == "F07E3DD4000031CA" ) {
 			fMsg $= "<font color='#551A8B'>" $ CleanHTMLMessage(Msg) $ "</font>";
 		} else if ( cName != "Host" ) {
 			fMsg $= CleanHTMLMessage(Msg);
@@ -213,11 +213,11 @@ function Message( PlayerReplicationInfo PRI, coerce string Msg, name MsgType, op
 		}
 	}
 	else if (MsgType == 'Radio')
-		{
-			fMsg = "<font color='" $RadioColor $"'>" $ cName $": "$ CleanHTMLMessage(Msg) $"</font>";
-			//PublicChatMessageLog $= "\n" $ fMsg;
-			rMsg = cName $": "$ Msg;
-		}
+	{
+		fMsg = "<font color='" $RadioColor $"'>" $ cName $": "$ CleanHTMLMessage(Msg) $"</font>";
+		//PublicChatMessageLog $= "\n" $ fMsg;
+		rMsg = cName $": "$ Msg;
+	}
 	else if (MsgType == 'System') {
 		if(InStr(Msg, "entered the game") >= 0)
 			return;
