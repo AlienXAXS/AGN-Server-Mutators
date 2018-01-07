@@ -91,7 +91,7 @@ static function string GetWeaponNameIncludingCustomWeapons(UTWeapon WeaponClass)
 		return WeaponClass.ItemName;
 }
 
-static function DumpAllActors()
+static function DumpAllActors(PlayerController sender)
 {
       local Actor thisActor;
       local int aCount;
@@ -102,6 +102,7 @@ static function DumpAllActors()
         `log("[AGN-Dump] " $ string(thisActor));
     }
 		`log("----------- DUMP FINISHED " $ string(aCount) $ " actors dumped! --------------");
+		Sender.ClientMessage("[AGN-Dump] " $ string(aCount) $ " actors dumped!");
 }
 
 static function bool IsPlayerSpecial(PlayerReplicationInfo pri, string SpecialHow)
