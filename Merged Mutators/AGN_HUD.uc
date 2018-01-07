@@ -53,6 +53,23 @@ function DrawHudCompoenents()
 	//if ( AGN_HUDCrateStatus != None ) AGN_HUDCrateStatus.Draw();
 }
 
+function OpenOverviewMap()
+{
+	bToggleOverviewMap = true;
+
+	//ToggleOverviewMap
+	OverviewMapMovie = new class'AGN_Rx_GFxOverviewMap';
+	OverviewMapMovie.LocalPlayerOwnerIndex = GetLocalPlayerOwnerIndex();
+	OverviewMapMovie.SetViewport(0,0,Canvas.ClipX, Canvas.ClipY);
+	OverviewMapMovie.SetViewScaleMode(SM_ExactFit);
+	OverviewMapMovie.SetTimingMode(TM_Real);
+	//OverviewMapMovie.ExternalInterface = self;
+	OverviewMapMovie.Start();
+
+	//Hide our hud
+	SetVisible(false);
+}
+
 function float GetWeaponTargetingRange()
 {
     local Weapon OurWeapon;
