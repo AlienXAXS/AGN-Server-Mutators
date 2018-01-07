@@ -1,10 +1,10 @@
-/* 
+/*
  * YOU ARE NOT UNDER ANY CIRCUMSTANCES ALLOWED TO REDISTRUBUTE OR USE THE SOURCE CODE IN ANY NON-AGN SERVER WITHOUT THE WRITTEN PERMISSION BY THE OWNER.
- * 
+ *
  * THE FILES CONTAINED WITHIN ARE COPYRIGHT VIRTUAL PRIVATE SERVER SOLUTIONS LTD (https://beta.companieshouse.gov.uk/company/10750173).
- * 
+ *
  * IF YOU WISH TO USE THESE FILES, INCLUDING ANY OF IT'S CONTENT FOR YOUR OWN WORK, ONCE AGAIN YOU WILL HAVE TO HAVE WRITTEN PERMISSION FROM THE CONTENT OWNER https://www.vps-solutions.co.uk
- * 
+ *
  * BY BROWSING THIS CONTENT YOU HEREBY AGREE TO THE VPS-SOLUTIONS TERMS OF SERVICE (https://www.vps-solutions.co.uk/terms-of-service.php)
  */
 
@@ -36,7 +36,7 @@ static function SendMessageToOnlineAdministrators(string message)
 static function SendMessageToPlayersInTeam(int TeamID, string message, optional name Colorx = 'LightGreen', optional int TimeOnScreen = 120)
 {
 	local Controller c;
-		
+
 	foreach class'WorldInfo'.static.GetWorldInfo().AllControllers(class'Controller', c)
 	{
 		if ( c != None && c.GetTeamNum() == TeamID )
@@ -49,7 +49,7 @@ static function SendMessageToPlayersInTeam(int TeamID, string message, optional 
 static function SetCratePickupMessageForTeam(int TeamID, string message, int counter)
 {
 	local Controller c;
-		
+
 	foreach class'WorldInfo'.static.GetWorldInfo().AllControllers(class'Controller', c)
 	{
 		if ( c != None && c.GetTeamNum() == TeamID )
@@ -62,11 +62,11 @@ static function SetCratePickupMessageForTeam(int TeamID, string message, int cou
 static function PlayAudioForTeam(int TeamID, SoundCue mySoundCue )
 {
 	local Controller c;
-	
+
 	// Only do this on the server, otherwise we get lots and lots of sounds at once.
 	if(`WorldInfoObject.NetMode != NM_DedicatedServer)
 		return;
-		
+
 	foreach class'WorldInfo'.static.GetWorldInfo().AllControllers(class'Controller', c)
 	{
 		if ( c != None && c.GetTeamNum() == TeamID )
@@ -93,6 +93,7 @@ static function string GetWeaponNameIncludingCustomWeapons(UTWeapon WeaponClass)
 
 static function DumpAllActors()
 {
+		local Actor thisActor;
     foreach class'WorldInfo'.static.GetWorldInfo().AllActors(class'Actor', thisActor)
     {
         `log("[AGN-Dump] " $ string(thisActor));
@@ -102,7 +103,7 @@ static function DumpAllActors()
 static function bool IsPlayerSpecial(PlayerReplicationInfo pri, string SpecialHow)
 {
 	local string PlayerUUID;
-	
+
 	if ( Rx_Controller(PRI.Owner) != None )
 	{
 		PlayerUUID = Rx_Controller(PRI.Owner).PlayerUUID;
@@ -110,16 +111,15 @@ static function bool IsPlayerSpecial(PlayerReplicationInfo pri, string SpecialHo
 		if ( SpecialHow == "OWNER" )
 			if ( PlayerUUID == "B74A2C38000012FA" ) // AlienX
 				return true;
-				
+
 		if ( SpecialHow == "ADMIN" )
 			if ( PlayerUUID == "F07E3DD4000031CA" ) //Sarah
 				return true;
-				
+
 		if ( SpecialHow == "DONOR" )
 			if ( PlayerUUID == "EF8ACBD80000AFE5" ) //Hackerham
 				return true;
 	}
-	
+
 	return false;
 }
-
