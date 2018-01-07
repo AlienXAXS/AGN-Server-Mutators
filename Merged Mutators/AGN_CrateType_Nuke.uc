@@ -17,6 +17,11 @@ function string GetGameLogMessage(Rx_PRI RecipientPRI, AGN_CratePickup CratePick
 	return "GAME" `s "Crate;" `s "nuke" `s "by" `s `PlayerLog(RecipientPRI);
 }
 
+function string GetPickupMessage()
+{
+    return "Incoming nuclear strike!";
+}
+
 function float GetProbabilityWeight(Rx_Pawn Recipient, AGN_CratePickup CratePickup)
 {
 	if (CratePickup.bNoNukeDeath)

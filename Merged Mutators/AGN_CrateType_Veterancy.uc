@@ -19,6 +19,11 @@ function string GetGameLogMessage(Rx_PRI RecipientPRI, AGN_CratePickup CratePick
 	return "GAME" `s "Crate;" `s "veterancy" `s "by" `s `PlayerLog(RecipientPRI) `s "amount" `s VPAmount;
 }
 
+function string GetPickupMessage()
+{
+    return "You picked up a veterancy crate!";
+}
+
 function float GetProbabilityWeight(Rx_Pawn Recipient, AGN_CratePickup CratePickup)
 {
 	if (Rx_PRI(Recipient.Controller.PlayerReplicationInfo).VRank >= ArrayCount(class'Rx_Game'.default.VPMilestones))

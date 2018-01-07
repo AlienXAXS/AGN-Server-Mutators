@@ -17,6 +17,11 @@ function string GetGameLogMessage(Rx_PRI RecipientPRI, AGN_CratePickup CratePick
 	return "GAME" `s "Crate;" `s "abduction" `s "by" `s `PlayerLog(RecipientPRI);
 }
 
+function string GetPickupMessage()
+{
+    return "You're getting abducted!";
+}
+
 function float GetProbabilityWeight(Rx_Pawn Recipient, AGN_CratePickup CratePickup)
 {
 	// 0 Probability if the area directly above us isn't clear

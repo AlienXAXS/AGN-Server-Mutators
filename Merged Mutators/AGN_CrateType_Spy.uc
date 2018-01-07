@@ -23,6 +23,11 @@ function string GetGameLogMessage(Rx_PRI RecipientPRI, AGN_CratePickup CratePick
 	return "GAME" `s "Crate;" `s "spy" `s RecipientPRI.CharClassInfo.name `s "by" `s `PlayerLog(RecipientPRI);
 }
 
+function string GetPickupMessage()
+{
+    return "You picked up a spy crate! You're now invisible to base defenses.";
+}
+
 function float GetProbabilityWeight(Rx_Pawn Recipient, AGN_CratePickup CratePickup)
 {
 	local float Probability, ProbabilityIncrease;

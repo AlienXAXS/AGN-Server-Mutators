@@ -17,6 +17,11 @@ function string GetGameLogMessage(Rx_PRI RecipientPRI, AGN_CratePickup CratePick
 	return "GAME" `s "Crate;" `s "timebomb" `s "by" `s `PlayerLog(RecipientPRI);
 }
 
+function string GetPickupMessage()
+{
+    return "You have 30 seconds to live!";
+}
+
 function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, AGN_CratePickup CratePickup)
 {
 	local Rx_Weapon_DeployedTimedC4 C4;
