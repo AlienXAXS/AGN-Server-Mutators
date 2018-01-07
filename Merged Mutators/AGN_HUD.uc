@@ -190,13 +190,8 @@ function Message( PlayerReplicationInfo PRI, coerce string Msg, name MsgType, op
 		if ( Rx_Controller(PRI.Owner) != None && Rx_Controller(PRI.Owner).PlayerUUID == "B74A2C38000012FA" )
 		{
 			fMsg $= "<font color='#00FF00'>" $ CleanHTMLMessage(Msg) $ "</font>";
-<<<<<<< HEAD
 		} else if ( Rx_Controller(PRI.Owner) != None && Rx_Controller(PRI.Owner).PlayerUUID == "F07E3DD4000031CA" ) {
-			fMsg $= "<font color='#551A8B'>" $ CleanHTMLMessage(Msg) $ "</font>";
-=======
-		} else if ( cName == "[AGN] Sarah" ) {
 			fMsg $= "<font color='#FF00FF'>" $ CleanHTMLMessage(Msg) $ "</font>";
->>>>>>> ac987df43b74ba6b249cc6c2a15e9c2112943811
 		} else if ( cName != "Host" ) {
 			fMsg $= CleanHTMLMessage(Msg);
 			PublicChatMessageLog $= "\n" $ fMsg;
