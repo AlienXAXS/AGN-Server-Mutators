@@ -93,11 +93,15 @@ static function string GetWeaponNameIncludingCustomWeapons(UTWeapon WeaponClass)
 
 static function DumpAllActors()
 {
-		local Actor thisActor;
-    foreach class'WorldInfo'.static.GetWorldInfo().AllActors(class'Actor', thisActor)
+      local Actor thisActor;
+      local int aCount;
+			`log("-------------- STARTING DUMP -------------------");
+    	foreach class'WorldInfo'.static.GetWorldInfo().AllActors(class'Actor', thisActor)
     {
+         aCount++;
         `log("[AGN-Dump] " $ string(thisActor));
     }
+		`log("----------- DUMP FINISHED " $ string(aCount) $ " actors dumped! --------------");
 }
 
 static function bool IsPlayerSpecial(PlayerReplicationInfo pri, string SpecialHow)
