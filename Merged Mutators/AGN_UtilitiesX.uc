@@ -62,6 +62,10 @@ static function SetCratePickupMessageForTeam(int TeamID, string message, int cou
 static function PlayAudioForTeam(int TeamID, SoundCue mySoundCue )
 {
 	local Controller c;
+	
+	// Only do this on the server, otherwise we get lots and lots of sounds at once.
+	if(`WorldInfoObject.NetMode != NM_DedicatedServer)
+		return;
 		
 	foreach class'WorldInfo'.static.GetWorldInfo().AllControllers(class'Controller', c)
 	{

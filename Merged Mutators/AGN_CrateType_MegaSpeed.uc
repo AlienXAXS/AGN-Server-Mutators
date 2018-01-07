@@ -22,7 +22,7 @@ function string GetGameLogMessage(Rx_PRI RecipientPRI, AGN_CratePickup CratePick
 
 function string GetPickupMessage()
 {
-    return Repl(PickupMessage, "`increasepct`", SpeedBoostPercent, false);
+    return "You picked up the Mega Speed Crate (60 Seconds)";
 }
 
 function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, AGN_CratePickup CratePickup)
@@ -31,15 +31,8 @@ function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, AGN_Crate
     Recipient.UpdateRunSpeedNode();
     Recipient.SetGroundSpeed();
 
-    `log("Increasing speed by" @ SpeedBoostPercent * 100.0 @ " percent to " @ Recipient.SpeedUpgradeMultiplier);
 	SetTimer(60, false, 'RestoreNormalSpeed');
 	
-	/*
-	if ( AGN_Rx_Controller(Recipient.Controller) != None )
-	{
-		AGN_Rx_Controller(Recipient.Controller).ServerAddNewCrateStatus("Mega Speed Crate", 60);
-	}
-	*/
 	isActive = true;
 	ActivePawn = Recipient;
 }
