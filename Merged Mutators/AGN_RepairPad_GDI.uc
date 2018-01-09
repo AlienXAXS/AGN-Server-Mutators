@@ -45,7 +45,7 @@ simulated function bool IsTouchingOnly()
 
 defaultproperties
 {
-	ToolTip = "Driving on top of the Repair Facility will repair your vehicle for <font color='#ff0000' size='20'>1 credit/25 HP</font>.";
+	ToolTip = "Driving on top of the Repair Facility will repair your vehicle for <font color='#ff0000' size='20'>1 credit/25 HP</font>";
 	BuildingInternalsClass = AGN_RepairPad_GDI_Internals
 
 	Begin Object Class=StaticMeshComponent Name=AGN_RepairPad_GDI
