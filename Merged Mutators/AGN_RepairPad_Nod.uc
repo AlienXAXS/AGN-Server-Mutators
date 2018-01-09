@@ -23,8 +23,16 @@ simulated function bool IsEffectedByEMP()
 	return false;
 }
 
+simulated function string GetTooltip(Rx_Controller PC)
+{
+	if (PC.GetTeamNum() == GetTeamNum() && class'Rx_Utils'.static.OrientationToB(self, PC.Pawn) > 0.1)
+		return Repl(ToolTip, "{GBA_USE}", Caps(UDKPlayerInput(PC.PlayerInput).GetUDKBindNameFromCommand("GBA_Use")), true);
+	return "";
+}
+
 defaultproperties
 {
+	ToolTip = "Driving on top of the Repair Facility will repair your vehicle for <font color='#ff0000' size='20'>1 credit/second</font>.";
 	BuildingInternalsClass = AGN_RepairPad_Nod_Internals
 	
 	Begin Object Class=StaticMeshComponent Name=AGN_RepairPad_Nod
