@@ -9,7 +9,7 @@
  */
 
 
-class AGN_RepairPad_Nod extends AGN_RepairPad
+class AGN_RepairPad_Nod extends AGN_RepairPad implements (Rx_ObjectTooltipInterface)
 	placeable;
 	
 simulated function String GetHumanReadableName()
