@@ -125,10 +125,7 @@ static function bool IsPlayerSpecial(PlayerReplicationInfo pri, string SpecialHo
 			if ( PlayerUUID == "F07E3DD4000031CA" ) //Sarah
 				return true;
 		if ( SpecialHow == "MOD" )
-			if (PlayerUUID == "0027000A00001700" ) //Shogun
-				return true;
-		if ( SpecialHow == "MOD" )
-			if (PlayerUUID == "F38ACBD800000500" ) //Commander
+			if (PlayerUUID == "0027000A00001700" || PlayerUUID == "F38ACBD800000500" ) // Shogun & Commander
 				return true;
 		if ( SpecialHow == "DONOR" )
 			if ( PlayerUUID == "EF8ACBD80000AFE5" ) //Hackerham
