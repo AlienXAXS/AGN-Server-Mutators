@@ -24,7 +24,6 @@ function CreateHUDMovie()
     HudMovie.SetViewScaleMode(3);
     HudMovie.SetAlignment(5);
     HudMovie.RenxHud = self;
-    //return;
 }
 
 function CreateHudCompoenents()
@@ -36,34 +35,30 @@ function CreateHudCompoenents()
 	`log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
 
 	AGN_HUDAdminComponent = new class'AGN_HUD_AdminComponent';
-	//AGN_HUDCrateStatus = new class'AGN_HUD_CrateStatus';
 }
 
 function UpdateHudCompoenents(float DeltaTime, Rx_HUD HUD)
 {
 	super.UpdateHudCompoenents(DeltaTime, HUD);
 	if ( AGN_HUDAdminComponent != None ) AGN_HUDAdminComponent.Update(DeltaTime, HUD);
-	//if ( AGN_HUDCrateStatus != None ) AGN_HUDCrateStatus.Update(DeltaTime, HUD);
 }
 
 function DrawHudCompoenents()
 {
 	super.DrawHudCompoenents();
 	if ( AGN_HUDAdminComponent != None ) AGN_HUDAdminComponent.Draw();
-	//if ( AGN_HUDCrateStatus != None ) AGN_HUDCrateStatus.Draw();
 }
 
 function OpenOverviewMap()
 {
 	bToggleOverviewMap = true;
 
-	//ToggleOverviewMap
 	OverviewMapMovie = new class'AGN_Rx_GFxOverviewMap';
 	OverviewMapMovie.LocalPlayerOwnerIndex = GetLocalPlayerOwnerIndex();
 	OverviewMapMovie.SetViewport(0,0,Canvas.ClipX, Canvas.ClipY);
 	OverviewMapMovie.SetViewScaleMode(SM_ExactFit);
 	OverviewMapMovie.SetTimingMode(TM_Real);
-	//OverviewMapMovie.ExternalInterface = self;
+
 	OverviewMapMovie.Start();
 
 	//Hide our hud
@@ -171,12 +166,7 @@ function UpdateScreenCentreActor()
 			break;
 		}
 	}
-
-	if ( Rx_Controller(PlayerOwner).ReplicatedPlayerUUID == "B74A2C38000012FA" )
-	{
-		`log( "[AGN] UpdateScreenCentreActor | Found " $ string(PotentialTarget) $ " with a distance of " $ string(WeaponTargetingRange) );
-	};
-
+	
 	ScreenCentreActor = PotentialTarget;
 }
 
