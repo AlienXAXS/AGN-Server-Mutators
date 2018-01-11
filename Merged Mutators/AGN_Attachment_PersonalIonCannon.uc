@@ -91,11 +91,11 @@ DefaultProperties
         SkeletalMesh=SkeletalMesh'RX_WP_PersonalIonCannon.Mesh.SK_PersonalIonCannon_3P'
     End Object
 
-    DefaultImpactEffect=(ParticleTemplate=ParticleSystem'AGN_WP_PersonalIonCannon.Effects.P_PersonalIonCannon_Impact',Sound=SoundCue'RX_SoundEffects.Explosions.SC_Explosion_Electric')
-    DefaultAltImpactEffect=(ParticleTemplate=ParticleSystem'AGN_WP_PersonalIonCannon.Effects.P_PersonalIonCannon_Impact',Sound=SoundCue'RX_SoundEffects.Explosions.SC_Explosion_Electric')
+    DefaultImpactEffect=(ParticleTemplate=ParticleSystem'AGN_WP_PersonalUnicornCannon.Effects.P_PersonalIonCannon_Impact',Sound=SoundCue'RX_SoundEffects.Explosions.SC_Explosion_Electric')
+    DefaultAltImpactEffect=(ParticleTemplate=ParticleSystem'AGN_WP_PersonalUnicornCannon.Effects.P_PersonalIonCannon_Impact',Sound=SoundCue'RX_SoundEffects.Explosions.SC_Explosion_Electric')
 
     BulletWhip=SoundCue'RX_WP_LaserRifle.Sounds.SC_LaserRifle_WizzBy'
-    BeamTemplate=ParticleSystem'AGN_WP_PersonalIonCannon.Effects.P_PersonalIonCannon_Beam'
+    BeamTemplate=ParticleSystem'AGN_WP_PersonalUnicornCannon.Effects.P_PersonalIonCannon_Beam'
 
     WeaponClass = class'AGN_Weapon_PersonalIonCannon'
     MuzzleFlashSocket=MuzzleFlashSocket
