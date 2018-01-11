@@ -21,7 +21,7 @@ function Initialize(GameInfo Game, UTTeamInfo GdiTeamInfo, UTTeamInfo NodTeamInf
 	// Reset the vehicle spawning locations for both buildings, otherwise stuff spawns god knows where!
 	if(WorldInfo.Netmode != NM_Client) {
 		AirStrip.BuildingInternals.BuildingSkeleton.GetSocketWorldLocationAndRotation('Veh_DropOff', loc, rot);
-		loc.z+=1000;
+		loc.z+=100;
 		Set_NOD_ProductionPlace(loc, rot);
 		WeaponsFactory.BuildingInternals.BuildingSkeleton.GetSocketWorldLocationAndRotation('Veh_Spawn', loc, rot);
 		Set_GDI_ProductionPlace(loc, rot);
