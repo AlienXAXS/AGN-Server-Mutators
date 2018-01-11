@@ -583,7 +583,7 @@ function BroadcastEnemySpotMessages()
 				SpottingMsg = SpottingMsg @ SpottedVehicles[19] @ "Wolverine";
 			else if(i==20 && SpottedVehicles[20] > 0)
 				SpottingMsg = SpottingMsg @ SpottedVehicles[20] @ "Titan";
-			else if(i==20 && SpottedVehicles[20] > 0)
+			else if(i==21 && SpottedVehicles[21] > 0)
 				SpottingMsg = SpottingMsg @ SpottedVehicles[21] @ "Tesla Tank";
 
 			if(SpottedVehicles[i] > 1)
