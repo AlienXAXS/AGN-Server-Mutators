@@ -14,6 +14,7 @@ class AGN_Vehicle_ReconBike_Weapon extends TS_Vehicle_ReconBike_Weapon;
 DefaultProperties
 {
 	// Reference to our new projectile
+	WeaponProjectiles(0) = Class'AGN_Vehicle_ReconBike_Projectile'
 	WeaponProjectiles(1) = Class'AGN_Vehicle_ReconBike_Projectile'
 	
 	// Increased Reload Time
