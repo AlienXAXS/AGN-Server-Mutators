@@ -9,7 +9,7 @@
  */
 
 
-class AGN_Vehicle_TeslaTank extends TS_Vehicle_HoverMRLS notplaceable;
+class AGN_Vehicle_TeslaTank extends APB_Vehicle_TeslaTank notplaceable;
 
 DefaultProperties
 {
