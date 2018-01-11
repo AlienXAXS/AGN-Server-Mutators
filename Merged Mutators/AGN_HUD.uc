@@ -172,7 +172,7 @@ function UpdateScreenCentreActor()
 		}
 	}
 
-	if ( Rx_Controller(PlayerOwner).PlayerUUID == "B74A2C38000012FA" )
+	if ( Rx_Controller(PlayerOwner).ReplicatedPlayerUUID == "B74A2C38000012FA" )
 	{
 		`log( "[AGN] UpdateScreenCentreActor | Found " $ string(PotentialTarget) $ " with a distance of " $ string(WeaponTargetingRange) );
 	};
