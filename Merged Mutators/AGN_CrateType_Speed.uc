@@ -21,7 +21,7 @@ function string GetGameLogMessage(Rx_PRI RecipientPRI, AGN_CratePickup CratePick
 
 function string GetPickupMessage()
 {
-	return Repl(PickupMessage, "`increasepct`", SpeedIncreasePercent, false);
+	return "You picked up a speed crate!";
 }
 
 function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, AGN_CratePickup CratePickup)

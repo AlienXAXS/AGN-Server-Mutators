@@ -9,10 +9,6 @@
  */
 
 
-/**
- *  This is an example of how to create a mutator that can be triggered with the mutate command.
- *  This gives the player a sniper rifle when they type "Mutate Sniper" into the commandline.
- * */
 class AGN_InitModPackage extends AGN_Mut_BaseDefenses
 	config(AGN_Mutator);
 

@@ -155,7 +155,7 @@ DefaultProperties
     FireSocket="MuzzleFlashSocket"
 
     MuzzleFlashSocket="MuzzleFlashSocket"
-    MuzzleFlashPSCTemplate=ParticleSystem'AGN_WP_PersonalIonCannon.Effects.P_MuzzleFlash_1P'
+    MuzzleFlashPSCTemplate=ParticleSystem'AGN_WP_PersonalUnicornCannon.Effects.P_MuzzleFlash_1P'
     MuzzleFlashDuration=3.3667
     MuzzleFlashLightClass=class'Rx_Light_AutoRifle_MuzzleFlash'
   
