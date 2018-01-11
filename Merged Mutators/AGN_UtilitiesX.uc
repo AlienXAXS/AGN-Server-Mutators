@@ -89,6 +89,8 @@ static function string GetWeaponNameIncludingCustomWeapons(UTWeapon WeaponClass)
 		return "Ion Cannon Beacon";
 	else if (WeaponClass.IsA('AGN_Weapon_Carbine_Silencer') )
 		return "Silenced Carbine";
+	else if (WeaponClass.IsA('AGN_Weapon_Shotgun') )
+		return "Shotgun";
 	else
 		return WeaponClass.ItemName;
 }
