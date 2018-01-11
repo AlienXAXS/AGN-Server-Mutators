@@ -9,7 +9,7 @@
  */
 
 
-class AGN_Vehicle_HoverMRLS_Weapon extends APB_Vehicle_TeslaTank_Weapon;
+class AGN_Vehicle_TeslaTank_Weapon extends APB_Vehicle_TeslaTank_Weapon;
 
 DefaultProperties
 {
