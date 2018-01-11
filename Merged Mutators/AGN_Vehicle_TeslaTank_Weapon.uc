@@ -25,9 +25,4 @@ DefaultProperties
 	//Increase from 150
 	InstantHitDamage(0)=175
 	InstantHitDamage(1)=175
-	
-	Vet_HealthMod(0)=1
-	Vet_HealthMod(1)=1.125 
-	Vet_HealthMod(2)=1.25
-	Vet_HealthMod(3)=1.375
 }
