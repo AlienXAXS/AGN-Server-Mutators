@@ -1,15 +1,15 @@
-/* 
+/*
  * YOU ARE NOT UNDER ANY CIRCUMSTANCES ALLOWED TO REDISTRUBUTE OR USE THE SOURCE CODE IN ANY NON-AGN SERVER WITHOUT THE WRITTEN PERMISSION BY THE OWNER.
- * 
+ *
  * THE FILES CONTAINED WITHIN ARE COPYRIGHT VIRTUAL PRIVATE SERVER SOLUTIONS LTD (https://beta.companieshouse.gov.uk/company/10750173).
- * 
+ *
  * IF YOU WISH TO USE THESE FILES, INCLUDING ANY OF IT'S CONTENT FOR YOUR OWN WORK, ONCE AGAIN YOU WILL HAVE TO HAVE WRITTEN PERMISSION FROM THE CONTENT OWNER https://www.vps-solutions.co.uk
- * 
+ *
  * BY BROWSING THIS CONTENT YOU HEREBY AGREE TO THE VPS-SOLUTIONS TERMS OF SERVICE (https://www.vps-solutions.co.uk/terms-of-service.php)
  */
 
 
-class AGN_Weapon_Shotgun extends Rx_Weapon_Reloadable;
+class _Weapon_Shotgun extends Rx_Weapon_Reloadable;
 
 var MaterialImpactEffect DefaultImpactEffect;
 var int NumPellets;
@@ -107,7 +107,7 @@ defaultproperties
 
     ShotCost(0)=1
     ShotCost(1)=1
-    Spread(0)=0.18
+    Spread(0)=0.14 //0.18
 //    Spread(1)=0.3
 
 	IronSightAndScopedSpread(0)= 0.17
@@ -120,7 +120,7 @@ defaultproperties
     InitalNumClips = 8
     MaxClips = 8
  
-    FireInterval(0)=1.5
+    FireInterval(0)=1.35 //1.5
 //    FireInterval(1)=0.65
     
     WeaponFireAnim(0)=WeaponFire
@@ -132,10 +132,10 @@ defaultproperties
     WeaponFireTypes(1)=EWFT_None
     WeaponRange=800.0
 
-    InstantHitDamage(0)=16
+    InstantHitDamage(0)=20
 //    InstantHitDamage(1)=16
 	
-	HeadShotDamageMult=1.25 //1.5
+	HeadShotDamageMult=1.4 //1.25
 	
     InstantHitDamageTypes(0)=class'Rx_DmgType_Shotgun'
 //    InstantHitDamageTypes(1)=class'Rx_DmgType_Shotgun'
@@ -234,14 +234,14 @@ defaultproperties
 	/******************/
 	
 	Vet_DamageModifier(0)=1  //Applied to instant-hits only
-	Vet_DamageModifier(1)=1.10 
-	Vet_DamageModifier(2)=1.25 
-	Vet_DamageModifier(3)=1.50 
+	Vet_DamageModifier(1)=1.15 //1.10 
+	Vet_DamageModifier(2)=1.35 //1.25
+	Vet_DamageModifier(3)=1.65 //1.50
 	
 	Vet_ROFModifier(0) = 1
-	Vet_ROFModifier(1) = 1 
-	Vet_ROFModifier(2) = 1  
-	Vet_ROFModifier(3) = 1  
+	Vet_ROFModifier(1) = 0.95 
+	Vet_ROFModifier(2) = 0.90  
+	Vet_ROFModifier(3) = 0.85  
 	
 	Vet_ClipSizeModifier(0)=0 //Normal (should be 1)	
 	Vet_ClipSizeModifier(1)=1 //Veteran 
