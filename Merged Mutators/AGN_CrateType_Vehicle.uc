@@ -51,29 +51,44 @@ function float GetProbabilityWeight(Rx_Pawn Recipient, AGN_CratePickup CratePick
 
 function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, AGN_CratePickup CratePickup)
 {
-	local int tmpInt, tmpInt2;
+	local int randomTeam, tmpInt2;
 	local Vector tmpSpawnPoint;
+	local bool isVehicleOkay;
+	local Class selectedRandomVehicle;
 
 	tmpSpawnPoint = CratePickup.Location + vector(CratePickup.Rotation)*450;
 	tmpSpawnPoint.Z += 200;
-	tmpInt = Rand(2);
+	randomTeam = Rand(2);
 
-	// If not flying map, make sure no flying vehicles are given
-	// TODO: Actually verify flying vehicles, if flying vehicles aren't the last two in the list, this will break.
-	if (Rx_MapInfo(CratePickup.WorldInfo.GetMapInfo()).bAircraftDisabled)
-		tmpInt2 = (tmpInt == TEAM_GDI ? Rand(class'Rx_PurchaseSystem'.default.GDIVehicleClasses.Length - 2) : Rand(class'Rx_PurchaseSystem'.default.NodVehicleClasses.Length - 2));
-	else
-		tmpInt2 = (tmpInt == TEAM_GDI ? Rand(class'Rx_PurchaseSystem'.default.GDIVehicleClasses.Length) : Rand(class'Rx_PurchaseSystem'.default.NodVehicleClasses.Length));
-         
-	GivenVehicle = CratePickup.Spawn((tmpInt == TEAM_GDI ?
+	while (!isVehicleOkay)
+	{
+		if ( randomTeam == TEAM_GDI )
+		{
+			tmpInt2 = Rand(class'Rx_PurchaseSystem'.default.GDIVehicleClasses.Length);
+			selectedRandomVehicle = class'Rx_PurchaseSystem'.default.GDIVehicleClasses[tmpInt2];
+		}
+		else
+		{
+			tmpInt2 = Rand(class'Rx_PurchaseSystem'.default.NodVehicleClasses.Length);
+			selectedRandomVehicle = class'Rx_PurchaseSystem'.default.NodVehicleClasses[tmpInt2];
+		}
+		
+		if (!Rx_MapInfo(CratePickup.WorldInfo.GetMapInfo()).bAircraftDisabled)
+			isVehicleOkay = true; // If aircraft are not disabled, then the vehicle is going to be okay
+		else
+			if ( !ClassIsChildOf(selectedRandomVehicle, Class'Rx_Vehicle_Air') )
+				isVehicleOkay = true;
+	}
+	
+	GivenVehicle = CratePickup.Spawn((randomTeam == TEAM_GDI ?
 		class'Rx_PurchaseSystem'.default.GDIVehicleClasses[tmpInt2] : 
 		class'Rx_PurchaseSystem'.default.NodVehicleClasses[tmpInt2]),,, tmpSpawnPoint, CratePickup.Rotation,,true);
-
+	
 	GivenVehicle.DropToGround();
 	if (GivenVehicle.Mesh != none)
 		GivenVehicle.Mesh.WakeRigidBody();
 
-	RecipientPRI.SetVehicleIsFromCrate (true);
+	RecipientPRI.SetVehicleIsFromCrate(true);
 }
 
 DefaultProperties
