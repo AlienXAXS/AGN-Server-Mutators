@@ -125,7 +125,6 @@ function UpdateActorBlips()
 		}
 	}
 	
-	//Add deployed beacons to the vehicle array (nBab)
 	foreach ThisWorld.DynamicActors(class'Rx_Weapon_DeployedProxyC4', DeployedProxyC4)
 	{
 		switch (DeployedProxyC4.GetTeamNum())
@@ -409,14 +408,13 @@ function UpdateIcons(out array<Actor> Actors, out array<GFxObject> ActorIcons, T
 	local vector V;
 	local GFxObject Val;
 	local Rx_GRI rxGRI;
-	//local vector vect;
-	//local Matrix mtrx;
-	//local float MapScale;
-	//local float f;
-	//local vector blankvect;
 
 
 	if(RxMapInfo == None)
+		return;
+		
+	// If no pawn, they are dead - dont draw anything
+	if ( GetPC().Pawn == None )
 		return;
 
 	rxGRI = Rx_GRI(ThisWorld.GRI);
@@ -521,7 +519,7 @@ function UpdateIcons(out array<Actor> Actors, out array<GFxObject> ActorIcons, T
 			}else
 				LoadTexture("img://" $ PathName(Texture2D'RenxHud.T_Beacon_Star'), ActorIcons[i].GetObject("vehicleG"));
 			//Only show the blip if on the same team (nBab)
-			if (GetPC().Pawn.getTeamNum() == Actors[i].getTeamNum())
+			if (GetPC().Pawn != None && GetPC().Pawn.getTeamNum() == Actors[i].getTeamNum())
 				displayInfo.Visible = true;
 			displayInfo.Rotation = 0;
 		}
@@ -532,7 +530,7 @@ function UpdateIcons(out array<Actor> Actors, out array<GFxObject> ActorIcons, T
 				LoadTexture("img://" $ PathName(Texture2D'RenxHud.T_Beacon_Star'), ActorIcons[i].GetObject("vehicleG"));
 
 			//Only show the blip if on the same team (nBab)
-			if (GetPC().Pawn.getTeamNum() == Actors[i].getTeamNum())
+			if (GetPC().Pawn != None && GetPC().Pawn.getTeamNum() == Actors[i].getTeamNum())
 				displayInfo.Visible = true;
 				
 			displayInfo.Rotation = 0;

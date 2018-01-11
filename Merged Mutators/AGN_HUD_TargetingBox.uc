@@ -11,24 +11,6 @@
 
 class AGN_HUD_TargetingBox extends Rx_HUD_TargetingBox;
 
-function Update(float DeltaTime, Rx_HUD HUD)
-{
-	super.Update(DeltaTime, HUD);
-
-	TimeSinceNewTarget += DeltaTime;
-
-	UpdateTargetedObject(DeltaTime);
-
-	if (TargetedActor != none)
-	{
-		UpdateTargetName();
-		UpdateTargetHealthPercent();
-		UpdateTargetDescription();
-		UpdateBoundingBox();
-		//UpdateTargetStance(TargetedActor);
-	}
-}
-
 function bool IsValidTarget (actor potentialTarget)
 {
 	if (Rx_Building(potentialTarget) != none ||
