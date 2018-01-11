@@ -441,7 +441,7 @@ function BroadcastEnemySpotMessages()
 				SpottedInfs[1]++;
 			} else if(PRI.CharClassInfo == class'AGN_FamilyInfo_GDI_Grenadier' || PRI.CharClassInfo == class'Rx_FamilyInfo_GDI_Grenadier') {
 				SpottedInfs[2]++;
-			} else if(PRI.CharClassInfo == class'AGN_FamilyInfo_GDI_Marksman' || (PRI.CharClassInfo == class'Rx_FamilyInfo_GDI_Marksman') {
+			} else if(PRI.CharClassInfo == class'AGN_FamilyInfo_GDI_Marksman' || PRI.CharClassInfo == class'Rx_FamilyInfo_GDI_Marksman') {
 				SpottedInfs[3]++;
 			} else if(PRI.CharClassInfo == class'AGN_FamilyInfo_GDI_Engineer' || PRI.CharClassInfo == class'Rx_FamilyInfo_GDI_Engineer') {
 				SpottedInfs[4]++;
@@ -583,8 +583,8 @@ function BroadcastEnemySpotMessages()
 				SpottingMsg = SpottingMsg @ SpottedVehicles[19] @ "Wolverine";
 			else if(i==20 && SpottedVehicles[20] > 0)
 				SpottingMsg = SpottingMsg @ SpottedVehicles[20] @ "Titan";
-			else if(i==20 && SpottedVehicles[21] > 0)
-				SpottingMsg = SpottingMsg @ SpottedVehicles[20] @ "Tesla Tank";
+			else if(i==20 && SpottedVehicles[20] > 0)
+				SpottingMsg = SpottingMsg @ SpottedVehicles[21] @ "Tesla Tank";
 
 			if(SpottedVehicles[i] > 1)
 				SpottingMsg = SpottingMsg @ "s";
