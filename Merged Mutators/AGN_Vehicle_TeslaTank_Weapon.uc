@@ -20,7 +20,7 @@ DefaultProperties
 	Vet_ClipSizeModifier(0)=0 //Normal (should be 1)
 	Vet_ClipSizeModifier(1)=0 //Veteran 
 	Vet_ClipSizeModifier(2)=1 //Elite
-	Vet_ClipSizeModifier(3)= //Heroic
+	Vet_ClipSizeModifier(3)=2 //Heroic
 	
 	//Increase from 150
 	InstantHitDamage(0)=175
