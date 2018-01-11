@@ -9,20 +9,25 @@
  */
 
 
-class AGN_Vehicle_ReconBike extends TS_Vehicle_ReconBike notplaceable;
+class AGN_Vehicle_TeslaTank_Weapon extends APB_Vehicle_TeslaTank_Weapon;
 
 DefaultProperties
 {
-    Seats(0)={(GunClass=class'AGN_Vehicle_ReconBike_Weapon',
-                GunSocket=(Fire_Left,Fire_Right),
-                TurretControls=(TurretPitch),
-                GunPivotPoints=(b_Turret_Pitch),
-                CameraTag=CamView3P,
-                CameraBaseOffset=(Z=-35),
-                CameraOffset=-350,
-                SeatIconPos=(X=0.5,Y=0.33),
-                MuzzleFlashLightClass=class'RenX_Game.Rx_Light_AutoRifle_MuzzleFlash'
-                )}
-
+	//Increase range from 4000
+	WeaponRange=4500.0
+	
+	//Increase from 150
+	InstantHitDamage(0)=200
+	InstantHitDamage(1)=200
+	
+	// Vet changes 
+	Vet_ClipSizeModifier(0)=0 //Recruit
+	Vet_ClipSizeModifier(1)=0 //Veteran 
+	Vet_ClipSizeModifier(2)=1 //Elite
+	Vet_ClipSizeModifier(3)=2 //Heroic
+	
+	Vet_DamageModifier(0)=1  
+	Vet_DamageModifier(1)=1.05 //210
+	Vet_DamageModifier(2)=1.10 //220
+	Vet_DamageModifier(3)=1.15 //230
 }
-
