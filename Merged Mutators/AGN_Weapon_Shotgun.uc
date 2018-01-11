@@ -9,7 +9,7 @@
  */
 
 
-class _Weapon_Shotgun extends Rx_Weapon_Reloadable;
+class AGN_Weapon_Shotgun extends Rx_Weapon_Reloadable;
 
 var MaterialImpactEffect DefaultImpactEffect;
 var int NumPellets;
