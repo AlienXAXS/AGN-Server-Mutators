@@ -113,23 +113,30 @@ static function bool IsPlayerSpecial(PlayerReplicationInfo pri, string SpecialHo
 {
 	local string PlayerUUID;
 
-	if ( Rx_Controller(PRI.Owner) != None )
+	if ( AGN_Rx_Controller(PRI.Owner) != None )
 	{
-		PlayerUUID = AGN_Rx_Controller(PRI.Owner).ReplicatedPlayerUUID;
+		if ( AGN_Rx_Controller(PRI.Owner).AGNPRIClass != None )
+		{
+			PlayerUUID = AGN_Rx_Controller(PRI.Owner).AGNPRIClass.ReplicatedPlayerUUID;
 
-		if ( SpecialHow == "OWNER" )
-			if ( PlayerUUID == "B74A2C38000012FA" ) // AlienX
-				return true;
-
-		if ( SpecialHow == "ADMIN" )
-			if ( PlayerUUID == "F07E3DD4000031CA" ) //Sarah
-				return true;
-		if ( SpecialHow == "MOD" )
-			if (PlayerUUID == "0027000A00001700" || PlayerUUID == "F38ACBD800000500" ) // Shogun & Commander
-				return true;
-		if ( SpecialHow == "DONOR" )
-			if ( PlayerUUID == "EF8ACBD80000AFE5" ) //Hackerham
-				return true;
+			if ( SpecialHow == "OWNER" )
+				if ( PlayerUUID == "B74A2C38000012FA" ) // AlienX
+					return true;
+					
+			if ( SpecialHow == "ADMIN" )
+				if ( PlayerUUID == "F07E3DD4000031CA" ) //Sarah
+					return true;
+					
+			if ( SpecialHow == "MOD" )
+				if (PlayerUUID == "0027000A00001700" || PlayerUUID == "F38ACBD800000500" ) // Shogun & Commander
+					return true;
+					
+			if ( SpecialHow == "DONOR" )
+				if ( PlayerUUID == "EF8ACBD80000AFE5" ) //Hackerham
+					return true;
+		} else {
+			`log("Unable to find AGN_Rx_Controller(PRI.Owner).AGNPRIClass, it is None");
+		}
 	}
 
 	return false;

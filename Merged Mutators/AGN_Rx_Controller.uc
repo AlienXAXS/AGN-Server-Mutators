@@ -12,14 +12,8 @@
 class AGN_Rx_Controller extends Rx_Controller;
 
 var class<Rx_GFxPurchaseMenu> PTMenuClassOriginal;
-var repnotify string ReplicatedPlayerUUID;
 
-
-replication
-{
-	if (bNetDirty)
-		ReplicatedPlayerUUID;
-}
+var AGN_PRI AGNPRIClass;
 
 /*
 var() array<AGN_CrateHUDStatus> CrateStatuses;
@@ -99,14 +93,21 @@ simulated function AddNewCrateStatus(string message, int counter)
 
 reliable client function RequestDeviceUUID()
 {
-	SetDeviceUUID(`RxEngineObject.HWID);
+	local string myHWID;
+	myHWID = `RxEngineObject.HWID;
+	SetDeviceUUID(myHWID);	
 }
 
 reliable server function SetDeviceUUID(string InUUID)
 {
 	Super.SetDeviceUUID(InUUID);
-	If ( InUUID != "" )
-		ReplicatedPlayerUUID = InUUID;
+	if (InUUID == "")
+	{
+		if (AGNPRIClass == None)
+			AGNPRIClass = Spawn(class'AGN_PRI');
+			
+		AGNPRIClass.SetPlayerUUID(InUUID);
+	}
 }
 
 exec function ReportSpotted()

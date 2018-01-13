@@ -124,10 +124,7 @@ function UpdateScreenCentreActor()
 	// So, We crudly check if the current weapon is of a custom type and get the WeaponRange from default properties.
 	WeaponTargetingRange = GetWeaponTargetingRange();
 	if ( WeaponTargetingRange == 0 )
-	{
-		if ( AGN_Rx_Controller(PlayerOwner).ReplicatedPlayerUUID == "B74A2C38000012FA" )
-			`log("[AGN] UpdateScreenCentreActor | Weapon Targeting Range is Zero, attempting to find it from weapon in hand");
-			
+	{			
 		if (UTVehicle(PlayerOwner.ViewTarget) != none && UTVehicle(PlayerOwner.ViewTarget).Weapon != none)
 			OurWeapon = UTVehicle(PlayerOwner.ViewTarget).Weapon;
 		else if (UTPawn(PlayerOwner.ViewTarget) != none && UTPawn(PlayerOwner.ViewTarget).Weapon != none)

@@ -64,6 +64,7 @@ simulated function DrawServerFPS()
 		hudMessage $= "  SFPS: " $ fpsMessage $ " | DT: " $ AGN_MutController.ServerDeltaTime $ " | AA: " $ string(AGN_MutController.CurrentActors) $ "\n";
 		hudMessage $= "  NodVeh: " $ string(AGN_MutController.CurrentVehiclesNod) $ " | GDIVeh: " $ string(AGN_MutController.CurrentVehiclesGDI) $ " | UnOcVeh: " $ string(AGN_MutController.CurrentVehiclesUnoccupied) $ " | Tot: " $ string((AGN_MutController.CurrentVehiclesNod+AGN_MutController.CurrentVehiclesGDI+AGN_MutController.CurrentVehiclesUnoccupied)) $ "\n";
 		hudMessage $= "  NodCredits: " $ string(AGN_MutController.ServerNodCredits) $ " | GDICredits: " $ string(AGN_MutController.ServerGDICredits) $ "\n";
+		hudMessage $= "  Your UUID: " $ AGN_Rx_Controller(PRI.Owner).AGNPRIClass == None ? "Unknown" : AGN_Rx_Controller(PRI.Owner).AGNPRIClass.ReplicatedPlayerUUID;
 		Canvas.DrawText(hudMessage);
 	}
 }
