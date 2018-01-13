@@ -9,20 +9,10 @@
  */
 
 
-class AGN_Vehicle_ReconBike extends TS_Vehicle_ReconBike notplaceable;
+class AGN_Vehicle_ReconBike_Projectile extends TS_Vehicle_ReconBike_Projectile;
 
 DefaultProperties
 {
-    Seats(0)={(GunClass=class'AGN_Vehicle_ReconBike_Weapon',
-                GunSocket=(Fire_Left,Fire_Right),
-                TurretControls=(TurretPitch),
-                GunPivotPoints=(b_Turret_Pitch),
-                CameraTag=CamView3P,
-                CameraBaseOffset=(Z=-35),
-                CameraOffset=-350,
-                SeatIconPos=(X=0.5,Y=0.33),
-                MuzzleFlashLightClass=class'RenX_Game.Rx_Light_AutoRifle_MuzzleFlash'
-                )}
-
+        Damage=44 // 50
+        MyDamageType=Class'AGN_Vehicle_ReconBike_DmgType' // TS_Vehicle_ReconBike_DmgType
 }
-

@@ -9,20 +9,20 @@
  */
 
 
-class AGN_Vehicle_ReconBike extends TS_Vehicle_ReconBike notplaceable;
+class AGN_Vehicle_ReconBike_DmgType extends TS_Vehicle_ReconBike_DmgType;
 
-DefaultProperties
+defaultproperties
 {
-    Seats(0)={(GunClass=class'AGN_Vehicle_ReconBike_Weapon',
-                GunSocket=(Fire_Left,Fire_Right),
-                TurretControls=(TurretPitch),
-                GunPivotPoints=(b_Turret_Pitch),
-                CameraTag=CamView3P,
-                CameraBaseOffset=(Z=-35),
-                CameraOffset=-350,
-                SeatIconPos=(X=0.5,Y=0.33),
-                MuzzleFlashLightClass=class'RenX_Game.Rx_Light_AutoRifle_MuzzleFlash'
-                )}
+	KillStatsName=KILLS_RECONBIKE
+  	DeathStatsName=DEATHS_RECONBIKE
+  	SuicideStatsName=SUICIDES_RECONBIKE
 
+  	VehicleDamageScaling=0.48
+	lightArmorDmgScaling=0.48
+	AircraftDamageScaling=0.60
+  	BuildingDamageScaling=0.96f
+	MineDamageScaling=2.0
+
+	IconTextureName="T_DeathIcon_ReconBike"
+	IconTexture=Texture2D'TS_VH_ReconBike.Materials.T_DeathIcon_ReconBike'
 }
-

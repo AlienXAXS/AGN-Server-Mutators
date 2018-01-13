@@ -193,6 +193,9 @@ function Message( PlayerReplicationInfo PRI, coerce string Msg, name MsgType, op
 		
 		if ( class'AGN_UtilitiesX'.static.IsPlayerSpecial(PRI, "ADMIN") )
 			cName = "<font color='#8AFF43'><b>{ADMIN}</b></font> " $ cName;
+		
+		if ( class'AGN_UtilitiesX'.static.IsPlayerSpecial(PRI, "MOD") )
+			cName = "<font color='#D24CFF'><b>{MOD}</b></font> " $ cName;
 			
 		if ( class'AGN_UtilitiesX'.static.IsPlayerSpecial(PRI, "DONOR") )
 			cName = "<font color='#79B9F9'><b>{DONOR}</b></font> " $ cName;
