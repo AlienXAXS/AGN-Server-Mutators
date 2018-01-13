@@ -14,8 +14,10 @@ class AGN_InventoryManager_Nod_Sakura extends AGN_InventoryManager_Adv_NOD;
 DefaultProperties
 {
     PrimaryWeapons(0)=class'Rx_Weapon_RamjetRifle'
-    SidearmWeapons(0)=class'Rx_Weapon_Carbine_Silencer'
-    AvailableSidearmWeapons(0)=class'Rx_Weapon_Carbine_Silencer'
+    SidearmWeapons(0)=class'AGN_Weapon_Carbine_Silencer'
+    // SidearmWeapons(0)=class'Rx_Weapon_Carbine_Silencer'
+    AvailableSidearmWeapons(0)=class'AGN_Weapon_Carbine_Silencer'
+    // AvailableSidearmWeapons(0)=class'Rx_Weapon_Carbine_Silencer'
     AvailableAbilityWeapons(0)=class'Rx_WeaponAbility_SmokeGrenade'
 }
 
