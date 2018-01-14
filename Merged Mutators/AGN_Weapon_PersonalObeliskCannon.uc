@@ -32,6 +32,12 @@ simulated function FireAmmunition()
     }
 }*/
 
+simulated function PerformRefill()
+{
+	// Does nothing on refill, wow that was easy.
+	return;
+}
+
 function bool IsInstantHit()
 {
 	return true; 
