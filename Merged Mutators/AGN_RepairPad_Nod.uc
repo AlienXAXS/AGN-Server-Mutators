@@ -27,8 +27,10 @@ simulated function bool IsEffectedByEMP()
 
 simulated function string GetTooltip(Rx_Controller PC)
 {
-	if (PC.GetTeamNum() == GetTeamNum())
-	return ToolTip;
+	if (PC.GetTeamNum() == GetTeamNum() && !isDestroyed())
+		return ToolTip;
+	else
+		return "";
 }
 
 simulated function bool IsBasicOnly()
