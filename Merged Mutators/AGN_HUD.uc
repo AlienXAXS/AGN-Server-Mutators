@@ -169,7 +169,7 @@ function UpdateScreenCentreActor()
 
 function Message( PlayerReplicationInfo PRI, coerce string Msg, name MsgType, optional float LifeTime )
 {
-	local string cName, fMsg, rMsg;
+	local string cName, fMsg, rMsg, uID;
 	local bool bEVA;
 
 	if (Len(Msg) == 0)
@@ -179,22 +179,19 @@ function Message( PlayerReplicationInfo PRI, coerce string Msg, name MsgType, op
 		PlayerOwner.PlayBeepSound();
 
 	// Create Raw and Formatted Chat Messages
-
+	
 	if (PRI != None)
-	{
+	{	
 		// We have a player, let's sort this out
 		cName = CleanHTMLMessage(PRI.PlayerName);
 	
 		if ( class'AGN_UtilitiesX'.static.IsPlayerSpecial(PRI, "OWNER") )
 			cName = "<font color='#FF8A5D'><b>{OWNER}</b></font> " $ cName;
-		
-		if ( class'AGN_UtilitiesX'.static.IsPlayerSpecial(PRI, "ADMIN") )
+		else if ( class'AGN_UtilitiesX'.static.IsPlayerSpecial(PRI, "ADMIN") )
 			cName = "<font color='#8AFF43'><b>{ADMIN}</b></font> " $ cName;
-		
-		if ( class'AGN_UtilitiesX'.static.IsPlayerSpecial(PRI, "MOD") )
+		else if ( class'AGN_UtilitiesX'.static.IsPlayerSpecial(PRI, "MOD") )
 			cName = "<font color='#D24CFF'><b>{MOD}</b></font> " $ cName;
-			
-		if ( class'AGN_UtilitiesX'.static.IsPlayerSpecial(PRI, "DONOR") )
+		else if ( class'AGN_UtilitiesX'.static.IsPlayerSpecial(PRI, "DONOR") )
 			cName = "<font color='#79B9F9'><b>{DONOR}</b></font> " $ cName;
 	}
 	else
@@ -208,12 +205,7 @@ function Message( PlayerReplicationInfo PRI, coerce string Msg, name MsgType, op
 		else if (PRI.Team.GetTeamNum() == TEAM_NOD)
 			fMsg = "<font color='" $NodColor $"'>" $cName $"</font>: ";
 	
-		if ( Rx_Controller(PRI.Owner) != None && Rx_Controller(PRI.Owner).PlayerUUID == "B74A2C38000012FA" ) // AlienX
-		{
-			fMsg $= "<font color='#00FF00'>" $ CleanHTMLMessage(Msg) $ "</font>";
-		} else if ( Rx_Controller(PRI.Owner) != None && Rx_Controller(PRI.Owner).PlayerUUID == "F07E3DD4000031CA" ) { // Sarah
-			fMsg $= "<font color='#FF00FF'>" $ CleanHTMLMessage(Msg) $ "</font>";
-		} else if ( cName != "Host" ) {
+		if ( cName != "Host" ) {
 			fMsg $= CleanHTMLMessage(Msg);
 			PublicChatMessageLog $= "\n" $ fMsg;
 			rMsg = cName $": "$ Msg;
