@@ -81,8 +81,8 @@ function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, AGN_Crate
 			RX_EVA_VoiceClips.Nod_EVA.S_EVA_Nod_NodPowerPlant_PowerOffline_Cue
 			RX_EVA_VoiceClips.gdi_EVA.S_EVA_GDI_NodPowerPlant_PowerOffline_Cue
 		*/
-		class'AGN_UtilitiesX'.Static.PlayAudioForTeam(TEAM_GDI, SoundCue'RX_EVA_VoiceClips.gdi_EVA.S_EVA_GDI_NodPowerPlant_PowerOffline_Cue');
-		class'AGN_UtilitiesX'.Static.PlayAudioForTeam(TEAM_NOD, SoundCue'RX_EVA_VoiceClips.Nod_EVA.S_EVA_Nod_NodPowerPlant_PowerOffline_Cue');
+		//class'AGN_UtilitiesX'.Static.PlayAudioForTeam(TEAM_GDI, SoundCue'RX_EVA_VoiceClips.gdi_EVA.S_EVA_GDI_NodPowerPlant_PowerOffline_Cue');
+		//class'AGN_UtilitiesX'.Static.PlayAudioForTeam(TEAM_NOD, SoundCue'RX_EVA_VoiceClips.Nod_EVA.S_EVA_Nod_NodPowerPlant_PowerOffline_Cue');
 		//class'AGN_UtilitiesX'.Static.SetCratePickupMessageForTeam(TEAM_NOD, "Base Defences Offline", RestorePowerInSeconds);
 		//class'AGN_UtilitiesX'.Static.SetCratePickupMessageForTeam(TEAM_GDI, "Nod Defences Offline", RestorePowerInSeconds);
 	} else {
@@ -109,8 +109,8 @@ function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, AGN_Crate
 			RX_EVA_VoiceClips.gdi_EVA.S_EVA_GDI_GDIPowerPlant_PowerOffline_Cue
 			RX_EVA_VoiceClips.Nod_EVA.S_EVA_Nod_GDIPowerPlant_PowerOffline_Cue
 		*/
-		class'AGN_UtilitiesX'.Static.PlayAudioForTeam(TEAM_GDI, SoundCue'RX_EVA_VoiceClips.gdi_EVA.S_EVA_GDI_GDIPowerPlant_PowerOffline_Cue');
-		class'AGN_UtilitiesX'.Static.PlayAudioForTeam(TEAM_NOD, SoundCue'RX_EVA_VoiceClips.Nod_EVA.S_EVA_Nod_GDIPowerPlant_PowerOffline_Cue');
+		//class'AGN_UtilitiesX'.Static.PlayAudioForTeam(TEAM_GDI, SoundCue'RX_EVA_VoiceClips.gdi_EVA.S_EVA_GDI_GDIPowerPlant_PowerOffline_Cue');
+		//class'AGN_UtilitiesX'.Static.PlayAudioForTeam(TEAM_NOD, SoundCue'RX_EVA_VoiceClips.Nod_EVA.S_EVA_Nod_GDIPowerPlant_PowerOffline_Cue');
 		//class'AGN_UtilitiesX'.Static.SetCratePickupMessageForTeam(TEAM_GDI, "Base Defences Offline", RestorePowerInSeconds);
 		//class'AGN_UtilitiesX'.Static.SetCratePickupMessageForTeam(TEAM_NOD, "GDI Defences Offline", RestorePowerInSeconds);
 	}

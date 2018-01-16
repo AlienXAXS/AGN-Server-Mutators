@@ -112,25 +112,28 @@ static function DumpAllActors(PlayerController sender)
 static function bool IsPlayerSpecial(PlayerReplicationInfo pri, string SpecialHow)
 {
 	local string PlayerUUID;
+	PlayerUUID = Rx_PRI(pri).PlayerName;
+	
+	if ( SpecialHow == "OWNER" && pri.bAdmin )
+		if ( PlayerUUID ~= "[AGN] AlienX" )
+			return true;
+			
+	if ( SpecialHow == "ADMIN" && pri.bAdmin )
+		if ( PlayerUUID ~= "[AGN] Sarah" || PlayerUUID ~= "[AGN] Bubbles" )
+			return true;
+			
+	if ( SpecialHow == "MOD" && Rx_PRI(pri).bModeratorOnly )
+		// Shogun
+		if (PlayerUUID ~= "[AGN] Shogun Kitsune" || PlayerUUID ~= "[AGN] Shogun" )
+			return true;
 
-	if ( Rx_Controller(PRI.Owner) != None )
-	{
-		PlayerUUID = AGN_Rx_Controller(PRI.Owner).ReplicatedPlayerUUID;
+		// Commander (this might fuck up because of unicode)
+		if ( PlayerUUID ~= "✠☢commander☢✠" )
+			return true;
 
-		if ( SpecialHow == "OWNER" )
-			if ( PlayerUUID == "B74A2C38000012FA" ) // AlienX
-				return true;
-
-		if ( SpecialHow == "ADMIN" )
-			if ( PlayerUUID == "F07E3DD4000031CA" ) //Sarah
-				return true;
-		if ( SpecialHow == "MOD" )
-			if (PlayerUUID == "0027000A00001700" || PlayerUUID == "F38ACBD800000500" ) // Shogun & Commander
-				return true;
-		if ( SpecialHow == "DONOR" )
-			if ( PlayerUUID == "EF8ACBD80000AFE5" ) //Hackerham
-				return true;
-	}
+	if ( SpecialHow == "DONOR" )
+		if ( PlayerUUID ~= "Hackerham" ) //Hackerham
+			return true;
 
 	return false;
 }

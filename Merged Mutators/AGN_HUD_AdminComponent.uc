@@ -41,10 +41,9 @@ function Draw()
 simulated function DrawServerFPS()
 {
 	local float X,Y;
-	local string hudMessage;
-	local string fpsMessage;
+	local string hudMessage,fpsMessage;
 	
-	if ( RenxHud.PlayerOwner == None || RenxHud.PlayerOwner.PlayerReplicationInfo == None || !RenxHud.PlayerOwner.PlayerReplicationInfo.bAdmin )
+	if ( RenxHud.PlayerOwner != None && RenxHud.PlayerOwner.PlayerReplicationInfo != None && !RenxHud.PlayerOwner.PlayerReplicationInfo.bAdmin || !Rx_PRI(RenxHud.PlayerOwner.PlayerReplicationInfo).bModeratorOnly )
 		return;
 	
 	X = RenxHud.Canvas.SizeX*0.005;
@@ -58,7 +57,7 @@ simulated function DrawServerFPS()
 		Canvas.DrawText("AGN-Admin-HUD Loading...");
 	} else {
 		//ServerFPS,CurrentActors,CurrentVehiclesNod,CurrentVehiclesGDI,CurrentVehiclesUnoccupied,ServerDeltaTime
-		
+				
 		hudMessage = "[AGN-Admin-Stats]\n";
 		fpsMessage = AGN_MutController.ServerFPS == 0 ? "Running As Client Or No Data!" : string(AGN_MutController.ServerFPS);
 		hudMessage $= "  SFPS: " $ fpsMessage $ " | DT: " $ AGN_MutController.ServerDeltaTime $ " | AA: " $ string(AGN_MutController.CurrentActors) $ "\n";

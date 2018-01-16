@@ -17,27 +17,37 @@ var Rx_Building_GDI_PowerFactory GDIPowerFactory;
 var Rx_Building_GDI_MoneyFactory GDIMoneyFactory;
 var Rx_Building_Nod_PowerFactory NodPowerFactory;
 var Rx_Building_Nod_MoneyFactory NodMoneyFactory;
+var ParticleSystemComponent xEffect;
 
 
 simulated function StartRepairPadVisuals()
 {
-	if (WorldInfo.NetMode != NM_Client)
-		Spawn(class'AGN_Mut_AlienXSystem.AGN_RepairPad_Emitter',,, Location, Rotation);
+	if ( xEffect == None )
+		xEffect = class'WorldInfo'.static.GetWorldInfo().MyEmitterPool.SpawnEmitter(ParticleSystem'AGN_FX_Package.Particles.Explosions.P_RepairField', Location, Rotation);
+}
+
+simulated function StopRepairPadVisuals()
+{
+	if ( xEffect != None )
+	{
+		xEffect.SetActive(false);
+		class'WorldInfo'.static.GetWorldInfo().MyEmitterPool.OnParticleSystemFinished(xEffect);
+		class'WorldInfo'.static.GetWorldInfo().MyEmitterPool.ClearPoolComponents();
+		xEffect = None;
+	}
 }
 
 // Start our timer
 function PostBeginPlay()
 {
 	local Rx_Building building;
-	
-	
+
 	// Call our Super, otherwise our Repair Pad will never get init
 	Super.PostBeginPlay();
 
 	// Get our buildings so we dont have to loop around them each time like we did before.
 	ForEach Rx_Game(`WorldInfoObject.Game).AllActors(class'Rx_Building',building)
 	{
-		
 		if ( Rx_Building_GDI_PowerFactory(building) != None )
 			GDIPowerFactory = Rx_Building_GDI_PowerFactory(building);
 		if ( Rx_Building_GDI_MoneyFactory(building) != None )
@@ -53,6 +63,61 @@ function PostBeginPlay()
 	
 	// Start our repairpad tick
 	SetTimer(1, true, 'RepairPadTick');
+	SetTimer(5, true, 'RepairPadSelfDestruct');
+}
+
+function RepairPadSelfDestruct()
+{
+	local Rx_Building building;
+	local AGN_Weapon_CrateNuke BeaconNuke;
+	local AGN_Weapon_CrateIon BeaconIon;
+	local int xCount;
+	local vector loc;
+	
+	// Go around all buildings, check the team, if it's dead and if it's not a repair pad, counter++
+	ForEach Rx_Game(`WorldInfoObject.Game).AllActors(class'Rx_Building',building)
+		if ( building.GetTeamNum() == TeamID && !building.isDestroyed() && AGN_Repairpad_Nod(building) == None && AGN_RepairPad_GDI(building) == None )
+			xCount++;
+		
+	if ( xCount == 0 )
+	{
+		loc = location;
+		loc.z += 100;
+		// Destroy our own Repair pad to win the game for the enemy team.
+		if ( TeamID == TEAM_GDI )
+		{
+			// Spawn a Nuke on the repair pad
+			BeaconNuke = Spawn(class'AGN_Weapon_CrateNuke',,,loc, Rotation);
+			BeaconNuke.TeamNum = TEAM_NOD;
+		} else {
+			// Spawn an Orbital Strike on the repair pad
+			BeaconIon = Spawn(class'AGN_Weapon_CrateIon',,,loc, Rotation);
+			BeaconIon.TeamNum = TEAM_GDI;
+		}
+		SetTimer(5, false, 'KillBuilding');
+		ClearTimer('RepairPadSelfDestruct');
+	}
+}
+
+function KillBuilding()
+{
+	local int dmgLodLevel;
+	
+	if ( isDestroyed() )
+		return;
+		
+	Rx_Building_Team_Internals(self.BuildingInternals).Armor = 0;
+	Rx_Building_Team_Internals(self.BuildingInternals).Health = 0;	
+	Rx_Building_Team_Internals(self.BuildingInternals).bDestroyed = true;
+	Rx_Building_Team_Internals(self.BuildingInternals).PlayDestructionAnimation();
+	Rx_Game(WorldInfo.Game).CheckBuildingsDestroyed(Rx_Building_Team_Internals(self.BuildingInternals).BuildingVisuals);
+
+	dmgLodLevel = Rx_Building_Team_Internals(self.BuildingInternals).GetBuildingHealthLod();
+	if(dmgLodLevel != Rx_Building_Team_Internals(self.BuildingInternals).DamageLodLevel)
+	{
+		Rx_Building_Team_Internals(self.BuildingInternals).DamageLodLevel = dmgLodLevel;
+		Rx_Building_Team_Internals(self.BuildingInternals).ChangeDamageLodLevel(dmgLodLevel);
+	}
 }
 
 // Repair Pads v3.5 - NEW RepairPad Tick! (Much Much faster and SFPS friendly than AllActors as this uses the collision hash)
@@ -62,6 +127,7 @@ function RepairPadTick()
 	local int calculatedRepairRate;
 	local int calculatedRepairCost;
 	local Rx_PRI playerRepInfo;
+	local int count;
 	
 	// Is this repairpad dead?
 	if ( IsDestroyed() )
@@ -69,7 +135,7 @@ function RepairPadTick()
 		ClearTimer('RepairPadTick'); // Stop the timer
 		return;
 	}
-		
+			
 	ForEach VisibleCollidingActors(class'UTVehicle', thisVehicle, RepairDistance, Location, IgnoreHiddenCollidingActors)
 	{
 		if ( IsValidVehicle(thisVehicle) == false )
@@ -87,11 +153,15 @@ function RepairPadTick()
 				thisVehicle.HealDamage(calculatedRepairRate, thisVehicle.Controller, class'Rx_DmgType_Pistol');
 
 				StartRepairPadVisuals();
+				count++;
 			} else {
 				thisVehicle.Driver.ClientMessage("Unable to repair: Not enough credits");
 			}
 		}
 	}
+	
+	if ( count == 0 )
+		StopRepairPadVisuals();
 }
 
 function bool IsValidVehicle(UTVehicle thisVehicle)
