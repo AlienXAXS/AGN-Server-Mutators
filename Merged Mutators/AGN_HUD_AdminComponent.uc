@@ -43,7 +43,7 @@ simulated function DrawServerFPS()
 	local float X,Y;
 	local string hudMessage,fpsMessage;
 	
-	if ( RenxHud.PlayerOwner != None && RenxHud.PlayerOwner.PlayerReplicationInfo != None && !RenxHud.PlayerOwner.PlayerReplicationInfo.bAdmin || !Rx_PRI(RenxHud.PlayerOwner.PlayerReplicationInfo).bModeratorOnly )
+	if ( RenxHud.PlayerOwner != None && RenxHud.PlayerOwner.PlayerReplicationInfo != None && !RenxHud.PlayerOwner.PlayerReplicationInfo.bAdmin )
 		return;
 	
 	X = RenxHud.Canvas.SizeX*0.005;
