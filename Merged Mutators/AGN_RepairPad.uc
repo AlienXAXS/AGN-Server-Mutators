@@ -1,15 +1,15 @@
-/* 
+/*
  * YOU ARE NOT UNDER ANY CIRCUMSTANCES ALLOWED TO REDISTRUBUTE OR USE THE SOURCE CODE IN ANY NON-AGN SERVER WITHOUT THE WRITTEN PERMISSION BY THE OWNER.
- * 
+ *
  * THE FILES CONTAINED WITHIN ARE COPYRIGHT VIRTUAL PRIVATE SERVER SOLUTIONS LTD (https://beta.companieshouse.gov.uk/company/10750173).
- * 
+ *
  * IF YOU WISH TO USE THESE FILES, INCLUDING ANY OF IT'S CONTENT FOR YOUR OWN WORK, ONCE AGAIN YOU WILL HAVE TO HAVE WRITTEN PERMISSION FROM THE CONTENT OWNER https://www.vps-solutions.co.uk
- * 
+ *
  * BY BROWSING THIS CONTENT YOU HEREBY AGREE TO THE VPS-SOLUTIONS TERMS OF SERVICE (https://www.vps-solutions.co.uk/terms-of-service.php)
  */
 
 
-class AGN_RepairPad extends Rx_Building;
+class AGN_RepairPad extends Rx_Building implements (RxIfc_TargetedDescription);
 
 var int RepairDistance, RepairRate, CostPerRepair, RepairRatePowerOffline, CostPerRepairRefinaryOffline;
 var bool IgnoreHiddenCollidingActors;
@@ -19,6 +19,13 @@ var Rx_Building_Nod_PowerFactory NodPowerFactory;
 var Rx_Building_Nod_MoneyFactory NodMoneyFactory;
 var ParticleSystemComponent xEffect;
 
+
+simulated function string GetTargetedDescription(PlayerController PlayerPerspective)
+{
+	if (GetHealth() > 0 && Rx_Building_Team_Internals(BuildingInternals).bNoPower)
+		return "Low Efficiency";
+	return "";
+}
 
 simulated function StartRepairPadVisuals()
 {
@@ -57,10 +64,10 @@ function PostBeginPlay()
 		if ( Rx_Building_Nod_PowerFactory(building) != None )
 			NodPowerFactory = Rx_Building_Nod_PowerFactory(building);
 	}
-	
+
 	`log("[AGN-RepairPad] GDI POWER: " $ GDIPowerFactory == None ? "NOT_FOUND" : "FOUND" $ "  GDI REFINARY: " $ GDIMoneyFactory == None ? "NOT FOUND" : "FOUND" );
 	`log("[AGN-RepairPad] Nod POWER: " $ NodPowerFactory == None ? "NOT_FOUND" : "FOUND" $ "  Nod REFINARY: " $ NodMoneyFactory == None ? "NOT FOUND" : "FOUND" );
-	
+
 	// Start our repairpad tick
 	SetTimer(1, true, 'RepairPadTick');
 	SetTimer(5, true, 'RepairPadSelfDestruct');
@@ -73,12 +80,12 @@ function RepairPadSelfDestruct()
 	local AGN_Weapon_CrateIon BeaconIon;
 	local int xCount;
 	local vector loc;
-	
+
 	// Go around all buildings, check the team, if it's dead and if it's not a repair pad, counter++
 	ForEach Rx_Game(`WorldInfoObject.Game).AllActors(class'Rx_Building',building)
 		if ( building.GetTeamNum() == TeamID && !building.isDestroyed() && AGN_Repairpad_Nod(building) == None && AGN_RepairPad_GDI(building) == None )
 			xCount++;
-		
+
 	if ( xCount == 0 )
 	{
 		loc = location;
@@ -102,12 +109,12 @@ function RepairPadSelfDestruct()
 function KillBuilding()
 {
 	local int dmgLodLevel;
-	
+
 	if ( isDestroyed() )
 		return;
-		
+
 	Rx_Building_Team_Internals(self.BuildingInternals).Armor = 0;
-	Rx_Building_Team_Internals(self.BuildingInternals).Health = 0;	
+	Rx_Building_Team_Internals(self.BuildingInternals).Health = 0;
 	Rx_Building_Team_Internals(self.BuildingInternals).bDestroyed = true;
 	Rx_Building_Team_Internals(self.BuildingInternals).PlayDestructionAnimation();
 	Rx_Game(WorldInfo.Game).CheckBuildingsDestroyed(Rx_Building_Team_Internals(self.BuildingInternals).BuildingVisuals);
@@ -128,23 +135,23 @@ function RepairPadTick()
 	local int calculatedRepairCost;
 	local Rx_PRI playerRepInfo;
 	local int count;
-	
+
 	// Is this repairpad dead?
 	if ( IsDestroyed() )
 	{
 		ClearTimer('RepairPadTick'); // Stop the timer
 		return;
 	}
-			
+
 	ForEach VisibleCollidingActors(class'UTVehicle', thisVehicle, RepairDistance, Location, IgnoreHiddenCollidingActors)
 	{
 		if ( IsValidVehicle(thisVehicle) == false )
 			continue;
-	
+
 		calculatedRepairRate = CalculateRepairRate();
 		calculatedRepairCost = CalculateCostPerRepair();
 		playerRepInfo = Rx_PRI(thisVehicle.PlayerReplicationInfo);
-		
+
 		if ( thisVehicle.Health < thisVehicle.HealthMax )
 		{
 			if ( playerRepInfo.GetCredits() > calculatedRepairCost )
@@ -159,7 +166,7 @@ function RepairPadTick()
 			}
 		}
 	}
-	
+
 	if ( count == 0 )
 		StopRepairPadVisuals();
 }
@@ -170,7 +177,7 @@ function bool IsValidVehicle(UTVehicle thisVehicle)
 		if ( Rx_Pawn(thisVehicle.Driver) != None || Rx_PRI(thisVehicle.PlayerReplicationInfo) != None )
 			if ( thisVehicle.Driver.GetTeamNum() == TeamID )
 				return true;
-	
+
 	// Invalid vehicle on pad
 	return false;
 }
@@ -184,7 +191,7 @@ function int CalculateRepairRate()
 	else
 		if ( NodPowerFactory != none && NodPowerFactory.IsDestroyed() )
 			return RepairRatePowerOffline;
-	
+
 	return RepairRate;
 }
 
@@ -196,7 +203,7 @@ function int CalculateCostPerRepair()
 	else
 		if ( NodMoneyFactory != none && NodMoneyFactory.IsDestroyed() )
 			return CostPerRepairRefinaryOffline;
-	
+
 	return CostPerRepair;
 }
 
@@ -214,20 +221,19 @@ DefaultProperties
 {
 	// The distance to check for applicable vehicles to be repaired on each pad
 	RepairDistance = 350
-	
+
 	// How much HP to repair the Vehicle per second when power is online
 	RepairRate = 25
-	
+
 	// How much HP to repair the Vehicle per second when power is offline
 	RepairRatePowerOffline = 15
-	
+
 	// How much to charge the player per second when power is online
 	CostPerRepair = 4
-	
+
 	// How much to charge the player per second when power is offline
 	CostPerRepairRefinaryOffline = 2
-	
+
 	// Ignore this, do not change
 	IgnoreHiddenCollidingActors = true
 }
-
