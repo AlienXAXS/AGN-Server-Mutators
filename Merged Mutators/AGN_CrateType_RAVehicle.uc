@@ -18,7 +18,7 @@ var array<class<Rx_Vehicle> > Vehicles;
 
 function string GetPickupMessage()
 {
-	return Repl(PickupMessage, "`vehname`", GivenVehicle.GetHumanReadableName(), false);
+	return Repl("You got a `vehname`!", "`vehname`", GivenVehicle.GetHumanReadableName(), false);
 }
 
 function string GetGameLogMessage(Rx_PRI RecipientPRI, AGN_CratePickup CratePickup)
