@@ -134,6 +134,9 @@ static function bool IsPlayerSpecial(PlayerReplicationInfo pri, string SpecialHo
 	if ( SpecialHow == "DONOR" )
 		if ( PlayerUUID ~= "Hackerham" ) //Hackerham
 			return true;
+	
+		if ( PlayerUUID ~= "TRRDroid" ) //TRRDroid
+			return true;
 
 	return false;
 }

@@ -66,13 +66,13 @@ function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, AGN_Crate
 
 defaultproperties
 {
-    Vehicles(0)=class'TS_Vehicle_Titan'
-    Vehicles(1)=class'TS_Vehicle_Wolverine'
-    Vehicles(2)=class'TS_Vehicle_HoverMRLS'
-    Vehicles(3)=class'TS_Vehicle_TickTank'
-    Vehicles(4)=class'TS_Vehicle_ReconBike'
-    Vehicles(5)=class'TS_Vehicle_Buggy'
-    Vehicles(6)=class'APB_Vehicle_TeslaTank'
+    Vehicles(0)=class'AGN_Vehicle_Titan'
+    Vehicles(1)=class'AGN_Vehicle_Wolverine'
+    Vehicles(2)=class'AGN_Vehicle_HoverMRLS'
+    Vehicles(3)=class'AGN_Vehicle_TickTank'
+    Vehicles(4)=class'AGN_Vehicle_ReconBike'
+    Vehicles(5)=class'AGN_TS_Vehicle_Buggy'
+    Vehicles(6)=class'AGN_Vehicle_TeslaTank'
     BroadcastMessageIndex=14
     PickupSound=SoundCue'Rx_Pickups.Sounds.SC_Crate_VehicleDrop'
 }

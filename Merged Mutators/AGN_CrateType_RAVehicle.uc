@@ -69,6 +69,6 @@ DefaultProperties
 	BroadcastMessageIndex = 15 
 	PickupSound = SoundCue'Rx_Pickups.Sounds.SC_Crate_VehicleDrop'
 
-	Vehicles.Add(class'APB_Vehicle_TeslaTank');
+	Vehicles.Add(class'AGN_Vehicle_TeslaTank');
 }
 

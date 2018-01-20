@@ -25,7 +25,7 @@ function string GetGameLogMessage(Rx_PRI RecipientPRI, AGN_CratePickup CratePick
 
 function string GetPickupMessage()
 {
-	return Repl(PickupMessage, "`credsum`", credits, false);
+	return "You found a money crate!";
 }
 
 function float GetProbabilityWeight(Rx_Pawn Recipient, AGN_CratePickup CratePickup)
