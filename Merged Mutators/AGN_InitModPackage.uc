@@ -18,6 +18,7 @@ var() array<bool> oldCratesNukeSpawning;
 var AGN_Veh_Mutator VehMutator;
 var AGN_Sys_Mutator SystemMutator;
 var AGN_Mut_RepairPad_v2 RepairPads;
+var AGN_MapFix_Islands AGNMapFixIslands;
 
 var bool modPackageInitComplete;
 var bool mutatorInitDone;
@@ -38,7 +39,7 @@ function ModifyPlayer(Pawn Other)
 function InitMutator(string options, out string errorMessage)
 {
 	local String mapname;
-
+	
 	modPackageInitComplete = false;
 
 	if ( MaxPlayersAllowed == 0 )
@@ -83,6 +84,13 @@ function InitMutator(string options, out string errorMessage)
 		`log("[AGN-Map-Decider] NON FLYING MAP FOUND, LOADING AGN_VEH_MUTATOR INIT");
 		VehMutator = spawn(class'AGN_Veh_Mutator');
 		VehMutator.OnInitMutator(options, errorMessage);
+	}
+	
+	if ( mapname ~= "islands" )
+	{
+		AGNMapFixIslands = spawn(class'AGN_MapFix_Islands');
+		if ( AGNMapFixIslands != None )
+			AGNMapFixIslands.InitSystem();
 	}
 
 	SystemMutator = spawn(class'AGN_Sys_Mutator');

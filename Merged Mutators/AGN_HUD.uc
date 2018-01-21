@@ -72,17 +72,11 @@ function float GetWeaponTargetingRange()
 
     if((PlayerOwner != none) && PlayerOwner.ViewTarget != none)
     {
-        if((UTVehicle(PlayerOwner.ViewTarget) != none) && UTVehicle(PlayerOwner.ViewTarget).Weapon != none)
-        {
-            OurWeapon = UTVehicle(PlayerOwner.ViewTarget).Weapon;
-        }
-        else
-        {
-            if((UTPawn(PlayerOwner.ViewTarget) != none) && UTPawn(PlayerOwner.ViewTarget).Weapon != none)
-            {
-                OurWeapon = UTPawn(PlayerOwner.ViewTarget).Weapon;
-            }
-        }
+		if (UTVehicle(PlayerOwner.ViewTarget) != none && UTVehicle(PlayerOwner.ViewTarget).Weapon != none)
+			OurWeapon = UTVehicle(PlayerOwner.ViewTarget).Weapon;
+		else if (UTPawn(PlayerOwner.ViewTarget) != none && UTPawn(PlayerOwner.ViewTarget).Weapon != none)
+			OurWeapon = UTPawn(PlayerOwner.ViewTarget).Weapon;
+
         if(((OurWeapon != none) && Rx_Weapon_Deployable(OurWeapon) == none) && Rx_Weapon_RepairGun(OurWeapon) == none)
         {
             weaponRange = GetWeaponRange();
@@ -97,14 +91,9 @@ function float GetWeaponTargetingRange()
 			}
         }
         else
-        {
             return DefaultTargettingRange;
-        }
-    }
-    else
-    {
-        return DefaultTargettingRange;
-    }
+    } else
+		return DefaultTargettingRange;
 }
 
 function UpdateScreenCentreActor()
@@ -113,7 +102,6 @@ function UpdateScreenCentreActor()
 	local float ClosestHit, extendedDist, tempDist;
 	local Actor HitActor, PotentialTarget;
 	local float WeaponTargetingRange;
-	local Weapon OurWeapon;
 
 	PotentialTarget = none;
 	WeaponAimingActor = none;
@@ -124,17 +112,7 @@ function UpdateScreenCentreActor()
 	// So, We crudly check if the current weapon is of a custom type and get the WeaponRange from default properties.
 	WeaponTargetingRange = GetWeaponTargetingRange();
 	if ( WeaponTargetingRange == 0 )
-	{			
-		if (UTVehicle(PlayerOwner.ViewTarget) != none && UTVehicle(PlayerOwner.ViewTarget).Weapon != none)
-			OurWeapon = UTVehicle(PlayerOwner.ViewTarget).Weapon;
-		else if (UTPawn(PlayerOwner.ViewTarget) != none && UTPawn(PlayerOwner.ViewTarget).Weapon != none)
-			OurWeapon = UTPawn(PlayerOwner.ViewTarget).Weapon;
-
-		if ( OurWeapon.default.WeaponRange > 0 )
-			WeaponTargetingRange = OurWeapon.default.WeaponRange;
-		else
-			WeaponTargetingRange = 10000;
-	}
+		WeaponTargetingRange = 10000;
 
 	ClosestHit = WeaponTargetingRange;
 
