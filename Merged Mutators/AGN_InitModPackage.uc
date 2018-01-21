@@ -19,6 +19,7 @@ var AGN_Veh_Mutator VehMutator;
 var AGN_Sys_Mutator SystemMutator;
 var AGN_Mut_RepairPad_v2 RepairPads;
 var AGN_MapFix_Islands AGNMapFixIslands;
+var AGN_Rebuildable_Defence_Handler AGN_RebuildableDefenceHandler;
 
 var bool modPackageInitComplete;
 var bool mutatorInitDone;
@@ -100,6 +101,10 @@ function InitMutator(string options, out string errorMessage)
 	RepairPads = spawn(class'AGN_Mut_RepairPad_v2');
 	if ( RepairPads != None )
 		RepairPads.OnInitMutator();
+		
+	AGN_RebuildableDefenceHandler = spawn(class'AGN_Rebuildable_Defence_Handler');
+	if ( AGN_RebuildableDefenceHandler != None)
+		AGN_RebuildableDefenceHandler.InitSystem();
 
 	super(Mutator).InitMutator(Options, ErrorMessage);
 }
