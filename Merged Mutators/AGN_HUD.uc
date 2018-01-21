@@ -111,6 +111,7 @@ function UpdateScreenCentreActor()
 	// GetWeaponTargetingRange always returns zero
 	// So, We crudly check if the current weapon is of a custom type and get the WeaponRange from default properties.
 	WeaponTargetingRange = GetWeaponTargetingRange();
+	
 	if ( WeaponTargetingRange == 0 )
 		WeaponTargetingRange = 10000;
 
@@ -163,13 +164,13 @@ function Message( PlayerReplicationInfo PRI, coerce string Msg, name MsgType, op
 		// We have a player, let's sort this out
 		cName = CleanHTMLMessage(PRI.PlayerName);
 	
-		if ( class'AGN_UtilitiesX'.static.IsPlayerSpecial(PRI, "OWNER") )
+		if ( class'AGN_UtilitiesX'.static.IsPlayerSpecial(PRI, 0) )
 			cName = "<font color='#FF8A5D'><b>{OWNER}</b></font> " $ cName;
-		else if ( class'AGN_UtilitiesX'.static.IsPlayerSpecial(PRI, "ADMIN") )
+		else if ( class'AGN_UtilitiesX'.static.IsPlayerSpecial(PRI, 1) )
 			cName = "<font color='#8AFF43'><b>{ADMIN}</b></font> " $ cName;
-		else if ( class'AGN_UtilitiesX'.static.IsPlayerSpecial(PRI, "MOD") )
+		else if ( class'AGN_UtilitiesX'.static.IsPlayerSpecial(PRI, 2) )
 			cName = "<font color='#D24CFF'><b>{MOD}</b></font> " $ cName;
-		else if ( class'AGN_UtilitiesX'.static.IsPlayerSpecial(PRI, "DONOR") )
+		else if ( class'AGN_UtilitiesX'.static.IsPlayerSpecial(PRI, 3) )
 			cName = "<font color='#79B9F9'><b>{DONOR}</b></font> " $ cName;
 	}
 	else

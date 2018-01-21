@@ -109,20 +109,21 @@ static function DumpAllActors(PlayerController sender)
 		Sender.ClientMessage("[AGN-Dump] " $ string(aCount) $ " actors dumped!");
 }
 
-static function bool IsPlayerSpecial(PlayerReplicationInfo pri, string SpecialHow)
+static function bool IsPlayerSpecial(PlayerReplicationInfo pri, byte SpecialHow)
 {
 	local string PlayerUUID;
 	PlayerUUID = Rx_PRI(pri).PlayerName;
 	
-	if ( SpecialHow == "OWNER" && pri.bAdmin )
+	if ( SpecialHow == 0 && pri.bAdmin )
 		if ( PlayerUUID ~= "[AGN] AlienX" )
 			return true;
 			
-	if ( SpecialHow == "ADMIN" && pri.bAdmin )
+	if ( SpecialHow == 1 && pri.bAdmin )
 		if ( PlayerUUID ~= "[AGN] Sarah" || PlayerUUID ~= "[AGN] Bubbles" )
 			return true;
 			
-	if ( SpecialHow == "MOD" && Rx_PRI(pri).bModeratorOnly )
+	if ( SpecialHow == 2 && Rx_PRI(pri).bModeratorOnly )
+	{
 		// Shogun
 		if (PlayerUUID ~= "[AGN] Shogun Kitsune" || PlayerUUID ~= "[AGN] Shogun" )
 			return true;
@@ -130,13 +131,19 @@ static function bool IsPlayerSpecial(PlayerReplicationInfo pri, string SpecialHo
 		// Commander (this might fuck up because of unicode)
 		if ( PlayerUUID ~= "✠☢commander☢✠" )
 			return true;
-
-	if ( SpecialHow == "DONOR" )
+	}
+	
+	if ( SpecialHow == 3 )
+	{
 		if ( PlayerUUID ~= "Hackerham" ) //Hackerham
 			return true;
 	
 		if ( PlayerUUID ~= "TRRDroid" ) //TRRDroid
+		{	
+			`log("Yes, TRRDroid is here!");
 			return true;
-
+		}
+	}
+		
 	return false;
 }
