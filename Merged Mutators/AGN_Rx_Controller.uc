@@ -13,7 +13,7 @@ class AGN_Rx_Controller extends Rx_Controller;
 
 var class<Rx_GFxPurchaseMenu> PTMenuClassOriginal;
 
-exec function ReportSpotted()
+exec function ReportSpottedAGN()
 {
 	local Rx_Building Building;
 	local Rx_Bot bot;
