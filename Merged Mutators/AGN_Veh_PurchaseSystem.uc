@@ -116,7 +116,7 @@ simulated function int GetVehiclePrices(byte teamID, int VehicleID, bool bViaAir
 				return 700;
 		}
 		else if (VehicleID == 7)
-			return 2350 * Multiplier;
+			return 1500 * Multiplier;
 		else if (VehicleID == 8)
 			return 1000 * Multiplier;
 		else
