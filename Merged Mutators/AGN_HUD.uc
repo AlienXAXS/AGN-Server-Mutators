@@ -206,7 +206,7 @@ function Message( PlayerReplicationInfo PRI, coerce string Msg, name MsgType, op
 	}
 	else if (MsgType == 'Radio')
 	{
-		fMsg = "<font color='" $RadioColor $"'>" $ cName $": "$ CleanHTMLMessage(Msg) $"</font>";
+		fMsg = "<font color='" $RadioColor $"'>" $ cName $": "$ Msg $"</font>";
 		//PublicChatMessageLog $= "\n" $ fMsg;
 		rMsg = cName $": "$ Msg;
 	}
