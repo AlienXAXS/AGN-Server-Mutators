@@ -72,17 +72,11 @@ function float GetWeaponTargetingRange()
 
     if((PlayerOwner != none) && PlayerOwner.ViewTarget != none)
     {
-        if((UTVehicle(PlayerOwner.ViewTarget) != none) && UTVehicle(PlayerOwner.ViewTarget).Weapon != none)
-        {
-            OurWeapon = UTVehicle(PlayerOwner.ViewTarget).Weapon;
-        }
-        else
-        {
-            if((UTPawn(PlayerOwner.ViewTarget) != none) && UTPawn(PlayerOwner.ViewTarget).Weapon != none)
-            {
-                OurWeapon = UTPawn(PlayerOwner.ViewTarget).Weapon;
-            }
-        }
+		if (UTVehicle(PlayerOwner.ViewTarget) != none && UTVehicle(PlayerOwner.ViewTarget).Weapon != none)
+			OurWeapon = UTVehicle(PlayerOwner.ViewTarget).Weapon;
+		else if (UTPawn(PlayerOwner.ViewTarget) != none && UTPawn(PlayerOwner.ViewTarget).Weapon != none)
+			OurWeapon = UTPawn(PlayerOwner.ViewTarget).Weapon;
+
         if(((OurWeapon != none) && Rx_Weapon_Deployable(OurWeapon) == none) && Rx_Weapon_RepairGun(OurWeapon) == none)
         {
             weaponRange = GetWeaponRange();
@@ -97,14 +91,9 @@ function float GetWeaponTargetingRange()
 			}
         }
         else
-        {
             return DefaultTargettingRange;
-        }
-    }
-    else
-    {
-        return DefaultTargettingRange;
-    }
+    } else
+		return DefaultTargettingRange;
 }
 
 function UpdateScreenCentreActor()
@@ -113,7 +102,6 @@ function UpdateScreenCentreActor()
 	local float ClosestHit, extendedDist, tempDist;
 	local Actor HitActor, PotentialTarget;
 	local float WeaponTargetingRange;
-	local Weapon OurWeapon;
 
 	PotentialTarget = none;
 	WeaponAimingActor = none;
@@ -123,18 +111,9 @@ function UpdateScreenCentreActor()
 	// GetWeaponTargetingRange always returns zero
 	// So, We crudly check if the current weapon is of a custom type and get the WeaponRange from default properties.
 	WeaponTargetingRange = GetWeaponTargetingRange();
+	
 	if ( WeaponTargetingRange == 0 )
-	{			
-		if (UTVehicle(PlayerOwner.ViewTarget) != none && UTVehicle(PlayerOwner.ViewTarget).Weapon != none)
-			OurWeapon = UTVehicle(PlayerOwner.ViewTarget).Weapon;
-		else if (UTPawn(PlayerOwner.ViewTarget) != none && UTPawn(PlayerOwner.ViewTarget).Weapon != none)
-			OurWeapon = UTPawn(PlayerOwner.ViewTarget).Weapon;
-
-		if ( OurWeapon.default.WeaponRange > 0 )
-			WeaponTargetingRange = OurWeapon.default.WeaponRange;
-		else
-			WeaponTargetingRange = 10000;
-	}
+		WeaponTargetingRange = 10000;
 
 	ClosestHit = WeaponTargetingRange;
 
@@ -185,13 +164,13 @@ function Message( PlayerReplicationInfo PRI, coerce string Msg, name MsgType, op
 		// We have a player, let's sort this out
 		cName = CleanHTMLMessage(PRI.PlayerName);
 	
-		if ( class'AGN_UtilitiesX'.static.IsPlayerSpecial(PRI, "OWNER") )
+		if ( class'AGN_UtilitiesX'.static.IsPlayerSpecial(PRI, 0) )
 			cName = "<font color='#FF8A5D'><b>{OWNER}</b></font> " $ cName;
-		else if ( class'AGN_UtilitiesX'.static.IsPlayerSpecial(PRI, "ADMIN") )
+		else if ( class'AGN_UtilitiesX'.static.IsPlayerSpecial(PRI, 1) )
 			cName = "<font color='#8AFF43'><b>{ADMIN}</b></font> " $ cName;
-		else if ( class'AGN_UtilitiesX'.static.IsPlayerSpecial(PRI, "MOD") )
+		else if ( class'AGN_UtilitiesX'.static.IsPlayerSpecial(PRI, 2) )
 			cName = "<font color='#D24CFF'><b>{MOD}</b></font> " $ cName;
-		else if ( class'AGN_UtilitiesX'.static.IsPlayerSpecial(PRI, "DONOR") )
+		else if ( class'AGN_UtilitiesX'.static.IsPlayerSpecial(PRI, 3) )
 			cName = "<font color='#79B9F9'><b>{DONOR}</b></font> " $ cName;
 	}
 	else
@@ -227,7 +206,7 @@ function Message( PlayerReplicationInfo PRI, coerce string Msg, name MsgType, op
 	}
 	else if (MsgType == 'Radio')
 	{
-		fMsg = "<font color='" $RadioColor $"'>" $ cName $": "$ CleanHTMLMessage(Msg) $"</font>";
+		fMsg = "<font color='" $RadioColor $"'>" $ cName $": "$ Msg $"</font>";
 		//PublicChatMessageLog $= "\n" $ fMsg;
 		rMsg = cName $": "$ Msg;
 	}

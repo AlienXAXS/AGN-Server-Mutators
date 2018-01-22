@@ -91,7 +91,7 @@ if ( (Test-Path $CompiledMutatorPath -PathType Any) -eq $true )
     Write-Output "Build Passed, copying to Renx"
     Copy-Item ($CompiledMutatorPath) $FinalMutatorPath
     Write-Output "Starting Game"
-    Start-Process $RenXBinary -ArgumentList "CNC-Under?Mutator=$MutatorStartupParam $RenXAdditionalStartupParams"
+    Start-Process $RenXBinary -ArgumentList "CNC-Islands?Mutator=$MutatorStartupParam $RenXAdditionalStartupParams"
 } else {
     Write-Output " --------- BUILD FAILED ----------- "
 }

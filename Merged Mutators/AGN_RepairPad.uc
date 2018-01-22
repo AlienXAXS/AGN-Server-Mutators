@@ -19,12 +19,40 @@ var Rx_Building_Nod_PowerFactory NodPowerFactory;
 var Rx_Building_Nod_MoneyFactory NodMoneyFactory;
 var ParticleSystemComponent xEffect;
 
+var repnotify bool bStartEmitter;
+
+replication
+{
+	if (bNetDirty && Role<=Role_Authority)
+		bStartEmitter;
+}
+
+simulated event ReplicatedEvent(name VarName)
+{
+	if ( VarName == 'bStartEmitter' )
+	{
+		if ( bStartEmitter )
+			StartRepairPadVisuals();
+		else
+			StopRepairPadVisuals();
+	}
+}
 
 simulated function string GetTargetedDescription(PlayerController PlayerPerspective)
 {
 	if (GetHealth() > 0 && Rx_Building_Team_Internals(BuildingInternals).bNoPower)
 		return "Low Efficiency";
 	return "";
+}
+
+function StartRepairPadVisualsServer()
+{
+	bStartEmitter = true;
+}
+
+function StopRepairPadVisualsServer()
+{
+	bStartEmitter = false;
 }
 
 simulated function StartRepairPadVisuals()
@@ -159,7 +187,10 @@ function RepairPadTick()
 				playerRepInfo.RemoveCredits(calculatedRepairCost);
 				thisVehicle.HealDamage(calculatedRepairRate, thisVehicle.Controller, class'Rx_DmgType_Pistol');
 
-				StartRepairPadVisuals();
+				if(`WorldInfoObject.NetMode == NM_DedicatedServer)
+					StartRepairPadVisualsServer();
+				else
+					StartRepairPadVisuals();
 				count++;
 			} else {
 				thisVehicle.Driver.ClientMessage("Unable to repair: Not enough credits");
@@ -168,7 +199,10 @@ function RepairPadTick()
 	}
 
 	if ( count == 0 )
-		StopRepairPadVisuals();
+		if(`WorldInfoObject.NetMode == NM_DedicatedServer)
+			StopRepairPadVisualsServer();
+		else
+			StopRepairPadVisuals();
 }
 
 function bool IsValidVehicle(UTVehicle thisVehicle)
