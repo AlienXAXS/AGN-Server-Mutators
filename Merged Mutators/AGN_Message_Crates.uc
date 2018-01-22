@@ -43,6 +43,10 @@ static function string GetString(optional int Switch, optional bool bPRI1HUD, op
 	{
 	    return RelatedPRI_1.PlayerName $ " found a Personal Obelisk Cannon crate!"; 
 	}
+	if(Switch == 1008)
+	{
+	    return RelatedPRI_1.PlayerName $ " found a Tesla Tank crate!"; 
+	}
     }
     return Repl(default.PickupBroadcastMessages[Switch], "`PlayerName`", RelatedPRI_1.PlayerName);
 }
