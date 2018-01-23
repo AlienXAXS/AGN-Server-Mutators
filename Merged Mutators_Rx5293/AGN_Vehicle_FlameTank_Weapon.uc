@@ -1,0 +1,140 @@
+/* 
+ * YOU ARE NOT UNDER ANY CIRCUMSTANCES ALLOWED TO REDISTRUBUTE OR USE THE SOURCE CODE IN ANY NON-AGN SERVER WITHOUT THE WRITTEN PERMISSION BY THE OWNER.
+ * 
+ * THE FILES CONTAINED WITHIN ARE COPYRIGHT VIRTUAL PRIVATE SERVER SOLUTIONS LTD (https://beta.companieshouse.gov.uk/company/10750173).
+ * 
+ * IF YOU WISH TO USE THESE FILES, INCLUDING ANY OF IT'S CONTENT FOR YOUR OWN WORK, ONCE AGAIN YOU WILL HAVE TO HAVE WRITTEN PERMISSION FROM THE CONTENT OWNER https://www.vps-solutions.co.uk
+ * 
+ * BY BROWSING THIS CONTENT YOU HEREBY AGREE TO THE VPS-SOLUTIONS TERMS OF SERVICE (https://www.vps-solutions.co.uk/terms-of-service.php)
+ */
+
+
+/*********************************************************
+*
+* File: Rx_Vehicle_FlameTank_Weapon.uc
+* Author: RenegadeX-Team
+* Pojekt: Renegade-X UDK <www.renegade-x.com>
+*
+* Desc:
+*
+*
+* ConfigFile:
+*
+*********************************************************
+*
+*********************************************************/
+class AGN_Vehicle_FlameTank_Weapon extends Rx_Vehicle_FlameTank_Weapon;
+
+simulated function GetFireStartLocationAndRotation(out vector SocketLocation, out rotator SocketRotation) {
+    
+    super.GetFireStartLocationAndRotation(SocketLocation, SocketRotation);    
+    
+    if( (Rx_Bot(MyVehicle.Controller) != None) && (Rx_Bot(MyVehicle.Controller).GetFocus() != None) ) {
+        if(class'Rx_Utils'.static.OrientationOfLocAndRotToB(SocketLocation,SocketRotation,Rx_Bot(MyVehicle.Controller).GetFocus()) > 0.9) {
+			MaxFinalAimAdjustment = 0.450;	
+        } else {
+            MaxFinalAimAdjustment = 0.990;
+        }
+    }
+}
+
+simulated function bool UsesClientSideProjectiles(byte FireMode)
+{
+	return true;
+}
+
+simulated function Projectile ProjectileFireOld()
+{
+    local UDKProjectile SpawnedProjectile;
+    local vector ForceLoc;
+	
+	`log("AGN-FLAMER ---- Spawning Old Projectile System (whatever that is)");
+	
+    SpawnedProjectile = UDKProjectile(Super.ProjectileFire());
+	
+	//`log("Call Projectile Fire Old" @ SpawnedProjectile); 
+	//ScriptTrace();
+	
+	if(Rx_Projectile(SpawnedProjectile) != none ) Rx_Projectile(SpawnedProjectile).Vrank=VRank; 
+	
+	if(bLockedOnTarget && bDropOnTarget && CurrentFireMode != 1) 
+	{
+		UseArcShot( Rx_Projectile_Rocket(SpawnedProjectile) );
+		SpawnedProjectile.Init( vector(AddSpread(MyVehicle.GetWeaponAim(self))) );
+	}
+    if ( (Role==ROLE_Authority) && (SpawnedProjectile != None) && MyVehicle != none && MyVehicle.Mesh != none)
+    {
+        // apply force to vehicle
+        ForceLoc = MyVehicle.GetTargetLocation();
+        ForceLoc.Z += 100;
+        MyVehicle.Mesh.AddImpulse(RecoilImpulse*SpawnedProjectile.Velocity, ForceLoc);
+    }  
+
+	
+	if (bTargetLockingActive && Rx_Projectile_Rocket(SpawnedProjectile) != None)
+    {
+		SetRocketTarget(Rx_Projectile_Rocket(SpawnedProjectile));
+    }    
+    return SpawnedProjectile;
+}
+
+DefaultProperties
+{
+    InventoryGroup=7
+
+    // gun config
+    FireTriggerTags(0)="FlameLeft"
+    FireTriggerTags(1)="FlameRight"
+    AltFireTriggerTags(0)="FlameLeft"
+    AltFireTriggerTags(1)="FlameRight"
+    VehicleClass=Class'Rx_Vehicle_FlameTank'
+	bCheckIfBarrelInsideWorldGeomBeforeFiring=true 
+	
+    FireInterval(0)=0.05
+    FireInterval(1)=0.05
+    bFastRepeater=true
+	
+	
+    Spread(0)=0.0
+    Spread(1)=0.0
+	
+	/****************************************/
+	/*Veterancy*/
+	/****************************************/
+	
+	//*X (Applied to instant-hits only) Modify Projectiles separately
+	Vet_DamageModifier(0)=1  //Normal
+	Vet_DamageModifier(1)=1.10  //Veteran
+	Vet_DamageModifier(2)=1.25  //Elite
+	Vet_DamageModifier(3)=1.50  //Heroic
+	
+	//*X Reverse percentage (0.75 is 25% increase in speed)
+	Vet_ROFModifier(0) = 1 //Normal
+	Vet_ROFModifier(1) = 0.95  //Veteran
+	Vet_ROFModifier(2) = 0.90  //Elite
+	Vet_ROFModifier(3) = 0.85  //Heroic
+	
+	
+	/********************************/
+	
+	RecoilImpulse = -0.0f
+    
+	CloseRangeAimAdjustRange = 800    
+
+    WeaponFireSnd(0)     = none
+    WeaponFireTypes(0)   = EWFT_Projectile
+    WeaponProjectiles(0) = Class'Rx_Vehicle_FlameTank_Projectile'
+    WeaponFireSnd(1)     = none
+    WeaponFireTypes(1)   = EWFT_Projectile
+    WeaponProjectiles(1) = Class'Rx_Vehicle_FlameTank_Projectile'
+  
+	WeaponProjectiles_Heroic(0)= Class'Rx_Vehicle_FlameTank_Projectile_Heroic'
+	WeaponProjectiles_Heroic(1)= Class'Rx_Vehicle_FlameTank_Projectile_Heroic'
+  
+    CrosshairMIC = MaterialInstanceConstant'RenX_AssetBase.UI.MI_Reticle_Tank_Type5A'
+
+    // AI
+    bRecommendSplashDamage=false
+    bIgnoreDownwardPitch = true
+}
+
