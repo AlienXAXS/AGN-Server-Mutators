@@ -6,7 +6,7 @@ var class<AGN_Rebuildable_Defence_Controller> AGN_DefenceControllerClass;
 var repnotify bool bDefenseIsActive;
 var repnotify int CreditsNeededToActivate;
 var int DefencePurchasePrice;
-var UTPawn P;
+var UTPawn Px;
 
 replication
 {
@@ -79,15 +79,15 @@ function RealInit()
 	tv = Location;
 	tv.z += 50;
 	tv.x += 50;
-	P = Spawn(class'UTPawn',,,tv,,,true);
-	P.bIsInvisible=true;
-	ai.Possess(P, true);
+	Px = Spawn(class'UTPawn',,,tv,,,true);
+	Px.bIsInvisible=true;
+	ai.Possess(Px, true);
 	setTimer(0.1,false,'enter');
 }
 
 function enter(){
     if(Driver == None)
-        DriverEnter(P);
+        DriverEnter(Px);
     ai.Pawn.PeripheralVision = -1.0;
 }
 
