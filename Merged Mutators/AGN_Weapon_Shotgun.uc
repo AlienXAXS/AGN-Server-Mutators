@@ -57,7 +57,7 @@ simulated function bool TryHeadshot(byte FiringMode, ImpactInfo Impact)
 	return false;
 }
 
-function bool IsInstantHit()
+simulated function bool IsInstantHit()
 {
 	return true; 
 }
