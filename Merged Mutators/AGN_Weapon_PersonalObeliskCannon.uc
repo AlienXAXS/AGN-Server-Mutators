@@ -38,7 +38,7 @@ simulated function PerformRefill()
 	return;
 }
 
-function bool IsInstantHit()
+simulated function bool IsInstantHit()
 {
 	return true; 
 }

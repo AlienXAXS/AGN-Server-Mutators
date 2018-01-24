@@ -57,7 +57,7 @@ simulated function bool TryHeadshot(byte FiringMode, ImpactInfo Impact)
 	return false;
 }
 
-function bool IsInstantHit()
+simulated function bool IsInstantHit()
 {
 	return true; 
 }
@@ -107,7 +107,7 @@ defaultproperties
 
     ShotCost(0)=1
     ShotCost(1)=1
-    Spread(0)=0.16 //0.18
+    Spread(0)=0.17 //0.18
 //    Spread(1)=0.3
 
 	IronSightAndScopedSpread(0)= 0.17
@@ -132,10 +132,10 @@ defaultproperties
     WeaponFireTypes(1)=EWFT_None
     WeaponRange=800.0
 
-    InstantHitDamage(0)=17
+    InstantHitDamage(0)=16
 //    InstantHitDamage(1)=16
 	
-	HeadShotDamageMult=1.30 //1.25
+	HeadShotDamageMult=1.25 //1.25
 	
     InstantHitDamageTypes(0)=class'Rx_DmgType_Shotgun'
 //    InstantHitDamageTypes(1)=class'Rx_DmgType_Shotgun'

@@ -13,235 +13,14 @@ class AGN_Rx_Controller extends Rx_Controller;
 
 var class<Rx_GFxPurchaseMenu> PTMenuClassOriginal;
 
-exec function ReportSpotted()
-{
-	local Rx_Building Building;
-	local Rx_Bot bot;
-	local string BuildingName;
-	local Actor PrimarySpot;
-	local string RMSG, CMSG; //Remote message, and Client Message
-	local int	nr;
-	local byte UIS;
-
-	ClearTimer('ReportSpotted');
-	if(bCommandSpotting)
-	{
-		ProcessCommandSpot();
-		ClearCommandSpotWaitTime();
-		return;
-	}
-
-	if(isTimerActive('ClearFocusWaitTimer') && bCanFocusSpot)
-	{
-		SetTimer((GetTimerRate('ClearFocusWaitTimer') - GetTimerCount('ClearFocusWaitTimer')), false, 'ReportSpotted');
-		return;
-	}
-
-	bSpotting = false;
-	
-	if(spotMessagesBlocked) // && !bFocusSpotting)
-	{
-		bCanFocusSpot=false;
-		return;
-	}
-
-	nr = -1;
-	if ( Rx_Hud(MyHUD) != None && Rx_Hud(MyHUD).SpotTargets.Length > 0) {
-
-		PrimarySpot = Rx_Hud(MyHUD).SpotTargets[0] ;//Eliminate spamming the hell out of this line.
-
-		if(PrimarySpot == none || Rx_DestroyableObstaclePlus(PrimarySpot) != none)
-		{
-			bCanFocusSpot=false;
-			return;
-		}
-
-		if(AGN_CratePickup(PrimarySpot) != none && numberOfRadioCommandsLastXSeconds++ < 5)
-		{
-			BroadCastSpotMessage(11, "CRATE SPOTTED:" @ GetSpottargetLocationInfo(Rx_CratePickup(PrimarySpot)));
-		}
-		else
-		if(Rx_Building(Rx_Hud(MyHUD).SpotTargets[0]) != None) {
-
-			if (numberOfRadioCommandsLastXSeconds++ < 5) {
-				Building = Rx_Building(Rx_Hud(MyHUD).SpotTargets[0]);
-				BroadcastBuildingSpotMessages(Building);
-			}
-		} else if(Rx_Defence(PrimarySpot) != none) {
-			if (numberOfRadioCommandsLastXSeconds++ < 5) {
-				BroadcastBaseDefenseSpotMessages(Rx_Defence(PrimarySpot));
-				if(Rx_DefencePRI(Rx_Defence(PrimarySpot).PlayerReplicationInfo) != none) SetPlayerSpotted(Rx_DefencePRI(Rx_Defence(PrimarySpot).PlayerReplicationInfo).PlayerID) ;
-			}
-		} else if(Rx_Weapon_DeployedBeacon(PrimarySpot) != None) {
-			if (numberOfRadioCommandsLastXSeconds++ < 5) {
-				if(PrimarySpot.GetTeamNum() == GetTeamNum())
-					BroadCastSpotMessage(15, "Defend BEACON"@GetSpottargetLocationInfo(Rx_Weapon_DeployedBeacon(PrimarySpot))@"!!!");
-				else
-					BroadCastSpotMessage(-1, "Spotted ENEMY BEACON"@GetSpottargetLocationInfo(Rx_Weapon_DeployedBeacon(PrimarySpot))@"!!!");
-			}
-		}  else if(Rx_Weapon_DeployedC4(PrimarySpot) != None) {
-			if (numberOfRadioCommandsLastXSeconds++ < 5) {
-				BuildingName = Rx_Weapon_DeployedC4(PrimarySpot).ImpactedActor.GetHumanReadableName();
-				if(BuildingName == "MCT" || Rx_Building(Rx_Weapon_DeployedC4(PrimarySpot).ImpactedActor) != None)
-				{
-					if(BuildingName == "MCT")
-						BuildingName = "MCT"@GetSpottargetLocationInfo(Rx_Weapon_DeployedC4(PrimarySpot));
-					if(PrimarySpot.GetTeamNum() == GetTeamNum())
-						BroadCastSpotMessage(15, "Defend >>C4<< at "@BuildingName@"!!!");
-					else
-						BroadCastSpotMessage(-1, "Spotted ENEMY >>C4<< at "@BuildingName@"!!!");
-				}
-			}
-		} else if(Rx_Vehicle_Harvester(PrimarySpot) != None) {
-			if (numberOfRadioCommandsLastXSeconds++ < 5) {
-				if(PrimarySpot.GetTeamNum() == GetTeamNum())
-					RadioCommand(26);
-				else
-				{
-				RadioCommand(21);
-				if(Rx_DefencePRI(Rx_Vehicle_Harvester(PrimarySpot).PlayerReplicationInfo) != none) SetPlayerSpotted(Rx_DefencePRI(Rx_Vehicle_Harvester(PrimarySpot).PlayerReplicationInfo).PlayerID) ;
-				if(bFocusSpotting) SetPlayerFocused(Rx_DefencePRI(Rx_Vehicle_Harvester(PrimarySpot).PlayerReplicationInfo).PlayerID) ;
-				bFocusSpotting = false;
-				}
-			}
-			bCanFocusSpot=false;
-			return;
-		} else if(Pawn(PrimarySpot).GetTeamNum() == GetTeamNum()) {
-			bot = Rx_Bot(Pawn(PrimarySpot).Controller);
-			if(bot != None) {
-				if(bot.Squad != None && Rx_SquadAI(bot.squad).SquadLeader == Self && bot.GetOrders() == 'Follow') {
-					UTTeamInfo(bot.Squad.Team).AI.SetBotOrders(bot);
-					BroadCastSpotMessage(17, "Stop following me"@Pawn(PrimarySpot).Controller.GetHumanReadableName());
-					RespondingBot = bot;
-					SetTimer(0.5 + FRand(), false, 'BotSayAffirmativeToplayer');
-				} else {
-					bot.SetBotOrders('Follow', self, true);
-					BroadCastSpotMessage(13, "Follow me"@Pawn(PrimarySpot).Controller.GetHumanReadableName());
-					RespondingBot = bot;
-					SetTimer(0.5 + FRand(), false, 'BotSayAffirmativeToplayer');
-				}
-			} else {
-
-				/*Spotting Friendly Pawn*/
-
-				if(numberOfRadioCommandsLastXSeconds++ < 5 && Rx_Pawn(PrimarySpot) != none && Rx_Pawn(PrimarySpot).PlayerReplicationInfo !=none)
-				{
-					/*Infantry To Infantry*/
-					if(Rx_Pawn(Pawn) != none && Rx_Pawn(Pawn).Armor <= Rx_Pawn(Pawn).ArmorMax/1.5 && Rx_Pawn(PrimarySpot).IsHealer() ) //Send "I need repairs"
-					{
-					nr=10;
-					RMSG=PlayerReplicationInfo.PlayerName @ "Needs Repairs" ;
-					CMSG="-Requested Repairs-";
-					UIS=1;
-					}
-					else
-					if (Rx_Weapon_Beacon(Pawn.Weapon) != none) //Send "Cover Me"
-					{
-					nr=15;
-					RMSG=PlayerReplicationInfo.PlayerName @ "Needs Cover" ;
-					CMSG="-Requested Cover-";
-					UIS=3;
-					}
-					else /*Vehicle to Infantry*/
-					if(Rx_Vehicle(Pawn) != none && Rx_Vehicle(Pawn).Health <= Rx_Vehicle(Pawn).HealthMax*0.85 && Rx_Pawn(PrimarySpot).IsHealer() ) //Send "I need repairs"
-					{
-					nr=10;
-					RMSG=PlayerReplicationInfo.PlayerName @ "Needs Repairs" ;
-					CMSG="-Requested Repairs-";
-					UIS=1;
-					}
-					else //Send "Get in the vehicle"
-					if(Rx_Vehicle(Pawn) != none && Rx_Pawn(PrimarySpot) != none)
-					{
-					nr=1;
-					RMSG=PlayerReplicationInfo.PlayerName @ ": Requested Passenger" ;
-					CMSG="-Requested Passenger-";
-					UIS=2;
-					}
-					else
-					{
-					nr=13;
-					RMSG=PlayerReplicationInfo.PlayerName @ ": Follow Me" ;
-					CMSG="-Requested Follow-";
-					UIS=2;
-					}
-
-
-				}
-				else
-				if(numberOfRadioCommandsLastXSeconds++ < 5 && Rx_Vehicle(PrimarySpot) != none && Rx_Vehicle(PrimarySpot).PlayerReplicationInfo !=none)
-				{
-					//Bacon
-					if (Rx_Weapon_Beacon(Pawn.Weapon) != none) //Send "Cover Me"
-					{
-					nr=15;
-					RMSG=PlayerReplicationInfo.PlayerName @ "needs beacon cover" ;
-					CMSG="-Requested Cover-";
-					UIS=3;
-					}
-					else
-					if(Pawn(PrimarySpot).PlayerReplicationInfo != none && Rx_Vehicle(Pawn) == none)
-					{
-					nr=14;
-					RMSG=PlayerReplicationInfo.PlayerName @ "needs a ride" ;
-					CMSG="-Requested a Ride-";
-					UIS=2;
-					}
-					else
-					if(Rx_Vehicle(Pawn) != none)
-					{
-					//Send "Follow Me"
-					nr=13;
-					RMSG=PlayerReplicationInfo.PlayerName @ ": Follow Me" ;
-					CMSG="-Requested Follow-";
-					UIS=2;
-					}
-
-
-
-				}
-					if(Pawn(PrimarySpot) != none && nr > -1 )
-					{
-					numberOfRadioCommandsLastXSeconds++;
-					WhisperSpotMessage(Pawn(PrimarySpot).PlayerReplicationInfo.PlayerID, nr, RMSG, UIS);
-					CTextMessage(CMSG,'Green',30);
-					ClientPlaySound(RadioCommands[nr]);
-
-					spotMessagesBlocked = true;
-					SetTimer(1.5, false, 'resetSpotMessageCountTimer');
-					}
-				//BroadCastSpotMessage(13, "Follow me"@Pawn(Rx_Hud(MyHUD).SpotTargets[0]).Controller.GetHumanReadableName());
-			}
-		} else {
-			BroadcastEnemySpotMessages();
-		}
-		//@Shahman: SpotTargets Will be removed after 10 seconds.
-		//TODO: editor controllers
-		if(IsTimerActive('RemoveSpotTargets'))	{
-			ClearTimer('RemoveSpotTargets');
-		}
-		SetTimer (10.0, false, 'RemoveSpotTargets');
-	}
-	bCanFocusSpot=false;
-	bFocusSpotting= false;
-}
-
 // Beacon Overwrite
 reliable server function ServerSetItem(class<Rx_Weapon> classname)
 {
 	local Rx_InventoryManager invmngr;
 	local array<class<Rx_Weapon> > wclasses;
 
-	`log("~~~~~~~~~~~~~~~~~ Purchase Attempt: " $ string(classname));
-	if ( classname.class.Name == 'Rx_Weapon_IonCannonBeacon' )
-		classname = class'AGN_Mut_AlienXSystem.AGN_Weapon_IonCannonBeacon';
-	if ( classname.class.Name == 'Rx_Weapon_NukeBeacon' )
-		classname = class'AGN_Mut_AlienXSystem.AGN_Weapon_NukeBeacon';
-
-	invmngr = Rx_InventoryManager(Pawn.InvManager);
+	invmngr = AGN_InventoryManager(Pawn.InvManager);
 	if (invmngr == none) return;
-
-	`log("Inventory Manager Obtained");
 
 	if (!invmngr.IsItemAllowed(classname)) return;
 	wclasses = invmngr.GetWeaponsOfClassification(CLASS_ITEM);
@@ -249,7 +28,6 @@ reliable server function ServerSetItem(class<Rx_Weapon> classname)
 		invmngr.RemoveWeaponOfClass(wclasses[wclasses.Length - 1]);
 
 	// add requested weapon
-	`log("Adding weapon in AGN Inv Manager");
 	invmngr.AddWeaponOfClass(classname, CLASS_ITEM);
 }
 
@@ -281,7 +59,7 @@ function BroadcastEnemySpotMessages()
 			NumVehicles++;
 
 			//Tell the spot target to activate its controller and set its visibility
-			Rx_Vehicle(SpotTarget).SetSpotted();
+			Rx_Vehicle(SpotTarget).SetSpotted(10.0);
 
 			if(Rx_Vehicle_Humvee(SpotTarget) != None) {
 				SpottedVehicles[0]++;
@@ -337,7 +115,7 @@ function BroadcastEnemySpotMessages()
 				continue;
 			PRI = UTPlayerReplicationInfo(Rx_Pawn(SpotTarget).PlayerReplicationInfo);
 
-			Rx_PRI(Rx_Pawn(SpotTarget).PlayerReplicationInfo).SetSpotted();
+			Rx_PRI(Rx_Pawn(SpotTarget).PlayerReplicationInfo).SetSpotted(10.0);
 
 			if(PRI.CharClassInfo == class'AGN_FamilyInfo_GDI_Soldier' || PRI.CharClassInfo == class'RX_FamilyInfo_GDI_Soldier') {
 				SpottedInfs[0]++;
@@ -446,54 +224,52 @@ function BroadcastEnemySpotMessages()
 			if(SpottedVehicles[i] > 0)
 				j++;
 			if(i==0 && SpottedVehicles[0] > 0)
-				SpottingMsg = SpottingMsg @ SpottedVehicles[0] @ "Humvee";
+				SpottingMsg = SpottingMsg $  "<font color ='" $GDIColor$ "'>" $  SpottedVehicles[0] @ "Humvee</font>";
 			else if(i==1 && SpottedVehicles[1] > 0)
-				SpottingMsg = SpottingMsg @ SpottedVehicles[1] @ "APC";
+				SpottingMsg = SpottingMsg $  "<font color ='" $GDIColor$ "'>" $ SpottedVehicles[1] @ "APC</font>";				
 			else if(i==2 && SpottedVehicles[2] > 0)
-				SpottingMsg = SpottingMsg @ SpottedVehicles[2] @ "MRLS";
+				SpottingMsg = SpottingMsg $  "<font color ='" $GDIColor$ "'>" $ SpottedVehicles[2] @ "MRLS</font>";				
 			else if(i==3 && SpottedVehicles[3] > 0)
-				SpottingMsg = SpottingMsg @ SpottedVehicles[3] @ "Med.Tank";
+				SpottingMsg = SpottingMsg $  "<font color ='" $GDIColor$ "'>" $ SpottedVehicles[3] @ "Med.Tank</font>";				
 			else if(i==4 && SpottedVehicles[4] > 0)
-				SpottingMsg = SpottingMsg @ SpottedVehicles[4] @ "Mam.Tank";
+				SpottingMsg = SpottingMsg $  "<font color ='" $GDIColor$ "'>" $ SpottedVehicles[4] @ "Mam.Tank</font>";				
 			else if(i==5 && SpottedVehicles[5] > 0)
-				SpottingMsg = SpottingMsg @ SpottedVehicles[5] @ "Chinook";
+				SpottingMsg = SpottingMsg $  "<font color ='" $GDIColor$ "'>" $ SpottedVehicles[5] @ "Chinook</font>";				
 			else if(i==6 && SpottedVehicles[6] > 0)
-				SpottingMsg = SpottingMsg @ SpottedVehicles[6] @ "Orca";
+				SpottingMsg = SpottingMsg $  "<font color ='" $GDIColor$ "'>" $ SpottedVehicles[6] @ "Orca</font>";				
 			else if(i==7 && SpottedVehicles[7] > 0)
-				SpottingMsg = SpottingMsg @ SpottedVehicles[7] @ "Buggy";
+				SpottingMsg = SpottingMsg $  "<font color ='" $NodColor$ "'>" $ SpottedVehicles[7] @ "Buggy</font>";				
 			else if(i==8 && SpottedVehicles[8] > 0)
-				SpottingMsg = SpottingMsg @ SpottedVehicles[8] @ "APC";
+				SpottingMsg = SpottingMsg $  "<font color ='" $NodColor$ "'>" $ SpottedVehicles[8] @ "APC</font>";				
 			else if(i==9 && SpottedVehicles[9] > 0)
-				SpottingMsg = SpottingMsg @ SpottedVehicles[9] @ "Artillery";
+				SpottingMsg = SpottingMsg $  "<font color ='" $NodColor$ "'>" $ SpottedVehicles[9] @ "Artillery</font>";				
 			else if(i==10 && SpottedVehicles[10] > 0)
-				SpottingMsg = SpottingMsg @ SpottedVehicles[10] @ "L.Tank";
+				SpottingMsg = SpottingMsg $  "<font color ='" $NodColor$ "'>" $ SpottedVehicles[10] @ "L.Tank</font>";				
 			else if(i==11 && SpottedVehicles[11] > 0)
-				SpottingMsg = SpottingMsg @ SpottedVehicles[11] @ "F.Tank";
+				SpottingMsg = SpottingMsg $  "<font color ='" $NodColor$ "'>" $ SpottedVehicles[11] @ "F.Tank</font>";				
 			else if(i==12 && SpottedVehicles[12] > 0)
-				SpottingMsg = SpottingMsg @ SpottedVehicles[12] @ "S.Tank";
+				SpottingMsg = SpottingMsg $  "<font color ='" $NodColor$ "'>" $ SpottedVehicles[12] @ "S.Tank</font>";				
 			else if(i==13 && SpottedVehicles[13] > 0)
-				SpottingMsg = SpottingMsg @ SpottedVehicles[13] @ "Chinook";
+				SpottingMsg = SpottingMsg $  "<font color ='" $NodColor$ "'>" $ SpottedVehicles[13] @ "Chinook</font>";				
 			else if(i==14 && SpottedVehicles[14] > 0)
-				SpottingMsg = SpottingMsg @ SpottedVehicles[14] @ "Apache";
+				SpottingMsg = SpottingMsg $  "<font color ='" $NodColor$ "'>" $ SpottedVehicles[14] @ "Apache</font>";
 			else if(i==15 && SpottedVehicles[15] > 0)
-				SpottingMsg = SpottingMsg @ SpottedVehicles[15] @ "Buggy";
+				SpottingMsg = SpottingMsg $  "<font color ='" $NodColor$ "'>" $ SpottedVehicles[15] @ "Buggy</font>";
 			else if(i==16 && SpottedVehicles[16] > 0)
-				SpottingMsg = SpottingMsg @ SpottedVehicles[16] @ "R.Bike";
+				SpottingMsg = SpottingMsg $  "<font color ='" $NodColor$ "'>" $  SpottedVehicles[16] @ "R.Bike</font>";
 			else if(i==17 && SpottedVehicles[17] > 0)
-				SpottingMsg = SpottingMsg @ SpottedVehicles[17] @ "T.Tank";
+				SpottingMsg = SpottingMsg $  "<font color ='" $NodColor$ "'>" $  SpottedVehicles[17] @ "T.Tank</font>";
 			else if(i==18 && SpottedVehicles[18] > 0)
-				SpottingMsg = SpottingMsg @ SpottedVehicles[18] @ "H.MRLS";
+				SpottingMsg = SpottingMsg $  "<font color ='" $GDIColor$ "'>" $  SpottedVehicles[18] @ "H.MRLS</font>";
 			else if(i==19 && SpottedVehicles[19] > 0)
-				SpottingMsg = SpottingMsg @ SpottedVehicles[19] @ "Wolverine";
+				SpottingMsg = SpottingMsg $  "<font color ='" $GDIColor$ "'>" $  SpottedVehicles[19] @ "Wolverine</font>";
 			else if(i==20 && SpottedVehicles[20] > 0)
-				SpottingMsg = SpottingMsg @ SpottedVehicles[20] @ "Titan";
-			else if(i==21 && SpottedVehicles[21] > 0)
-				SpottingMsg = SpottingMsg @ SpottedVehicles[21] @ "Tesla Tank";
-
+				SpottingMsg = SpottingMsg $  "<font color ='" $GDIColor$ "'>" $  SpottedVehicles[20] @ "Titan</font>";
+			
 			if(SpottedVehicles[i] > 1)
-				SpottingMsg = SpottingMsg @ "s";
+				SpottingMsg = SpottingMsg @ "s";	
 			if(SpottedVehicles[i] > 0 && (NumInfs+NumVehicles) > j)
-				SpottingMsg = SpottingMsg @ ",";
+				SpottingMsg = SpottingMsg @ ",";								
 		}
 	}
 
@@ -505,89 +281,88 @@ function BroadcastEnemySpotMessages()
 				break;
 			if(SpottedInfs[i] > 0)
 				j++;
-
+						
 			if(i==0 && SpottedInfs[i] > 0)
-				SpottingMsg = SpottingMsg @ SpottedInfs[i] @ "Soldier";
+				SpottingMsg = SpottingMsg $  "<font color ='" $GDIColor$ "'>" $ SpottedInfs[i] @ "Soldier</font>";		
 			else if(i==1 && SpottedInfs[i] > 0)
-				SpottingMsg = SpottingMsg @ SpottedInfs[i] @ "Shotgunner";
+				SpottingMsg = SpottingMsg $  "<font color ='" $GDIColor$ "'>" $ SpottedInfs[i] @ "Shotgunner </font>";					
 			else if(i==2 && SpottedInfs[i] > 0)
-				SpottingMsg = SpottingMsg @ SpottedInfs[i] @ "Grenadier";
+				SpottingMsg = SpottingMsg $  "<font color ='" $GDIColor$ "'>" $  SpottedInfs[i] @ "Grenadier</font>";					
 			else if(i==3 && SpottedInfs[i] > 0)
-				SpottingMsg = SpottingMsg @ SpottedInfs[i] @ "Marksman";
+				SpottingMsg = SpottingMsg $  "<font color ='" $GDIColor$ "'>" $  SpottedInfs[i] @ "Marksman</font>";					
 			else if(i==4 && SpottedInfs[i] > 0)
-				SpottingMsg = SpottingMsg @ SpottedInfs[i] @ "Engineer";
+				SpottingMsg = SpottingMsg $  "<font color ='" $GDIColor$ "'>" $  SpottedInfs[i] @ "Engineer</font>";					
 			else if(i==5 && SpottedInfs[i] > 0)
-				SpottingMsg = SpottingMsg @ SpottedInfs[i] @ "Officer";
+				SpottingMsg = SpottingMsg $  "<font color ='" $GDIColor$ "'>" $  SpottedInfs[i] @ "Officer</font>";					
 			else if(i==6 && SpottedInfs[i] > 0)
-				SpottingMsg = SpottingMsg @ SpottedInfs[i] @ "RocketSoldier";
+				SpottingMsg = SpottingMsg $  "<font color ='" $GDIColor$ "'>" $  SpottedInfs[i] @ "RocketSoldier</font>";					
 			else if(i==7 && SpottedInfs[i] > 0)
-				SpottingMsg = SpottingMsg @ SpottedInfs[i] @ "McFarland";
+				SpottingMsg = SpottingMsg $  "<font color ='" $GDIColor$ "'>" $  SpottedInfs[i] @ "McFarland</font>";					
 			else if(i==8 && SpottedInfs[i] > 0)
-				SpottingMsg = SpottingMsg @ SpottedInfs[i] @ "Deadeye";
+				SpottingMsg = SpottingMsg $  "<font color ='" $GDIColor$ "'>" $  SpottedInfs[i] @ "Deadeye</font>";					
 			else if(i==9 && SpottedInfs[i] > 0)
-				SpottingMsg = SpottingMsg @ SpottedInfs[i] @ "Gunner";
+				SpottingMsg = SpottingMsg $  "<font color ='" $GDIColor$ "'>" $  SpottedInfs[i] @ "Gunner</font>";					
 			else if(i==10 && SpottedInfs[i] > 0)
-				SpottingMsg = SpottingMsg @ SpottedInfs[i] @ "Patch";
+				SpottingMsg = SpottingMsg $  "<font color ='" $GDIColor$ "'>" $  SpottedInfs[i] @ "Patch</font>";					
 			else if(i==11 && SpottedInfs[i] > 0)
-				SpottingMsg = SpottingMsg @ SpottedInfs[i] @ "Havoc";
+				SpottingMsg = SpottingMsg $  "<font color ='" $GDIColor$ "'>" $  SpottedInfs[i] @ "Havoc</font>";					
 			else if(i==12 && SpottedInfs[i] > 0)
-				SpottingMsg = SpottingMsg @ SpottedInfs[i] @ "Sydney";
+				SpottingMsg = SpottingMsg $  "<font color ='" $GDIColor$ "'>" $  SpottedInfs[i] @ "Sydney</font>";					
 			else if(i==13 && SpottedInfs[i] > 0)
-				SpottingMsg = SpottingMsg @ SpottedInfs[i] @ "Mobius";
+				SpottingMsg = SpottingMsg $  "<font color ='" $GDIColor$ "'>" $  SpottedInfs[i] @ "Mobius</font>";					
 			else if(i==14 && SpottedInfs[i] > 0)
-				SpottingMsg = SpottingMsg @ SpottedInfs[i] @ "Hotwire";
+				SpottingMsg = SpottingMsg $  "<font color ='" $GDIColor$ "'>" $  SpottedInfs[i] @ "Hotwire</font>";					
 			else if(i==15 && SpottedInfs[i] > 0)
-				SpottingMsg = SpottingMsg @ SpottedInfs[i] @ "Soldier";
+				SpottingMsg = SpottingMsg $  "<font color ='" $NodColor$ "'>" $ SpottedInfs[i] @ "Soldier</font>";					
 			else if(i==16 && SpottedInfs[i] > 0)
-				SpottingMsg = SpottingMsg @ SpottedInfs[i] @ "Shotgunner";
+				SpottingMsg = SpottingMsg $  "<font color ='" $NodColor$ "'>" $ SpottedInfs[i] @ "Shotgunner</font>";					
 			else if(i==17 && SpottedInfs[i] > 0)
-				SpottingMsg = SpottingMsg @ SpottedInfs[i] @ "FlameTrooper";
+				SpottingMsg = SpottingMsg $  "<font color ='" $NodColor$ "'>" $  SpottedInfs[i] @ "FlameTrooper</font>";					
 			else if(i==18 && SpottedInfs[i] > 0)
-				SpottingMsg = SpottingMsg @ SpottedInfs[i] @ "Marksman";
+				SpottingMsg = SpottingMsg $  "<font color ='" $NodColor$ "'>" $  SpottedInfs[i] @ "Marksman</font>";					
 			else if(i==19 && SpottedInfs[i] > 0)
-				SpottingMsg = SpottingMsg @ SpottedInfs[i] @ "Engineer";
+				SpottingMsg = SpottingMsg $  "<font color ='" $NodColor$ "'>" $  SpottedInfs[i] @ "Engineer</font>";					
 			else if(i==20 && SpottedInfs[i] > 0)
-				SpottingMsg = SpottingMsg @ SpottedInfs[i] @ "Officer";
+				SpottingMsg = SpottingMsg $  "<font color ='" $NodColor$ "'>" $  SpottedInfs[i] @ "Officer</font>";					
 			else if(i==21 && SpottedInfs[i] > 0)
-				SpottingMsg = SpottingMsg @ SpottedInfs[i] @ "Rock.Soldier";
+				SpottingMsg = SpottingMsg $  "<font color ='" $NodColor$ "'>" $  SpottedInfs[i] @ "Rock.Soldier</font>";					
 			else if(i==22 && SpottedInfs[i] > 0)
-				SpottingMsg = SpottingMsg @ SpottedInfs[i] @ "Chem.Trooper";
+				SpottingMsg = SpottingMsg $  "<font color ='" $NodColor$ "'>" $  SpottedInfs[i] @ "Chem.Trooper</font>";					
 			else if(i==23 && SpottedInfs[i] > 0)
-				SpottingMsg = SpottingMsg @ SpottedInfs[i] @ "Blackh.Sniper";
+				SpottingMsg = SpottingMsg $  "<font color ='" $NodColor$ "'>" $  SpottedInfs[i] @ "Blackh.Sniper</font>";					
 			else if(i==24 && SpottedInfs[i] > 0)
-				SpottingMsg = SpottingMsg @ SpottedInfs[i] @ "SBH";
+				SpottingMsg = SpottingMsg $  "<font color ='" $NodColor$ "'>" $  SpottedInfs[i] @ "SBH</font>";					
 			else if(i==25 && SpottedInfs[i] > 0)
-				SpottingMsg = SpottingMsg @ SpottedInfs[i] @ "LCG";
+				SpottingMsg = SpottingMsg $  "<font color ='" $NodColor$ "'>" $  SpottedInfs[i] @ "LCG</font>";					
 			else if(i==26 && SpottedInfs[i] > 0)
-				SpottingMsg = SpottingMsg @ SpottedInfs[i] @ "Sakura";
+				SpottingMsg = SpottingMsg $  "<font color ='" $NodColor$ "'>" $  SpottedInfs[i] @ "Sakura</font>";					
 			else if(i==27 && SpottedInfs[i] > 0)
-				SpottingMsg = SpottingMsg @ SpottedInfs[i] @ "Raveshaw";
+				SpottingMsg = SpottingMsg $  "<font color ='" $NodColor$ "'>" $  SpottedInfs[i] @ "Raveshaw</font>";					
 			else if(i==28 && SpottedInfs[i] > 0)
-				SpottingMsg = SpottingMsg @ SpottedInfs[i] @ "Mendoza";
+				SpottingMsg = SpottingMsg $  "<font color ='" $NodColor$ "'>" $  SpottedInfs[i] @ "Mendoza</font>";					
 			else if(i==29 && SpottedInfs[i] > 0)
-				SpottingMsg = SpottingMsg @ SpottedInfs[i] @ "Tech";
-
+				SpottingMsg = SpottingMsg $  "<font color ='" $NodColor$ "'>" $  SpottedInfs[i] @ "Tech</font>";	
+				
 			if(SpottedInfs[i] > 1)
-				SpottingMsg = SpottingMsg @ "s";
+				SpottingMsg = SpottingMsg @ "s";				
 			if(SpottedInfs[i] > 0 && (NumInfs+NumVehicles) > j)
-				SpottingMsg = SpottingMsg @ ",";
+				SpottingMsg = SpottingMsg @ ",";												
 		}
 	}
-
+	
 	if( (NumVehicles + NumInfs) > 6)
 		SpottingMsg = SpottingMsg @ " and more";
-		if(Rx_Vehicle(FirstSpotTarget) != none && bFocusSpotting && NumVehicles == 1 && NumInfs == 0)
-		{
+		
+	if(Rx_Vehicle(FirstSpotTarget) != none && bFocusSpotting && NumVehicles == 1 && NumInfs == 0)
+	{
 		BroadCastSpotMessage(3, "FOCUS FIRE:"@SpottingMsg@LocationInfo);
 		SetPlayerFocused(Rx_PRI(Rx_Vehicle(FirstSpotTarget).PlayerReplicationInfo).PlayerID);
-		}
-		else
-		if(Rx_Pawn(FirstSpotTarget) != none && bFocusSpotting && NumInfs == 1 && NumVehicles == 0)
-		{
+	} else if(Rx_Pawn(FirstSpotTarget) != none && bFocusSpotting && NumInfs == 1 && NumVehicles == 0)
+	{
 		BroadCastSpotMessage(19, "FOCUS FIRE:"@SpottingMsg@LocationInfo);
 		SetPlayerFocused(Rx_PRI(Rx_Pawn(FirstSpotTarget).PlayerReplicationInfo).PlayerID);
-		}
-		else
+	}
+	else
 		BroadCastSpotMessage(9, "Spotted"@SpottingMsg@LocationInfo);
 }
 
