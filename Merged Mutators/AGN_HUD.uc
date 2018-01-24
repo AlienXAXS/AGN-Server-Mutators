@@ -13,7 +13,7 @@ class AGN_HUD extends Rx_HUD;
 
 var AGN_HUD_AdminComponent AGN_HUDAdminComponent;
 var AGN_HUD_CrateStatus AGN_HUDCrateStatus;
-var int DefaultTargettingRangex;
+var private const float DefaultTargettingRange;
 
 function CreateHUDMovie()
 {
@@ -85,15 +85,15 @@ function float GetWeaponTargetingRange()
 				if ( OurWeapon.default.WeaponRange > 0 )
 					return OurWeapon.default.WeaponRange;
 				else
-					return DefaultTargettingRangex;
+					return DefaultTargettingRange;
 			} else {
 				return weaponRange;
 			}
         }
         else
-            return DefaultTargettingRangex;
+            return DefaultTargettingRange;
     } else
-		return DefaultTargettingRangex;
+		return DefaultTargettingRange;
 }
 
 function UpdateScreenCentreActor()
@@ -148,7 +148,7 @@ function UpdateScreenCentreActor()
 
 function Message( PlayerReplicationInfo PRI, coerce string Msg, name MsgType, optional float LifeTime )
 {
-	local string cName, fMsg, rMsg;
+	local string cName, fMsg, rMsg, uID;
 	local bool bEVA;
 
 	if (Len(Msg) == 0)
@@ -206,7 +206,7 @@ function Message( PlayerReplicationInfo PRI, coerce string Msg, name MsgType, op
 	}
 	else if (MsgType == 'Radio')
 	{
-		fMsg = "<font color='" $RadioColor $"'>" $ cName $": "$ Msg $"</font>";
+		fMsg = "<font color='" $RadioColor $"'>" $ cName $": "$ CleanHTMLMessage(Msg) $"</font>";
 		//PublicChatMessageLog $= "\n" $ fMsg;
 		rMsg = cName $": "$ Msg;
 	}
@@ -360,5 +360,5 @@ function LocalizedMessage
 DefaultProperties
 {
 	TargetingBoxClass = class'AGN_HUD_TargetingBox';
-	DefaultTargettingRangex = 10000;
+	DefaultTargettingRange=10000.0
 }

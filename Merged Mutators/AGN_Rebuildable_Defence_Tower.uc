@@ -6,7 +6,6 @@ var class<AGN_Rebuildable_Defence_Controller> AGN_DefenceControllerClass;
 var repnotify bool bDefenseIsActive;
 var repnotify int CreditsNeededToActivate;
 var int DefencePurchasePrice;
-var UTPawn Px;
 
 replication
 {
@@ -50,45 +49,18 @@ simulated function bool IsTouchingOnly()
 
 function SetPurchasePrice(int PurchasePrice)
 {
+	CreditsNeededToActivate = PurchasePrice;
 	DefencePurchasePrice = PurchasePrice;
 }
 
-// Only set team here.
-function Initialize() { SetTeamNum(TeamID); }
-
-function InitializeDefence() {
-	SetTimer(3, false, 'RealInit');
-}
-
-function RealInit()
-{
-	local vector tv;
-	
-	`log("Init Defence Turret");
+function Initialize() {
 	SetTeamNum(TeamID);
 	ai = Spawn(AGN_DefenceControllerClass,self);
 	ai.SetOwner(None);  // Must set ai owner back to None, because when the ai possesses this actor, it calls SetOwner - and it would fail due to Onwer loop if we still owned it.
 
 	ai.Possess(self, true);
 	bAIControl = true;
-	
-	/*    Spawning a UTPawn with a UTVehicle_Nod_Turret_Controller
-	*     to make it the 'Driver' of the Turret.
-	*     Spawning and entering had to be delayed a bit to make it work.
-	*/
-	tv = Location;
-	tv.z += 50;
-	tv.x += 50;
-	Px = Spawn(class'UTPawn',,,tv,,,true);
-	Px.bIsInvisible=true;
-	ai.Possess(Px, true);
-	setTimer(0.1,false,'enter');
-}
-
-function enter(){
-    if(Driver == None)
-        DriverEnter(Px);
-    ai.Pawn.PeripheralVision = -1.0;
+	AGN_Rebuildable_Defence_Controller(ai).SetDefenceActive(true);
 }
 
 simulated event TakeDamage(int Damage, Controller EventInstigator, vector HitLocation, vector Momentum, class<DamageType> DamageType, optional TraceHitInfo HitInfo, optional Actor DamageCauser)
@@ -146,16 +118,14 @@ reliable server function ServerActivateStructure()
 	bDefenseIsActive = true;
 }
 
-function ActivateStructure()
+simulated function ActivateStructure()
 {
 	if(`WorldInfoObject.NetMode == NM_DedicatedServer)
 	{
-		`log("Activating Defense Tower - Server Side");
 		ServerActivateStructure();
-		AGN_Rebuildable_Defence_Controller(ai).SetDefenceActive(true);
+		AGN_Rebuildable_Defence_Controller(ai).SetDefenceActive(bDefenseIsActive);
 		Health = HealthMax;
 	} else {
-		`log("Activating Defense Tower - Client Side");
 		bDefenseIsActive = true;
 	}
 }
@@ -165,17 +135,16 @@ reliable server function ServerDeactivateStructure()
 	bDefenseIsActive = false;
 }
 
-function DeactivateStructure()
+simulated function DeactivateStructure()
 {
 	if(`WorldInfoObject.NetMode == NM_DedicatedServer)
 	{
-		`log("Deactivating Defense Tower - Server Side");
 		ServerDeactivateStructure();
-		AGN_Rebuildable_Defence_Controller(ai).SetDefenceActive(false);
+		AGN_Rebuildable_Defence_Controller(ai).SetDefenceActive(bDefenseIsActive);
 		Health = 1;
 		CreditsNeededToActivate = DefencePurchasePrice;
 	} else {
-		`log("Deactivating Defense Tower - Client Side");
+		// Sets the defensive structure to not be able to target anyone
 		bDefenseIsActive = false;
 	}
 }
@@ -183,7 +152,6 @@ function DeactivateStructure()
 defaultproperties
 {
 	bDefenseIsActive = true;
-	CreditsNeededToActivate = 0;
+	CreditsNeededToActivate = 1500;
 	AGN_DefenceControllerClass = class'AGN_Rebuildable_Defence_Controller';
-	TeamID = 0;
 }

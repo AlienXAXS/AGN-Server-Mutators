@@ -9,6 +9,15 @@
  */
 
 
+/*
+ *
+ * ---  CratePickup Overrides ---
+ *
+ *
+ * Thanks to uKill for all of his help on this - he's amazing!
+ *	-- AlienX
+ */
+
 class AGN_CratePickup extends AGN_Pickup
    config(RenegadeX);
 
@@ -273,6 +282,5 @@ DefaultProperties
 	DefaultCrateTypes[15] = class'AGN_CrateType_MegaSpeed'
 	DefaultCrateTypes[16] = class'AGN_CrateType_Veterancy'
 	DefaultCrateTypes[17] = class'AGN_CrateType_PersonalObeliskCannon'
-	DefaultCrateTypes[18] = class'AGN_CrateType_RAVehicle'
 }
 

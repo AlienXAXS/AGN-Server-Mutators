@@ -108,12 +108,9 @@ function SpawnDefensiveStructures()
 	foreach _defStructGDI(_thisStruct)
 	{
 		_thisGDITower = Spawn(class'AGN_Rebuildable_Defence_Tower',,, _thisStruct.Location, _thisStruct.Rotation);
-		_thisGDITower.InitializeDefence();
 		_thisGDITower.SetPurchasePrice(_thisStruct.PurchasePrice);
 		if ( _thisStruct.bStartDead )
 			_thisGDITower.DeactivateStructure();
-		else
-			_thisGDITower.ActivateStructure();
 	}
 	
 	// Spawn all Nod Structures
@@ -123,7 +120,6 @@ function SpawnDefensiveStructures()
 		if ( _thisStruct.TurretType == 0 )
 		{
 			_thisNodTower = Spawn(class'AGN_Rebuildable_Defence_TowerNod',,, _thisStruct.Location, _thisStruct.Rotation);
-			_thisNodTower.InitializeDefence();
 			_thisNodTower.SetPurchasePrice(_thisStruct.PurchasePrice);
 			if ( _thisStruct.bStartDead )
 				_thisNodTower.DeactivateStructure();
@@ -131,12 +127,9 @@ function SpawnDefensiveStructures()
 		else
 		{
 			_thisTurret = Spawn(class'AGN_Rebuildable_Defence_Turret',,, _thisStruct.Location, _thisStruct.Rotation);
-			_thisTurret.InitializeDefence();
 			_thisTurret.SetPurchasePrice(_thisStruct.PurchasePrice);
 			if ( _thisStruct.bStartDead )
 				_thisTurret.DeactivateStructure();
-			else
-				_thisTurret.ActivateStructure();
 		}
 	}
 }

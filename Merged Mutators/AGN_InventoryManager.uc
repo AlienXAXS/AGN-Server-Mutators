@@ -101,6 +101,8 @@ DefaultProperties
 	AvailableItems(2) = class'Rx_Weapon_Airstrike_GDI'
 	AvailableItems(3) = class'Rx_Weapon_Airstrike_Nod'
 	AvailableItems(4) = class'Rx_Weapon_RepairTool'
+	AvailableItems(5) = class'AGN_Weapon_IonCannonBeacon'
+	AvailableItems(6) = class'AGN_Weapon_NukeBeacon'
 }
 
 

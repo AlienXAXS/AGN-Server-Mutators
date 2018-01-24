@@ -23,7 +23,7 @@ function string GetGameLogMessage(Rx_PRI RecipientPRI, AGN_CratePickup CratePick
 
 function string GetPickupMessage()
 {
-    if(WeaponClass == class'Rx_Weapon_NukeBeacon')
+    if(WeaponClass == class'AGN_Weapon_NukeBeacon')
     {
         return Repl("You got a `beacon`!", "`beacon`", "Nuclear Strike Beacon", false);
     }
@@ -72,8 +72,8 @@ function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, AGN_Crate
 defaultproperties
 {
     BroadcastMessageIndex=1004
-    BeaconType.Add(class'Rx_Weapon_NukeBeacon')
-    BeaconType.Add(class'Rx_Weapon_IonCannonBeacon')
+    BeaconType.Add(class'AGN_Weapon_NukeBeacon')
+    BeaconType.Add(class'AGN_Weapon_IonCannonBeacon')
     PickupSound=SoundCue'Rx_Pickups.Sounds.SC_Pickup_Ammo'
 }
 
