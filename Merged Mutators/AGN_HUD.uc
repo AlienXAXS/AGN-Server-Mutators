@@ -13,7 +13,7 @@ class AGN_HUD extends Rx_HUD;
 
 var AGN_HUD_AdminComponent AGN_HUDAdminComponent;
 var AGN_HUD_CrateStatus AGN_HUDCrateStatus;
-var private const float DefaultTargettingRange;
+var int DefaultTargettingRangex;
 
 function CreateHUDMovie()
 {
@@ -85,15 +85,15 @@ function float GetWeaponTargetingRange()
 				if ( OurWeapon.default.WeaponRange > 0 )
 					return OurWeapon.default.WeaponRange;
 				else
-					return DefaultTargettingRange;
+					return DefaultTargettingRangex;
 			} else {
 				return weaponRange;
 			}
         }
         else
-            return DefaultTargettingRange;
+            return DefaultTargettingRangex;
     } else
-		return DefaultTargettingRange;
+		return DefaultTargettingRangex;
 }
 
 function UpdateScreenCentreActor()
@@ -148,7 +148,7 @@ function UpdateScreenCentreActor()
 
 function Message( PlayerReplicationInfo PRI, coerce string Msg, name MsgType, optional float LifeTime )
 {
-	local string cName, fMsg, rMsg, uID;
+	local string cName, fMsg, rMsg;
 	local bool bEVA;
 
 	if (Len(Msg) == 0)
@@ -360,5 +360,5 @@ function LocalizedMessage
 DefaultProperties
 {
 	TargetingBoxClass = class'AGN_HUD_TargetingBox';
-	DefaultTargettingRange=10000.0
+	DefaultTargettingRangex = 10000;
 }
