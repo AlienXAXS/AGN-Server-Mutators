@@ -402,11 +402,9 @@ function SelectClassPurchase(GFxClikWidget ButtonGroup)
 	}
 
 	data = int(selectedButton.GetString("data"));
-	Price = rxPurchaseSystem == None ? 0 : rxPurchaseSystem.GetClassPrices(TeamID, data);
-			`log("<PT Log> Purchase Information ::");
-			`log("<PT Log> Character: " $ rxPurchaseSystem.GetFamilyClass(TeamID, data));
-			`log("<PT Log> Price: " $ Price);
-			`log("<PT Log> PlayerCredits: " $ PlayerCredits);
+	if (rxPurchaseSystem != None)
+		Price = rxPurchaseSystem.GetClassPrice(TeamID, IndexToClass(data, TeamID));
+	
 	//if we have enough credits, proceed with purchase
 	if (PlayerCredits >= Price) {
 		rxPC.PlaySound(SoundCue'RenXPurchaseMenu.Sounds.RenXPTSoundPurchase');
@@ -938,109 +936,79 @@ function AssignButtonData(GFxClikWidget widget, PTMenuBlock menuData, byte i)
 {
 	local GFxObject Type;
 
-	////`log("AssignButtonData > 1");
+	widget.SetString("hotkeyLabel", menuData.hotkey);
+	widget.SetString("data", "" $ menuData.ID);
+	widget.SetString("label", menuData.title);
+
+	if (menuData.title == "ENGINEER" || menuData.title == "HOTWIRE" || menuData.title == "TECHNICIAN") {
+		widget.SetBool("isDamageBar", false);
+	}
 	
-	//if (i == menuData.ID) {
-		widget.SetString("hotkeyLabel", menuData.hotkey);
-		widget.SetString("data", "" $ menuData.ID);
-		widget.SetString("label", menuData.title);
-		
-		//`log("AssignButtonData > 1 end");
-		//`log("AssignButtonData > 2");
-
-		//if this is engineer type, display repair bar instead.
-		if (menuData.title == "ENGINEER" || menuData.title == "HOTWIRE" || menuData.title == "TECHNICIAN") {
-			//`log("AssignButtonData > 2a");
-			widget.SetBool("isDamageBar", false);
-		}
-		
-		//`log("AssignButtonData > 2 end");
-		
-		//`log("AssignButtonData > 3 (" $ string(menuData.BlockType) $")");
-		//widget.SetString("Group", menuData.Group);
-		switch (menuData.BlockType)
-		{
-			case EPBT_MENU:
-				//`log("AssignButtonData > 3 EPBT_MENU");
-				widget.SetString("costLabel", "MENU");
-				widget.SetBool("toggle", false);
-				//`log("AssignButtonData > 3 EPBT_MENU END");
-				break;
-			case EPBT_CLASS:
-				//`log("AssignButtonData > 3 EPBT_CLASS");
-				if (rxPurchaseSystem.GetClassPrices(TeamID, menuData.ID) > 0) {
-					widget.SetString("costLabel", "$" $ rxPurchaseSystem.GetClassPrices(TeamID, menuData.ID));
-				} else {
-					widget.SetString("costLabel", "FREE");
-				}
-				widget.SetBool("toggle", true);
-				//`log("AssignButtonData > 3 EPBT_CLASS END");
-				break;
-			case EPBT_ITEM:
-				//`log("AssignButtonData > 3 EPBT_ITEM");
-				if (rxPurchaseSystem.GetItemPrices(TeamID, menuData.ID) > 0) {
-					widget.SetString("costLabel", "$" $ rxPurchaseSystem.GetItemPrices(TeamID, menuData.ID));
-				} else {
-					widget.SetString("costLabel", "FREE");
-				}
-				widget.SetBool("toggle", true);
-				//`log("AssignButtonData > 3 EPBT_ITEM END");
-				break;
-			case EPBT_WEAPON:
-				//`log("AssignButtonData > 3 EPBT_WEAPON");
-				if (rxPurchaseSystem.GetWeaponPrices(TeamID, menuData.ID) > 0) {
-					widget.SetString("costLabel", "$" $ rxPurchaseSystem.GetWeaponPrices(TeamID, menuData.ID));
-				} else {
-					widget.SetString("costLabel", "FREE");
-				}
-				widget.SetBool("toggle", true);
-				//`log("AssignButtonData > 3 EPBT_WEAPON END");
-				break;
-		}
-		//`log("AssignButtonData > 3 end");
-		
-		//`log("AssignButtonData > 4");
-		//[VEHICLE COUNT]
-		Type = widget.GetObject("type");
-		Type.GotoAndStopI(menuData.type);
-		
-		//`log("AssignButtonData > 4 end");
-		//Type.GetObject("icon").GotoAndStopI(menuData.iconID);
-
-		//`log("AssignButtonData > 5");
-		//`log(" texture: " $ string(menuData.PTIconTexture));
-		//the following is the test
-		LoadTexture("img://" $ PathName(menuData.PTIconTexture), Type.GetObject("icon"));
-		//end test
-		//`log("AssignButtonData > 5 end");
-
-		//`log("AssignButtonData > 6");
-		if (menuData.title == "VEHICLES" || menuData.title == "CHARACTERS" || menuData.title == "REFILL") {
-			widget.SetString("sublabel", rxPurchaseSystem.GetFactoryDescription(TeamID, menuData.title, rxPC));
-			if (menuData.title == "VEHICLES") {
-				widget.SetString("vehicleCountLabel", "( "$ VehicleCount $ " )");
+	switch (menuData.BlockType)
+	{
+		case EPBT_MENU:
+			widget.SetString("costLabel", "MENU");
+			widget.SetBool("toggle", false);
+			break;
+		case EPBT_CLASS:
+			if (rxPurchaseSystem.GetClassPrice(TeamID, IndexToClass(menuData.ID, TeamID)) > 0) {
+				widget.SetString("costLabel", "$" $ rxPurchaseSystem.GetClassPrice(TeamID, IndexToClass(menuData.ID, TeamID)));
+			} else {
+				widget.SetString("costLabel", "FREE");
 			}
-		} else {
-			widget.SetString("sublabel", menuData.desc);
-		}
-		if (menuData.type == 2) {
-			Type.GetObject("DamageBar").GotoAndStopI(menuData.damage + 1);
-			Type.GetObject("RangeBar").GotoAndStopI(menuData.range + 1);
-			Type.GetObject("RoFBar").GotoAndStopI(menuData.rateOfFire + 1);
-			Type.GetObject("MagCapBar").GotoAndStopI(menuData.magCap + 1);
-		}
-
-		widget.SetBool("enabled", menuData.bEnable);
-		//hide anything that is disabled
-		if (!menuData.bEnable) {
-			widget.SetBool("visible", menuData.bEnable);
-		}
-
-		if (!rxPurchaseSystem.AreSilosCaptured(TeamID)) {
-			if (menuData.bSilo) {
-				widget.SetBool("enabled", false);
+			widget.SetBool("toggle", true);
+			break;
+			break;
+		case EPBT_ITEM:
+			if (rxPurchaseSystem.GetItemPrices(TeamID, menuData.ID) > 0) {
+				widget.SetString("costLabel", "$" $ rxPurchaseSystem.GetItemPrices(TeamID, menuData.ID));
+			} else {
+				widget.SetString("costLabel", "FREE");
 			}
+			widget.SetBool("toggle", true);
+			break;
+		case EPBT_WEAPON:
+			if (rxPurchaseSystem.GetWeaponPrices(TeamID, menuData.ID) > 0) {
+				widget.SetString("costLabel", "$" $ rxPurchaseSystem.GetWeaponPrices(TeamID, menuData.ID));
+			} else {
+				widget.SetString("costLabel", "FREE");
+			}
+			widget.SetBool("toggle", true);
+			break;
+	}
+
+	//[VEHICLE COUNT]
+	Type = widget.GetObject("type");
+	Type.GotoAndStopI(menuData.type);
+	
+	LoadTexture("img://" $ PathName(menuData.PTIconTexture), Type.GetObject("icon"));
+
+	if (menuData.title == "VEHICLES" || menuData.title == "CHARACTERS" || menuData.title == "REFILL") {
+		widget.SetString("sublabel", rxPurchaseSystem.GetFactoryDescription(TeamID, menuData.title, rxPC));
+		if (menuData.title == "VEHICLES") {
+			widget.SetString("vehicleCountLabel", "( "$ VehicleCount $ " )");
 		}
+	} else {
+		widget.SetString("sublabel", menuData.desc);
+	}
+	if (menuData.type == 2) {
+		Type.GetObject("DamageBar").GotoAndStopI(menuData.damage + 1);
+		Type.GetObject("RangeBar").GotoAndStopI(menuData.range + 1);
+		Type.GetObject("RoFBar").GotoAndStopI(menuData.rateOfFire + 1);
+		Type.GetObject("MagCapBar").GotoAndStopI(menuData.magCap + 1);
+	}
+
+	widget.SetBool("enabled", menuData.bEnable);
+	//hide anything that is disabled
+	if (!menuData.bEnable) {
+		widget.SetBool("visible", menuData.bEnable);
+	}
+
+	if (!rxPurchaseSystem.AreSilosCaptured(TeamID)) {
+		if (menuData.bSilo) {
+			widget.SetBool("enabled", false);
+		}
+	}
 }
 
 function SetSelectedButtonByIndex (int index, optional bool selected = true)
@@ -1664,7 +1632,7 @@ function TickHUD()
 						continue;
 					}
 				}
-				if (ClassMenuButton[i].GetBool("enabled") && PlayerCredits < rxPurchaseSystem.GetClassPrices(TeamID, data)){
+				if (ClassMenuButton[i].GetBool("enabled") && PlayerCredits < rxPurchaseSystem.GetClassPrice(TeamID, IndexToClass(data, TeamID))){
 					ClassMenuButton[i].SetBool("enabled", false);
 				}
 			}
@@ -1735,7 +1703,7 @@ function TickHUD()
 						continue;
 					}
 				}
-				if (PlayerCredits > rxPurchaseSystem.GetItemPrices(TeamID, data)){
+				if (PlayerCredits > rxPurchaseSystem.GetItemPrices(TeamID, data) && !rxPurchaseSystem.IsEquiped(rxPC, TeamID, data, CLASS_ITEM)){
 					ItemMenuButton[i].SetBool("enabled", true);
 				} else {
 					ItemMenuButton[i].SetBool("enabled", false);
