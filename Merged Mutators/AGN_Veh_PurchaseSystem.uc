@@ -21,6 +21,7 @@ var int NodInfantryPricesAGN[15];
 var int NodVehiclePricesAGN[8];
 var int NodWeaponPricesAGN[7];
 var int NodItemPricesAGN[8];
+var int AirdropCooldownTime;
 
 simulated function PostBeginPlay()
 {
@@ -200,6 +201,8 @@ DefaultProperties
 	GDIInfantryClasses[13] = class'AGN_FamilyInfo_GDI_Mobius'
 	GDIInfantryClasses[14] = class'AGN_FamilyInfo_GDI_Hotwire'
 
+	AirdropCooldownTime = 470
+
 	GDIInfantryPricesAGN[0] = 0
 	GDIInfantryPricesAGN[1] = 0
 	GDIInfantryPricesAGN[2] = 0
@@ -282,5 +285,8 @@ DefaultProperties
 	NodWeaponPricesAGN[4] = 300
 	NodWeaponPricesAGN[5] = 250
 	NodWeaponPricesAGN[6] = 100
+
+	GDIItemClasses[0]  = class'AGN_Mut_AlienXSystem.AGN_Weapon_IonCannonBeacon'
+	NodItemClasses[0]  = class'AGN_Mut_AlienXSystem.AGN_Weapon_NukeBeacon'
 }
 

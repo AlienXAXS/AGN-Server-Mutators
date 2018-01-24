@@ -31,7 +31,7 @@ simulated function FireAmmunition()
     }
 }*/
 
-simulated function bool IsInstantHit()
+function bool IsInstantHit()
 {
 	return true; 
 }

@@ -99,7 +99,7 @@ DefaultProperties
 
     WeaponClass = class'AGN_Weapon_PersonalIonCannon'
     MuzzleFlashSocket=MuzzleFlashSocket
-    MuzzleFlashPSCTemplate=ParticleSystem'AGN_WP_PersonalUnicornCannon.Effects.P_MuzzleFlash_3P'
+    MuzzleFlashPSCTemplate=ParticleSystem'AGN_WP_PersonalIonCannon.Effects.P_MuzzleFlash_3P'
     MuzzleFlashLightClass=class'UTGame.UTShockMuzzleFlashLight'
     ImpactLightClass=Rx_Light_RepairBeam
     MuzzleFlashDuration=2.5    

@@ -11,7 +11,7 @@
 
 class AGN_Weapon_Carbine_Silencer extends Rx_Weapon_Charged;
 
-simulated function bool IsInstantHit()
+function bool IsInstantHit()
 {
 	return true; 
 }
