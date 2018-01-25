@@ -91,6 +91,12 @@ static function string GetWeaponNameIncludingCustomWeapons(UTWeapon WeaponClass)
 		return "Silenced Carbine";
 	else if (WeaponClass.IsA('AGN_Weapon_Shotgun') )
 		return "Shotgun";
+	else if (WeaponClass.IsA('AGN_Weapon_RepairGun') )
+		return "Repair Gun";
+	else if (WeaponClass.IsA('AGN_Weapon_RepairGunAdvanced') )
+		return "Advanced Repair Gun";
+	else if (WeaponClass.IsA('AGN_Weapon_RepairTool') )
+		return "Repair Tool";
 	else
 		return WeaponClass.ItemName;
 }
@@ -113,15 +119,15 @@ static function bool IsPlayerSpecial(PlayerReplicationInfo pri, byte SpecialHow)
 {
 	local string PlayerUUID;
 	PlayerUUID = Rx_PRI(pri).PlayerName;
-	
+
 	if ( SpecialHow == 0 && pri.bAdmin )
 		if ( PlayerUUID ~= "[AGN] AlienX" )
 			return true;
-			
+
 	if ( SpecialHow == 1 && pri.bAdmin )
 		if ( PlayerUUID ~= "[AGN] Sarah" || PlayerUUID ~= "[AGN] Bubbles" )
 			return true;
-			
+
 	if ( SpecialHow == 2 && Rx_PRI(pri).bModeratorOnly )
 	{
 		// Shogun
@@ -132,18 +138,18 @@ static function bool IsPlayerSpecial(PlayerReplicationInfo pri, byte SpecialHow)
 		if ( PlayerUUID ~= "✠☢commander☢✠" )
 			return true;
 	}
-	
+
 	if ( SpecialHow == 3 )
 	{
 		if ( PlayerUUID ~= "Hackerham" ) //Hackerham
 			return true;
-	
+
 		if ( PlayerUUID ~= "TRRDroid" ) //TRRDroid
-		{	
+		{
 			`log("Yes, TRRDroid is here!");
 			return true;
 		}
 	}
-		
+
 	return false;
 }
