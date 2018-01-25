@@ -21,3 +21,8 @@ function bool IsTargetRelevant( Pawn thisTarget )
 	else
 		return false;
 }
+
+DefaultProperties
+{
+	bDefenseIsActive = true;
+}

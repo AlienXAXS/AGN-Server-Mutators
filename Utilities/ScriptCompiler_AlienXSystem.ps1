@@ -27,7 +27,7 @@
 [string]$GithubRepoSource = "C:\Users\AlienX\Documents\GitHub\AGN-Server-Mutators"
 
 # What is the mutators sub folder name, where the class files are?
-[string]$GitFolderName = "Merged Mutators"
+[string]$GitFolderName = "Merged Mutators_Rx5293"
 
 # What's the end result mutator name?
 [string]$MutatorName = "AGN_Mut_AlienXSystem"

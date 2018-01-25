@@ -194,6 +194,8 @@ function ExecutePickup(Pawn Recipient)
 	local Rx_PRI pri;
 	local AGN_CrateType CrateType;
 	local Rx_Controller RxController;
+	local int counter;
+	local AGN_Pickup AGNPickup;
 
 	if (Rx_Pawn(Recipient) == none) // Only allow Rx_Pawns to pickup crates
 		return;
@@ -208,6 +210,12 @@ function ExecutePickup(Pawn Recipient)
 
 	CrateType.BroadcastMessage(pri,self);
 	CrateType.SendLocalMessage(RxController);
+	
+	foreach Rx_Game(`WorldInfoObject.Game).AllActors(class'AGN_Pickup', AGNPickup)
+		counter++;
+	
+	`log("There are now " $ counter $ " AGN_Pickup's on the map");
+	
 	//LogRxPub(CrateType.GetGameLogMessage(pri,self));
 }
 
