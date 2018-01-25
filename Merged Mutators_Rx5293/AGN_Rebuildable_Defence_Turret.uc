@@ -32,7 +32,7 @@ simulated function string GetTooltip(Rx_Controller PC)
 		return "";
 
 	if ( !bDefenseIsActive )
-		return "Turret Offline <font color='#ff0000' size='20'>repair gun</font> to purchase, needs " $ CreditsNeededToActivate $ " more credits";
+		return "Offline: Use repair gun to purchase, needs <font color='#ff0000' size='20'>" $ CreditsNeededToActivate $ "</font> more credits";
 	else
 		return "<font color='#00ff00' size='20'>Turret is Online</font>";
 }
@@ -90,10 +90,10 @@ function bool HealDamage(int Amount, Controller Healer, class<DamageType> Damage
 {
 	local Rx_PRI playerRepInfo;
 	local float captureProgress;
-	
+
 	if ( bDefenseIsActive && CreditsNeededToActivate == 0 )
 		return Super(Rx_Vehicle).HealDamage(Amount, Healer, DamageType);
-	else 
+	else
 	{
 		// Our tower is dead, let's activate it.
 		if ( Rx_Controller(Healer).PlayerReplicationInfo != None )
@@ -106,7 +106,7 @@ function bool HealDamage(int Amount, Controller Healer, class<DamageType> Damage
 				CreditsNeededToActivate = CreditsNeededToActivate - Amount;
 				captureProgress = (((float(DefencePurchasePrice - CreditsNeededToActivate) / DefencePurchasePrice) * 100) * 10);
 				Health = int(captureProgress) == 0 ? 1 : int(captureProgress);
-				
+
 				// Update the health of the tower to show progress of purchase
 				if ( CreditsNeededToActivate < 1 )
 				{
@@ -115,7 +115,7 @@ function bool HealDamage(int Amount, Controller Healer, class<DamageType> Damage
 				}
 			}
 		}
-		
+
 		return Super(UTVehicle).HealDamage(0, Healer, DamageType);
 	}
 }
