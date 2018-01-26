@@ -135,7 +135,7 @@ static function bool IsPlayerSpecial(PlayerReplicationInfo pri, byte SpecialHow)
 			return true;
 
 		// Commander (this might fuck up because of unicode)
-		if ( PlayerUUID ~= "✠☢commander☢✠" )
+		if ( PlayerUUID ~= "[AGN] Commander" ||  PlayerUUID ~= "Commander" )
 			return true;
 	}
 
