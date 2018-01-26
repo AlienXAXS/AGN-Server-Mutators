@@ -157,7 +157,7 @@ function ReplaceCrates()
 		return;
 
 	// Turn the timer off
-	setTimer(0, false, 'ReplaceCrates');
+	ClearTimer('ReplaceCrates');
 	modPackageInitComplete = true;
 
 	count = 0;
@@ -191,10 +191,11 @@ function ReplaceCrates()
 		if ( RxCratePickup.MessageClass == class'Rx_Message_Crates' )
 		{
 			RxCratePickup.DeactivateCrate();
+			//RxCratePickup.Destroy();
 		}
 	}
 
-	SetTimer(10, false, 'WelcomeMessages');
+	//SetTimer(10, false, 'WelcomeMessages');
 }
 
 function Mutate(string MutateString, PlayerController Sender)

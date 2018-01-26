@@ -21,6 +21,7 @@ var float PrivateServerDeltaTime;
 var repnotify float ServerDeltaTime;
 var repnotify int ServerGDICredits;
 var repnotify int ServerNodCredits;
+var repnotify int AGNPickupCount;
 
 replication
 {
@@ -35,7 +36,7 @@ simulated function PostBeginPlay()
 
 function CollectData()
 {
-	local int counter, cvnod, cvgdi, cvun, gdicredits, nodcredits;
+	local int counter, cvnod, cvgdi, cvun, gdicredits, nodcredits, pickupCount;
 	local Actor thisActor;
 	local Controller c;
 	local Rx_Vehicle thisVehicle;
@@ -47,6 +48,8 @@ function CollectData()
 	foreach class'WorldInfo'.static.GetWorldInfo().AllActors(class'Actor', thisActor)
 	{
 		counter ++;
+		if ( AGN_Pickup(thisActor) != None )
+			pickupCount++;
 	}
 	
 	// Vehicles in game
@@ -75,7 +78,7 @@ function CollectData()
 				nodcredits += Rx_PRI(c.PlayerReplicationInfo).GetCredits();
 			}
 		}
-	}
+	}	
 	
 	CurrentActors = counter;
 	CurrentVehiclesGDI = cvgdi;
@@ -85,6 +88,7 @@ function CollectData()
 	ServerDeltaTime = PrivateServerDeltaTime;
 	ServerGDICredits = gdicredits;
 	ServerNodCredits = nodcredits;
+	AGNPickupCount = pickupCount;
 }
 
 function OnTick(float DeltaTime)
