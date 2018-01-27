@@ -108,8 +108,6 @@ function SpawnDefensiveStructures()
 		_thisGDITower.SetPurchasePrice(_thisStruct.PurchasePrice);
 		if ( _thisStruct.bStartDead )
 			_thisGDITower.DeactivateStructure();
-		else
-			_thisGDITower.ActivateStructure();
 	}
 	
 	// Spawn all Nod Structures
@@ -131,8 +129,6 @@ function SpawnDefensiveStructures()
 			_thisTurret.SetPurchasePrice(_thisStruct.PurchasePrice);
 			if ( _thisStruct.bStartDead )
 				_thisTurret.DeactivateStructure();
-			else
-				_thisTurret.ActivateStructure();
 		}
 	}
 }
