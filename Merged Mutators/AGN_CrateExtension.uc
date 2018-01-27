@@ -71,8 +71,6 @@ function Rx_CrateType OnDetermineCrateType(Rx_Pawn Recipient)
 	
 	if ( GlobalCratePickup == None )
 		return None;
-		
-	return InstancedCrateTypes[0];
 	
 	// Get sum of probabilities, and cache values
 	for (i = 0; i < InstancedCrateTypes.Length; i++)
@@ -80,13 +78,11 @@ function Rx_CrateType OnDetermineCrateType(Rx_Pawn Recipient)
 		if (WorldInfo.GRI.ElapsedTime >= InstancedCrateTypes[i].StartSpawnTime)
 		{
 			probabilities.AddItem(InstancedCrateTypes[i].GetProbabilityWeight(Recipient,GlobalCratePickup));
-			`log(InstancedCrateTypes[i] @ "probability:" @ probabilities[i]);
 			probabilitySum += probabilities[i];
 		}
 		else
 			probabilities.AddItem(0.0f);
 	}
-	`log("Probability Sum:" @ probabilitySum);
 
 	random = FRand() * probabilitySum;
 
@@ -104,9 +100,6 @@ function Rx_CrateType OnDetermineCrateType(Rx_Pawn Recipient)
 
 function string OnCratePickupMessageBroadcastPre(int CrateMesageID, PlayerReplicationInfo PRI)
 {
-
-	`log("############ OnCratePickupMessageBroadcastPre("$CrateMesageID$","$string(PRI)$")");
-
 	if(CrateMesageID == 1001)
 	{
 		return PRI.PlayerName $ " found a super money crate!";
