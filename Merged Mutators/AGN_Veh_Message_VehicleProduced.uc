@@ -22,7 +22,9 @@ DefaultProperties
 	GDIVehicleAnnouncments[5]   = SoundNodeWave'RX_Env_Fort.Sound.EVA_GDI_TankReady'
 	GDIVehicleAnnouncments[6]   = SoundNodeWave'RX_Env_Fort.Sound.EVA_GDI_TankReady'
 	GDIVehicleAnnouncments[7]   = SoundNodeWave'RX_Env_Fort.Sound.EVA_GDI_TankReady'
-	GDIVehicleAnnouncments[8]   = SoundNodeWave'RX_EVA_VoiceClips.gdi_eva.S_EVA_GDI_UnitReady_Harvester'
+	GDIVehicleAnnouncments[8]   = SoundNodeWave'RX_EVA_VoiceClips.gdi_eva.S_EVA_GDI_UnitReady_TransportHelicopter'
+	GDIVehicleAnnouncments[9]   = SoundNodeWave'RX_EVA_VoiceClips.gdi_eva.S_EVA_GDI_UnitReady_Orca'
+	GDIVehicleAnnouncments[10]   = SoundNodeWave'RX_EVA_VoiceClips.gdi_eva.S_EVA_GDI_UnitReady_Harvester'
 
 	NodVehicleAnnouncments[0]   = SoundNodeWave'RX_EVA_VoiceClips.Nod_EVA.S_EVA_Nod_UnitReady_Buggy'
 	NodVehicleAnnouncments[1]   = SoundNodeWave'RX_EVA_VoiceClips.Nod_EVA.S_EVA_Nod_UnitReady_APC'
@@ -33,6 +35,8 @@ DefaultProperties
 	NodVehicleAnnouncments[6]   = SoundNodeWave'RX_EVA_VoiceClips.Nod_EVA.S_EVA_Nod_UnitReady_ReconBike'
 	NodVehicleAnnouncments[7]   = SoundNodeWave'RX_EVA_VoiceClips.Nod_EVA.S_EVA_Nod_UnitReady_Buggy'
 	NodVehicleAnnouncments[8]   = SoundNodeWave'RX_Env_Fort.Sound.EVA_Nod_TankReady'
-	NodVehicleAnnouncments[9]   = SoundNodeWave'RX_EVA_VoiceClips.Nod_EVA.S_EVA_Nod_UnitReady_Harvester'
+	NodVehicleAnnouncments[9]   = SoundNodeWave'RX_EVA_VoiceClips.Nod_EVA.S_EVA_Nod_UnitReady_TransportHelicopter'
+	NodVehicleAnnouncments[10]   = SoundNodeWave'RX_EVA_VoiceClips.Nod_EVA.S_EVA_Nod_UnitReady_Apache'
+	NodVehicleAnnouncments[11]   = SoundNodeWave'RX_EVA_VoiceClips.Nod_EVA.S_EVA_Nod_UnitReady_Harvester'
 }
 

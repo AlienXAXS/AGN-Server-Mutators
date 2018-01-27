@@ -14,11 +14,11 @@ class AGN_Veh_PurchaseSystem extends Rx_PurchaseSystem;
 // Maybe fix for UDKCrash?
 // Turns out yes -- AlienX
 var int GDIInfantryPricesAGN[15];
-var int GDIVehiclePricesAGN[7];
+var int GDIVehiclePricesAGN[11];
 var int GDIWeaponPricesAGN[7];
 var int GDIItemPricesAGN[8];
 var int NodInfantryPricesAGN[15];
-var int NodVehiclePricesAGN[8];
+var int NodVehiclePricesAGN[11];
 var int NodWeaponPricesAGN[7];
 var int NodItemPricesAGN[8];
 
@@ -92,7 +92,6 @@ simulated function int GetItemPrices(byte teamID, int charid)
 simulated function int GetVehiclePrices(byte teamID, int VehicleID, bool bViaAirdrop)
 {
 	local float Multiplier;
-	local int price;
 	Multiplier = 1.0;
 	
 	if (PowerPlants[teamID] != None && PowerPlants[teamID].IsDestroyed()) 
@@ -105,45 +104,11 @@ simulated function int GetVehiclePrices(byte teamID, int VehicleID, bool bViaAir
 
 	if (teamID == TEAM_GDI)
 	{
-		if (VehicleID == 5)
-			return 1300 * Multiplier;
-		else if (VehicleID == 6)
-		{
-			if(bViaAirdrop)
-				return 1250;
-			else
-				return 700;
-		}
-		else if (VehicleID == 7)
-			return 1500 * Multiplier;
-		else if (VehicleID == 8)
-			return 1000 * Multiplier;
-		else
-		{
-			price = GDIVehiclePricesAGN[VehicleID] * Multiplier;
-			//`log("GetVehiclePrices Team:" $ teamID $ " vehID: " $ VehicleID $ " Price: " $ price);
-			return price;
-		}
+		return GDIVehiclePricesAGN[VehicleID] * Multiplier;
 	}
 	else
 	{
-		if (VehicleID == 6)
-		{
-			if(bViaAirdrop)
-				return 1150;
-			else
-				return 700;
-		}
-		else if (VehicleID == 7)
-			return 600 * Multiplier;
-		else if (VehicleID == 8)
-			return 1200 * Multiplier;
-		else
-		{
-			price = NodVehiclePricesAGN[VehicleID] * Multiplier;
-			//`log("GetVehiclePrices Team:" $ teamID $ " vehID: " $ VehicleID $ " Price: " $ price);
-			return price;
-		}
+		return NodVehiclePricesAGN[VehicleID] * Multiplier;
 	}
 }
 
@@ -157,7 +122,9 @@ DefaultProperties
 	GDIVehicleClasses[5]   = class'AGN_Mut_AlienXSystem.AGN_Vehicle_HoverMRLS'
 	GDIVehicleClasses[6]   = class'AGN_Mut_AlienXSystem.AGN_Vehicle_Wolverine'
 	GDIVehicleClasses[7]   = class'AGN_Mut_AlienXSystem.AGN_Vehicle_Titan'
-
+	GDIVehicleClasses[8]   = class'RenX_Game.Rx_Vehicle_Chinook_GDI'
+	GDIVehicleClasses[9]   = class'RenX_Game.Rx_Vehicle_Orca'
+	
 	NodVehicleClasses[0]   = class'AGN_Mut_AlienXSystem.AGN_Vehicle_Buggy'
 	NodVehicleClasses[1]   = class'AGN_Mut_AlienXSystem.AGN_Vehicle_APC_Nod'
 	NodVehicleClasses[2]   = class'AGN_Mut_AlienXSystem.AGN_Vehicle_Artillery'
@@ -167,6 +134,8 @@ DefaultProperties
 	NodVehicleClasses[6]   = class'AGN_Mut_AlienXSystem.AGN_Vehicle_ReconBike'
 	NodVehicleClasses[7]   = class'AGN_Mut_AlienXSystem.AGN_TS_Vehicle_Buggy'
 	NodVehicleClasses[8]   = class'AGN_Mut_AlienXSystem.AGN_Vehicle_TickTank'
+	NodVehicleClasses[9]   = class'RenX_Game.Rx_Vehicle_Chinook_Nod'
+	NodVehicleClasses[10]   = class'RenX_Game.Rx_Vehicle_Apache'
 	
 	NodInfantryClasses[0]  = class'AGN_FamilyInfo_Nod_Soldier'
 	NodInfantryClasses[1]  = class'AGN_FamilyInfo_Nod_Shotgunner'
@@ -232,22 +201,32 @@ DefaultProperties
 	NodInfantryPricesAGN[13] = 1000
 	NodInfantryPricesAGN[14] = 350
 
-	GDIVehiclePricesAGN[0] = 350
-	GDIVehiclePricesAGN[1] = 500
-	GDIVehiclePricesAGN[2] = 450
-	GDIVehiclePricesAGN[3] = 800
-	GDIVehiclePricesAGN[4] = 1500
-	GDIVehiclePricesAGN[5] = 700
-	GDIVehiclePricesAGN[6] = 900
+	GDIVehiclePricesAGN[0] = 350	// Humvee
+	GDIVehiclePricesAGN[1] = 500	// APC
+	GDIVehiclePricesAGN[2] = 450	// MRLS
+	GDIVehiclePricesAGN[3] = 800	// Med Tank
+	GDIVehiclePricesAGN[4] = 1500	// Mammy
+	GDIVehiclePricesAGN[5] = 1300	// HMRLS
+	GDIVehiclePricesAGN[6] = 700	// Wolverine
+	GDIVehiclePricesAGN[7] = 1500	// Titan
+	
+	// Orca 9 + Transport 8
+	GDIVehiclePricesAGN[8] = 700	// Transport
+	GDIVehiclePricesAGN[9] = 900	// Orca
 
-	NodVehiclePricesAGN[0] = 300
-	NodVehiclePricesAGN[1] = 500
-	NodVehiclePricesAGN[2] = 450
-	NodVehiclePricesAGN[3] = 800
-	NodVehiclePricesAGN[4] = 600
-	NodVehiclePricesAGN[5] = 900
-	NodVehiclePricesAGN[6] = 700
-	NodVehiclePricesAGN[7] = 900
+	NodVehiclePricesAGN[0] = 300	// Buggy
+	NodVehiclePricesAGN[1] = 500	// APC
+	NodVehiclePricesAGN[2] = 450	// Arty
+	NodVehiclePricesAGN[3] = 800	// Flame Tank
+	NodVehiclePricesAGN[4] = 600	// Light Tank
+	NodVehiclePricesAGN[5] = 900	// Stealth Tank
+	NodVehiclePricesAGN[6] = 700	// Recon Bike
+	NodVehiclePricesAGN[7] = 600	// Adv Buggy
+	NodVehiclePricesAGN[8] = 1200	// Tick Tank
+	
+	// Apache 10 + Transport 9
+	NodVehiclePricesAGN[9] = 700	// Transport
+	NodVehiclePricesAGN[10] = 900	// Apache
 
 	GDIItemPricesAGN[0] = 1000 
 	GDIItemPricesAGN[1] = 800 

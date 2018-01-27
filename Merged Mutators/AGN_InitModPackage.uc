@@ -73,16 +73,8 @@ function InitMutator(string options, out string errorMessage)
 	if(right(mapname, 4) ~= "_DAY") mapname = Left(mapname, Len(mapname)-4);
 
 	// Start our Veh System
-	// Spawn our class, and call the functions inside.
-	// We dont support flying maps.
-	if ( mapname ~= "Walls" || mapname ~= "Lakeside" || mapname ~= "Whiteout" )
-	{
-		`log("[AGN-Map-Decider] FLYING MAP FOUND, NOT LOADING AGN_VEH MUTATOR");
-	} else {
-		`log("[AGN-Map-Decider] NON FLYING MAP FOUND, LOADING AGN_VEH_MUTATOR INIT");
-		VehMutator = spawn(class'AGN_Veh_Mutator');
-		VehMutator.OnInitMutator(options, errorMessage);
-	}
+	VehMutator = spawn(class'AGN_Veh_Mutator');
+	VehMutator.OnInitMutator(options, errorMessage);
 	
 	if ( mapname ~= "islands" )
 	{
