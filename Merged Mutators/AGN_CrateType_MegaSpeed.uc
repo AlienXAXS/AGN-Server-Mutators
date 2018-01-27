@@ -12,8 +12,7 @@
 class AGN_CrateType_MegaSpeed extends Rx_CrateType 
     config(AGN_Crates);
 
-var bool isActive; // Tracks if the crate is active or not
-var Rx_Pawn ActivePawn;
+var AGN_CrateType_MegaSpeed_Helper CrateHelper;
 
 function string GetGameLogMessage(Rx_PRI RecipientPRI, Rx_CratePickup CratePickup)
 {
@@ -27,34 +26,21 @@ function string GetPickupMessage()
 
 function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, Rx_CratePickup CratePickup)
 {
-    Recipient.SpeedUpgradeMultiplier = 1.5f;
-    Recipient.UpdateRunSpeedNode();
-    Recipient.SetGroundSpeed();
-
-	SetTimer(60, false, 'RestoreNormalSpeed');
+	if ( CrateHelper == None )
+		CrateHelper = CratePickup.Spawn(class'AGN_CrateType_MegaSpeed_Helper');
 	
-	isActive = true;
-	ActivePawn = Recipient;
+	if ( CrateHelper != None )
+	{
+		CrateHelper.RestoreNormalSpeed(Recipient);
+		Recipient.SpeedUpgradeMultiplier = 1.5f;
+		Recipient.UpdateRunSpeedNode();
+		Recipient.SetGroundSpeed();
+	}
 }
 
 function float GetProbabilityWeight(Rx_Pawn Recipient, Rx_CratePickup CratePickup)
 {
-	if ( isActive )
-		return 0;
-	else return Super.GetProbabilityWeight(Recipient, CratePickup);
-}
-
-function RestoreNormalSpeed()
-{
-	// Maybe the player died since - check that the previous pawn no longer exists
-	if ( ActivePawn == None )
-		return;
-	
-	ActivePawn.SpeedUpgradeMultiplier = 1;
-	ActivePawn.UpdateRunSpeedNode();
-	ActivePawn.SetGroundSpeed();
-	
-	isActive = false;
+	return Super.GetProbabilityWeight(Recipient, CratePickup);
 }
 
 DefaultProperties

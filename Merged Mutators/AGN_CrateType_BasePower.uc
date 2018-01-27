@@ -13,7 +13,7 @@ class AGN_CrateType_BasePower extends Rx_CrateType
 	config(AGN_Crates);
 	
 var int LastPickupTeamID,RestorePowerInSeconds;
-var bool isActive;
+var repnotify bool isActive;
 var array<Rx_Building_Team_Internals> BuildingsPoweredDown;
 
 function string GetGameLogMessage(Rx_PRI RecipientPRI, Rx_CratePickup CratePickup)
@@ -32,7 +32,7 @@ function float GetProbabilityWeight(Rx_Pawn Recipient, Rx_CratePickup CratePicku
 			hasDefences = true;
 	}
 	
-	if ( hasDefences == false )
+	if ( !hasDefences )
 		return 0;
 
 	// If this crate is active, then do not allow for it to picked up once again.
@@ -95,6 +95,7 @@ function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, Rx_CrateP
 					{
 						BuildingsPoweredDown.AddItem(buildingTeamInternals);
 						buildingTeamInternals.PowerLost();
+						buildingTeamInternals.SetTimer(RestorePowerInSeconds, false, 'PowerRestore');
 						`log("[AGN_CrateType_BasePower] ExecuteCrateBehaviour | BUILDING POWER OFFLINE " $ building.Name);
 					}
 			}
@@ -117,10 +118,11 @@ function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, Rx_CrateP
 	
 	LastPickupTeamID = Recipient.GetTeamNum();
 	isActive = true;
-	SetTimer(RestorePowerInSeconds, false, 'RestorePower');
+	//SetTimer(RestorePowerInSeconds, false, 'RestorePower');
 	`log("[AGN_CrateType_BasePower] ExecuteCrateBehaviour | Timer Started... Waiting " $ RestorePowerInSeconds $ " seconds");
 }
 
+/*
 function RestorePower()
 {
 	local Rx_Building_Team_Internals building;
@@ -150,6 +152,7 @@ function RestorePower()
 	
 	`log("[AGN_CrateType_BasePower] RestorePower | Done");
 }
+*/
 
 DefaultProperties
 {

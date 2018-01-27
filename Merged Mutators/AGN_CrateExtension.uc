@@ -9,16 +9,14 @@ function OnMutatorLoaded()
 	local Rx_CratePickup CratePickup;
 	local int i;
 	
-	if (Role == ROLE_Authority)
-	{
-		for (i = 0; i < DefaultCrateTypes.Length-1; i++)
-		{
-			`log ( "Creating a new instanced crate type, with the class of " $ string(DefaultCrateTypes[i]) );
-			InstancedCrateTypes.AddItem(new DefaultCrateTypes[i]);
-		}
-	}
+	`log("[AGN-CrateExtension] There are " $ string(DefaultCrateTypes.Length) $ " custom crates to load" );
 	
-	// Replace the current spawned in Rx_CratePickup's MessageClasses to be our own
+	for (i = 0; i <= DefaultCrateTypes.Length-1; i++)
+	{
+		`log ( "[AGN-CrateExtension] (Iteration "$string(i)$") Creating a new instanced crate type, with the class of " $ string(DefaultCrateTypes[i]) );
+		InstancedCrateTypes.AddItem(new DefaultCrateTypes[i]);
+	}
+
 	foreach Rx_Game(`WorldInfoObject.Game).AllActors(class'Rx_CratePickup', CratePickup)
 	{
 		GlobalCratePickup = CratePickup;
@@ -26,7 +24,7 @@ function OnMutatorLoaded()
 	}
 	
 	if ( GlobalCratePickup == None )
-		`log( "################# ERROR ####### -- GlobalCratePickup is NONE!" );
+		`log( "[AGN-CrateExtension] ERROR ####### -- GlobalCratePickup is NONE!" );
 }
 
 function OnAdminRespawnCrates(PlayerController Sender)
@@ -44,7 +42,7 @@ function OnAdminRespawnCrates(PlayerController Sender)
 		}
 	}
 
-	Sender.ClientMessage("[AGN-Crates-Admin] Re-spawned " $ count $ " crates");
+	Sender.ClientMessage("[AGN-CrateExtension] Re-spawned " $ count $ " crates");
 }
 
 function OnAdminDespawnCrates(PlayerController Sender)
@@ -62,7 +60,7 @@ function OnAdminDespawnCrates(PlayerController Sender)
 		}
 	}
 
-	Sender.ClientMessage("[AGN-Crates-Admin] Despawned " $ count $ " crates");
+	Sender.ClientMessage("[AGN-CrateExtension] Despawned " $ count $ " crates");
 }
 
 function Rx_CrateType OnDetermineCrateType(Rx_Pawn Recipient)
@@ -70,6 +68,11 @@ function Rx_CrateType OnDetermineCrateType(Rx_Pawn Recipient)
 	local int i;
 	local float probabilitySum, random;
 	local array<float> probabilities;
+	
+	if ( GlobalCratePickup == None )
+		return None;
+		
+	return InstancedCrateTypes[0];
 	
 	// Get sum of probabilities, and cache values
 	for (i = 0; i < InstancedCrateTypes.Length; i++)
@@ -157,9 +160,9 @@ defaultproperties
 	DefaultCrateTypes[11] = class'AGN_CrateType_SuperMoney'
 	DefaultCrateTypes[12] = class'AGN_CrateType_RandomWeapon'
 	DefaultCrateTypes[13] = class'AGN_CrateType_Beacon'
-	//DefaultCrateTypes[14] = class'AGN_CrateType_BasePower'
-	//DefaultCrateTypes[15] = class'AGN_CrateType_MegaSpeed'
-	DefaultCrateTypes[14] = class'AGN_CrateType_Veterancy'
-	DefaultCrateTypes[15] = class'AGN_CrateType_PersonalObeliskCannon'
-	DefaultCrateTypes[16] = class'AGN_CrateType_RAVehicle'
+	DefaultCrateTypes[14] = class'AGN_CrateType_BasePower'
+	DefaultCrateTypes[15] = class'AGN_CrateType_MegaSpeed'
+	DefaultCrateTypes[16] = class'AGN_CrateType_Veterancy'
+	DefaultCrateTypes[17] = class'AGN_CrateType_PersonalObeliskCannon'
+	DefaultCrateTypes[18] = class'AGN_CrateType_RAVehicle'
 }
