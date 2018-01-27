@@ -9,17 +9,26 @@
  */
 
 
-class AGN_InventoryManager_Nod_Technician extends AGN_InventoryManager_Adv_NOD;
-
-function int GetPrimaryWeaponSlots() { return 3; }
+class AGN_Weapon_RepairGunAdvanced extends AGN_Weapon_RepairGun;
 
 DefaultProperties
 {
-    PrimaryWeapons(0)=class'AGN_Weapon_RepairGunAdvanced'
-    PrimaryWeapons(1)=class'Rx_Weapon_RemoteC4'
-    PrimaryWeapons(2)=class'Rx_Weapon_TimedC4_Multiple'
-    SidearmWeapons(0)=class'AGN_Weapon_Carbine_Silencer'
-    ExplosiveWeapons(0)=class'Rx_Weapon_ProxyC4'
-    AvailableSidearmWeapons(0)=class'AGN_Weapon_Carbine_Silencer'
-    AvailableExplosiveWeapons(0)=class'Rx_Weapon_ProxyC4'
+    HealAmount = 40;
+	  MineDamageModifier=2.0;
+	  WeaponRange=900.0
+
+  	InventoryMovieGroup=20
+
+	/*******************/
+	/*Veterancy*/
+	/******************/
+
+	 Vet_DamageModifier(0)=1  //Applied to instant-hits only
+	 Vet_DamageModifier(1)=1.05 //42
+	 Vet_DamageModifier(2)=1.10 //44
+	 Vet_DamageModifier(3)=1.15 //46
+
+	/**********************/
+
+	 WeaponIconTexture=Texture2D'RX_WP_RepairGun.UI.T_WeaponIcon_RepairGunAdvanced'
 }

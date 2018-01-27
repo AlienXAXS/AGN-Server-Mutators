@@ -1,10 +1,10 @@
-/* 
+/*
  * YOU ARE NOT UNDER ANY CIRCUMSTANCES ALLOWED TO REDISTRUBUTE OR USE THE SOURCE CODE IN ANY NON-AGN SERVER WITHOUT THE WRITTEN PERMISSION BY THE OWNER.
- * 
+ *
  * THE FILES CONTAINED WITHIN ARE COPYRIGHT VIRTUAL PRIVATE SERVER SOLUTIONS LTD (https://beta.companieshouse.gov.uk/company/10750173).
- * 
+ *
  * IF YOU WISH TO USE THESE FILES, INCLUDING ANY OF IT'S CONTENT FOR YOUR OWN WORK, ONCE AGAIN YOU WILL HAVE TO HAVE WRITTEN PERMISSION FROM THE CONTENT OWNER https://www.vps-solutions.co.uk
- * 
+ *
  * BY BROWSING THIS CONTENT YOU HEREBY AGREE TO THE VPS-SOLUTIONS TERMS OF SERVICE (https://www.vps-solutions.co.uk/terms-of-service.php)
  */
 
@@ -40,7 +40,7 @@ simulated function PerformRefill()
 
 function bool IsInstantHit()
 {
-	return true; 
+	return true;
 }
 
 DefaultProperties
@@ -65,14 +65,14 @@ DefaultProperties
     End Object
 
     AttachmentClass = class'AGN_Attachment_PersonalObeliskCannon'
-	
+
 	ArmsAnimSet=AnimSet'RX_WP_PersonalIonCannon.Anims.AS_PersonalIonCannon_Arms'
-	
+
 	PlayerViewOffset=(X=-2.0,Y=0.0,Z=-1.0)
-	
+
 	LeftHandIK_Offset=(X=0,Y=0,Z=0)
 	RightHandIK_Offset=(X=0,Y=0,Z=0)
-	
+
 	//-------------- Recoil
 	RecoilDelay = 0.07
 	RecoilSpreadDecreaseDelay = 0.1
@@ -97,10 +97,10 @@ DefaultProperties
     FireInterval(1)=+0.0
     ReloadTime(0) = 6
     ReloadTime(1) = 6
-    
+
     EquipTime=1.0
 //	PutDownTime=0.75
-    
+
     WeaponRange=5600.0
 
     LockerRotation=(pitch=0,yaw=0,roll=-16384)
@@ -110,7 +110,7 @@ DefaultProperties
 
     InstantHitDamage(0)=375
     InstantHitDamage(1)=0
-    
+
     BotDamagePercentage = 0.6;
 
     InstantHitDamageTypes(0)=class'AGN_DmgType_PersonalObeliskCannon'
@@ -125,7 +125,7 @@ DefaultProperties
     ClipSize = 1
     InitalNumClips = 6
     MaxClips = 6
-	
+
 	bAutoFire = false
 	BoltActionReload=true
 	bUnzoomDuringBoltActionReloading=true
@@ -136,7 +136,7 @@ DefaultProperties
 	ReloadAnimName(1) = "weaponreload"
 	ReloadArmAnimName(0) = "weaponreload"
 	ReloadArmAnimName(1) = "weaponreload"
-	
+
 	BoltReloadAnimName(0) = "WeaponBolt"
 	BoltReloadAnimName(1) = "WeaponBolt"
 	BoltReloadArmAnimName(0) = "WeaponBolt"
@@ -147,7 +147,7 @@ DefaultProperties
 
     WeaponFireSnd[0]=SoundCue'RX_BU_Oblisk.Sounds.SC_Obelisk_Fire'
     WeaponFireSnd[1]=None
-	
+
 	WeaponDistantFireSnd=SoundCue'RX_WP_PersonalIonCannon.Sounds.SC_PersonalIonCannon_DistantFire'
 
     WeaponPutDownSnd=SoundCue'RX_WP_SniperRifle.Sounds.SC_Sniper_PutDown'
@@ -165,10 +165,10 @@ DefaultProperties
     MuzzleFlashPSCTemplate=ParticleSystem'RX_WP_PersonalIonCannon.Effects.P_MuzzleFlash_1P'
     MuzzleFlashDuration=3.3667
     MuzzleFlashLightClass=class'Rx_Light_AutoRifle_MuzzleFlash'
-  
+
 	CrosshairWidth = 256
 	CrosshairHeight = 256
-	
+
 	CrosshairMIC = MaterialInstanceConstant'RenX_AssetBase.UI.MI_Reticle_Simple'
 
     InventoryGroup=2.1
@@ -176,7 +176,7 @@ DefaultProperties
     InventoryMovieGroup=11
 
 	WeaponIconTexture=Texture2D'RX_WP_PersonalIonCannon.UI.T_WeaponIcon_PersonalIonCannon'
-    
+
     // AI Hints:
     //MaxDesireability=0.7
     AIRating=+0.4
@@ -186,27 +186,27 @@ DefaultProperties
     bSplashJump=false
     bRecommendSplashDamage=false
     bSniping=false
-	bOkAgainstBuildings=true	
-	bOkAgainstVehicles=true	 
+	bOkAgainstBuildings=true
+	bOkAgainstVehicles=true
 
 	//==========================================
 	// IRON SIGHT PROPERTIES
 	//==========================================
-	
+
 	// IronSight:
-	bIronSightCapable = true	
+	bIronSightCapable = true
 	bDisplayCrosshairInIronsight = false
 	IronSightViewOffset=(X=-10.0,Y=-6.39,Z=0.83)
 	IronSightFireOffset=(X=0,Y=0,Z=-5)
 	IronSightBobDamping=6
 	IronSightPostAnimDurationModifier=1.0
 	// This sets how much we want to zoom in, this is a value to be subtracted because smaller FOV values are greater levels of zoom
-	ZoomedFOVSub=60.0 
+	ZoomedFOVSub=60.0
 	// New lower speed movement values for use while zoom aiming
 	ZoomGroundSpeed=100.0
 	ZoomAirSpeed=340.0
 	ZoomWaterSpeed=11
-	
+
 	// IronSight additional vars to the vars in AimingWeaponClass (1 means unchanged, higher values mean more dmaping):
 	IronSightMinRecoilDamping = 2
 	IronSightMaxRecoilDamping = 2
@@ -217,32 +217,32 @@ DefaultProperties
 
 	/** one1: Added. */
 	BackWeaponAttachmentClass = class'Rx_BackWeaponAttachment_PersonalIonCannon'
-	
+
 	/*******************/
 	/*Veterancy*/
 	/******************/
-	
+
 	Vet_DamageModifier(0)=1  //Applied to instant-hits only
-	Vet_DamageModifier(1)=1 //1.10 
-	Vet_DamageModifier(2)=1 
-	Vet_DamageModifier(3)=1 
-	
-	//Bolt action reload interupt is affected by this. 
+	Vet_DamageModifier(1)=1 //1.10
+	Vet_DamageModifier(2)=1
+	Vet_DamageModifier(3)=1
+
+	//Bolt action reload interupt is affected by this.
 	Vet_ROFModifier(0) = 1
-	Vet_ROFModifier(1) = 1 
-	Vet_ROFModifier(2) = 1  
-	Vet_ROFModifier(3) = 1  
-	
-	Vet_ClipSizeModifier(0)=0 //Normal (should be 1)	
-	Vet_ClipSizeModifier(1)=0 //Veteran 
+	Vet_ROFModifier(1) = 1
+	Vet_ROFModifier(2) = 1
+	Vet_ROFModifier(3) = 1
+
+	Vet_ClipSizeModifier(0)=0 //Normal (should be 1)
+	Vet_ClipSizeModifier(1)=0 //Veteran
 	Vet_ClipSizeModifier(2)=0 //Elite
 	Vet_ClipSizeModifier(3)=0 //Heroic
 
 	Vet_ReloadSpeedModifier(0)=1 //Normal (should be 1)
-	Vet_ReloadSpeedModifier(1)=1 //Veteran 
+	Vet_ReloadSpeedModifier(1)=1 //Veteran
 	Vet_ReloadSpeedModifier(2)=1 //Elite
 	Vet_ReloadSpeedModifier(3)=1 //Heroic
 	/**********************/
-	
-	bLocSync = true; 
+
+	bLocSync = true;
 }

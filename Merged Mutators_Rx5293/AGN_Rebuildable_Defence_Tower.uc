@@ -1,5 +1,5 @@
 class AGN_Rebuildable_Defence_Tower extends Rx_Defence_GuardTower
-	implements (Rx_ObjectTooltipInterface); 
+	implements (Rx_ObjectTooltipInterface);
 
 var class<AGN_Rebuildable_Defence_Controller> AGN_DefenceControllerClass;
 
@@ -33,7 +33,7 @@ simulated function string GetTooltip(Rx_Controller PC)
 		return "";
 
 	if ( !bDefenseIsActive )
-		return "Tower Offline <font color='#ff0000' size='20'>repair gun</font> to purchase, needs " $ CreditsNeededToActivate $ " more credits";
+		return "Offline: Use repair gun to purchase, needs <font color='#ff0000' size='20'>" $ CreditsNeededToActivate $ "</font> more credits";
 	else
 		return "<font color='#00ff00' size='20'>Tower is Online</font>";
 }
@@ -63,7 +63,7 @@ function InitializeDefence() {
 function RealInit()
 {
 	local vector tv;
-	
+
 	`log("Init Defence Turret");
 	SetTeamNum(TeamID);
 	ai = Spawn(AGN_DefenceControllerClass,self);
@@ -71,7 +71,7 @@ function RealInit()
 
 	ai.Possess(self, true);
 	bAIControl = true;
-	
+
 	/*    Spawning a UTPawn with a UTVehicle_Nod_Turret_Controller
 	*     to make it the 'Driver' of the Turret.
 	*     Spawning and entering had to be delayed a bit to make it work.
@@ -111,11 +111,11 @@ function bool HealDamage(int Amount, Controller Healer, class<DamageType> Damage
 {
 	local Rx_PRI playerRepInfo;
 	local float captureProgress;
-	
+
 	if ( bDefenseIsActive && CreditsNeededToActivate == 0 )
 		return Super(Rx_Vehicle).HealDamage(Amount, Healer, DamageType);
 	else
-	{	
+	{
 		// Our tower is dead, let's activate it.
 		if ( Rx_Controller(Healer).PlayerReplicationInfo != None )
 		{
@@ -127,7 +127,7 @@ function bool HealDamage(int Amount, Controller Healer, class<DamageType> Damage
 				CreditsNeededToActivate = CreditsNeededToActivate - Amount;
 				captureProgress = (((float(DefencePurchasePrice - CreditsNeededToActivate) / DefencePurchasePrice) * 100) * 10);
 				Health = int(captureProgress) == 0 ? 1 : int(captureProgress);
-				
+
 				// Update the health of the tower to show progress of purchase
 				if ( CreditsNeededToActivate < 1 )
 				{
@@ -136,7 +136,7 @@ function bool HealDamage(int Amount, Controller Healer, class<DamageType> Damage
 				}
 			}
 		}
-		
+
 		return Super(UTVehicle).HealDamage(0, Healer, DamageType);
 	}
 }

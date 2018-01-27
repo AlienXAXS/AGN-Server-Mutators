@@ -17,7 +17,7 @@ simulated function SpawnBeam(vector Start, vector End, bool bFirstPerson)
         {
             return;
         }
-		
+
         // guess using current viewrotation;
         End = Start + vector(Instigator.Controller.Rotation) * WeaponClass.default.WeaponRange;
         HitActor = Instigator.Trace(HitLocation, HitNormal, End, Start, TRUE, vect(0,0,0),, TRACEFLAG_Bullet);
@@ -80,7 +80,7 @@ DefaultProperties
     Begin Object Name=SkeletalMeshComponent0
         SkeletalMesh=SkeletalMesh'RX_WP_PersonalIonCannon.Mesh.SK_PersonalIonCannon_3P'
     End Object
-	
+
 	DefaultImpactEffect=(ParticleTemplate=ParticleSystem'RX_BU_Oblisk.Effects.P_Obelisk_Impact', Sound=SoundCue'RX_BU_Oblisk.Sounds.SC_Obelisk_Impact')
     //DefaultImpactEffect=(ParticleTemplate=ParticleSystem'RX_FX_Munitions.Beams.P_PersonalIonCannon_Impact',Sound=SoundCue'RX_SoundEffects.Explosions.SC_Explosion_Electric')
     DefaultAltImpactEffect=(ParticleTemplate=ParticleSystem'RX_FX_Munitions.Beams.P_PersonalIonCannon_Impact',Sound=SoundCue'RX_SoundEffects.Explosions.SC_Explosion_Electric')
@@ -92,9 +92,9 @@ DefaultProperties
     MuzzleFlashSocket=MuzzleFlashSocket
     MuzzleFlashPSCTemplate=ParticleSystem'RX_WP_PersonalIonCannon.Effects.P_MuzzleFlash_3P'
     MuzzleFlashLightClass=class'UTGame.UTShockMuzzleFlashLight'
-    ImpactLightClass=Rx_Light_RepairBeam
-    MuzzleFlashDuration=2.5    
-    
+    ImpactLightClass=AGN_Light_PersonalObeliskCannon
+    MuzzleFlashDuration=2.5
+
     AimProfileName = AutoRifle
 	WeaponAnimSet = AnimSet'RX_CH_Animations.Anims.AS_WeapProfile_AutoRifle'
 }
