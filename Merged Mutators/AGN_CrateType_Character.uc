@@ -9,12 +9,12 @@
  */
 
 
-class AGN_CrateType_Character extends AGN_CrateType
+class AGN_CrateType_Character extends Rx_CrateType 
 	config(AGN_Crates);
 
 var config float ProbabilityIncreaseWhenInfantryProductionDestroyed;
 
-function string GetGameLogMessage(Rx_PRI RecipientPRI, AGN_CratePickup CratePickup)
+function string GetGameLogMessage(Rx_PRI RecipientPRI, Rx_CratePickup CratePickup)
 {
 	return "GAME" `s "Crate;" `s "character" `s RecipientPRI.CharClassInfo.name `s "by" `s `PlayerLog(RecipientPRI);
 }
@@ -24,7 +24,7 @@ function string GetPickupMessage()
     return "You picked up a character crate!";
 }
 
-function float GetProbabilityWeight(Rx_Pawn Recipient, AGN_CratePickup CratePickup)
+function float GetProbabilityWeight(Rx_Pawn Recipient, Rx_CratePickup CratePickup)
 {
 	local Rx_Building building;
 	local float Probability;
@@ -72,7 +72,7 @@ function bool HasFreeUnit(Rx_Pawn Recipient)
 	return false;	
 }
 
-function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, AGN_CratePickup CratePickup)
+function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, Rx_CratePickup CratePickup)
 {
 	RecipientPRI.SetChar(
 		(Recipient.GetTeamNum() == TEAM_GDI ?

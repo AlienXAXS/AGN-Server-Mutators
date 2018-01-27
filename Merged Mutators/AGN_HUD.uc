@@ -328,7 +328,7 @@ function LocalizedMessage
 			break;
 		}
 	}
-	else if (InMessageClass == class'AGN_CratePickup'.default.MessageClass)
+	else if (InMessageClass == class'Rx_CratePickup'.default.MessageClass)
 	{
 		HudMovie.AddEVAMessage(CriticalString);
 	}

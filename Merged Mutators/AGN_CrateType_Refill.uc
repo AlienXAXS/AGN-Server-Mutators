@@ -9,10 +9,10 @@
  */
 
 
-class AGN_CrateType_Refill extends AGN_CrateType
+class AGN_CrateType_Refill extends Rx_CrateType 
 	config(AGN_Crates);
 
-function string GetGameLogMessage(Rx_PRI RecipientPRI, AGN_CratePickup CratePickup)
+function string GetGameLogMessage(Rx_PRI RecipientPRI, Rx_CratePickup CratePickup)
 {
 	return "GAME" `s "Crate;" `s "refill" `s "by" `s `PlayerLog(RecipientPRI);
 }
@@ -22,7 +22,7 @@ function string GetPickupMessage()
     return "You feel refreshed!";
 }
 
-function float GetProbabilityWeight(Rx_Pawn Recipient, AGN_CratePickup CratePickup)
+function float GetProbabilityWeight(Rx_Pawn Recipient, Rx_CratePickup CratePickup)
 {
 	LogInternal("Refill GetProbabilityWeight returning " @ super.GetProbabilityWeight(Recipient,CratePickup));
 	if (!CanUseRefill(Recipient))
@@ -51,7 +51,7 @@ function bool CanUseRefill(Rx_Pawn Recipient)
 	return false;
 }
 
-function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, AGN_CratePickup CratePickup)
+function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, Rx_CratePickup CratePickup)
 {
 	Recipient.Health = Recipient.HealthMax;
 	Recipient.DamageRate = 0;

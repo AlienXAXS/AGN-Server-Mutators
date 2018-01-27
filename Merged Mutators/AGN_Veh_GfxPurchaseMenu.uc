@@ -9,7 +9,7 @@
  */
 
 
-class AGN_Veh_GfxPurchaseMenu extends Rx_GFxPurchaseMenu;
+class AGN_Veh_GfxPurchaseMenu extends Rx_GFxPurchaseMenu
 	dependson(Rx_InventoryManager);
 
 var GFxClikWidget VehicleMenuButton2[9];

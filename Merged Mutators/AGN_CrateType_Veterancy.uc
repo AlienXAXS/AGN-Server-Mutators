@@ -9,12 +9,12 @@
  */
 
 
-class AGN_CrateType_Veterancy extends AGN_CrateType
+class AGN_CrateType_Veterancy extends Rx_CrateType 
 	config(AGN_Crates);
 
 var const int VPAmount;
 
-function string GetGameLogMessage(Rx_PRI RecipientPRI, AGN_CratePickup CratePickup)
+function string GetGameLogMessage(Rx_PRI RecipientPRI, Rx_CratePickup CratePickup)
 {
 	return "GAME" `s "Crate;" `s "veterancy" `s "by" `s `PlayerLog(RecipientPRI) `s "amount" `s VPAmount;
 }
@@ -24,7 +24,7 @@ function string GetPickupMessage()
     return "You picked up a veterancy crate!";
 }
 
-function float GetProbabilityWeight(Rx_Pawn Recipient, AGN_CratePickup CratePickup)
+function float GetProbabilityWeight(Rx_Pawn Recipient, Rx_CratePickup CratePickup)
 {
 	if (Rx_PRI(Recipient.Controller.PlayerReplicationInfo).VRank >= ArrayCount(class'Rx_Game'.default.VPMilestones))
 		return 0;
@@ -32,7 +32,7 @@ function float GetProbabilityWeight(Rx_Pawn Recipient, AGN_CratePickup CratePick
 		return super.GetProbabilityWeight(Recipient,CratePickup);
 }
 
-function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, AGN_CratePickup CratePickup)
+function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, Rx_CratePickup CratePickup)
 {
 	RecipientPRI.AddVP(VPAmount);
 }

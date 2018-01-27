@@ -9,10 +9,10 @@
  */
 
 
-class AGN_CrateType_TimeBomb extends AGN_CrateType
+class AGN_CrateType_TimeBomb extends Rx_CrateType 
 	config(AGN_Crates);
 
-function string GetGameLogMessage(Rx_PRI RecipientPRI, AGN_CratePickup CratePickup)
+function string GetGameLogMessage(Rx_PRI RecipientPRI, Rx_CratePickup CratePickup)
 {
 	return "GAME" `s "Crate;" `s "timebomb" `s "by" `s `PlayerLog(RecipientPRI);
 }
@@ -22,7 +22,7 @@ function string GetPickupMessage()
     return "You have 30 seconds to live!";
 }
 
-function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, AGN_CratePickup CratePickup)
+function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, Rx_CratePickup CratePickup)
 {
 	local Rx_Weapon_DeployedTimedC4 C4;
 	local Rotator spawnRotation;

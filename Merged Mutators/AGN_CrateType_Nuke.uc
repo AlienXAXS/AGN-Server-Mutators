@@ -9,10 +9,10 @@
  */
 
 
-class AGN_CrateType_Nuke extends AGN_CrateType
+class AGN_CrateType_Nuke extends Rx_CrateType 
 	config(AGN_Crates);
 
-function string GetGameLogMessage(Rx_PRI RecipientPRI, AGN_CratePickup CratePickup)
+function string GetGameLogMessage(Rx_PRI RecipientPRI, Rx_CratePickup CratePickup)
 {
 	return "GAME" `s "Crate;" `s "nuke" `s "by" `s `PlayerLog(RecipientPRI);
 }
@@ -22,14 +22,14 @@ function string GetPickupMessage()
     return "Incoming nuclear strike!";
 }
 
-function float GetProbabilityWeight(Rx_Pawn Recipient, AGN_CratePickup CratePickup)
+function float GetProbabilityWeight(Rx_Pawn Recipient, Rx_CratePickup CratePickup)
 {
 	if (CratePickup.bNoNukeDeath)
 		return 0;
 	else return super.GetProbabilityWeight(Recipient,CratePickup);
 }
 
-function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, AGN_CratePickup CratePickup)
+function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, Rx_CratePickup CratePickup)
 {
 	local Rx_Weapon_CrateNuke Beacon;
 	local Rotator spawnRotation;

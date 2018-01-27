@@ -9,7 +9,7 @@
  */
 
 
-class AGN_CrateType_SuperMoney extends AGN_CrateType
+class AGN_CrateType_SuperMoney extends Rx_CrateType 
 	config(AGN_Crates);
 
 var config float MinutesToGiveSmallSum;
@@ -18,7 +18,7 @@ var config float ProbabilityIncreaseWhenRefineryDestroyed;
 
 var transient int credits;
 
-function string GetGameLogMessage(Rx_PRI RecipientPRI, AGN_CratePickup CratePickup)
+function string GetGameLogMessage(Rx_PRI RecipientPRI, Rx_CratePickup CratePickup)
 {
 	return "GAME" `s "Crate;" `s "super-money" `s credits `s "by" `s `PlayerLog(RecipientPRI);
 }
@@ -28,7 +28,7 @@ function string GetPickupMessage()
 	return Repl("You found a Super Money crate and have awarded `credsum` credits to each teammate!", "`credsum`", credits, false);
 }
 
-function float GetProbabilityWeight(Rx_Pawn Recipient, AGN_CratePickup CratePickup)
+function float GetProbabilityWeight(Rx_Pawn Recipient, Rx_CratePickup CratePickup)
 {
 	local Rx_Building building;
 	local float Probability;
@@ -52,7 +52,7 @@ function float GetProbabilityWeight(Rx_Pawn Recipient, AGN_CratePickup CratePick
 	return Probability;
 }
 
-function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, AGN_CratePickup CratePickup)
+function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, Rx_CratePickup CratePickup)
 {
 	credits = 100;
 	RecipientPRI.AddCredits(credits);

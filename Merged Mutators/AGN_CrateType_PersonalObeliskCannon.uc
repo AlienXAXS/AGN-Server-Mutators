@@ -9,13 +9,13 @@
  */
 
 
-class AGN_CrateType_PersonalObeliskCannon extends AGN_CrateType
+class AGN_CrateType_PersonalObeliskCannon extends Rx_CrateType
     transient
     config(AGN_Crates);
 
 var config float ProbabilityIncreaseWhenInfantryProductionDestroyed;
 
-function string GetGameLogMessage(Rx_PRI RecipientPRI, AGN_CratePickup CratePickup)
+function string GetGameLogMessage(Rx_PRI RecipientPRI, Rx_CratePickup CratePickup)
 {
     return ((((((("GAME" $ Chr(2)) $ "Crate;") $ Chr(2)) $ "`weapon`") $ Chr(2)) $ "by") $ Chr(2)) $ class'Rx_Game'.static.GetPRILogName(RecipientPRI);
 }
@@ -25,7 +25,7 @@ function string GetPickupMessage()
     return "You were given a Personal Obelisk Cannon!";
 }
 
-function float GetProbabilityWeight(Rx_Pawn Recipient, AGN_CratePickup CratePickup)
+function float GetProbabilityWeight(Rx_Pawn Recipient, Rx_CratePickup CratePickup)
 {
 	 if (isSBH(Recipient)) // Don't give if it's an SBH.
         return 0;
@@ -41,7 +41,7 @@ function bool isSBH(Rx_Pawn Recipient)
         return false;
     }
 
-function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, AGN_CratePickup CratePickup)
+function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, Rx_CratePickup CratePickup)
 {
     local Rx_InventoryManager InvManager;
 	local class<Rx_Weapon> WeaponClass;

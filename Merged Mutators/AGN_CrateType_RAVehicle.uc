@@ -9,7 +9,7 @@
  */
 
 
-class AGN_CrateType_RAVehicle extends AGN_CrateType
+class AGN_CrateType_RAVehicle extends Rx_CrateType 
     transient
     config(AGN_Crates);
 
@@ -22,12 +22,12 @@ function string GetPickupMessage()
     return Repl("You got a `vehname`!", "`vehname`", GivenVehicle.GetHumanReadableName(), false);
 }
 
-function string GetGameLogMessage(Rx_PRI RecipientPRI, AGN_CratePickup CratePickup)
+function string GetGameLogMessage(Rx_PRI RecipientPRI, Rx_CratePickup CratePickup)
 {
     return ((((((((("GAME" $ Chr(2)) $ "Crate;") $ Chr(2)) $ "tsvehicle") $ Chr(2)) $ string(GivenVehicle.Class.Name)) $ Chr(2)) $ "by") $ Chr(2)) $ class'Rx_Game'.static.GetPRILogName(RecipientPRI);
 }
 
-function float GetProbabilityWeight(Rx_Pawn Recipient, AGN_CratePickup CratePickup)
+function float GetProbabilityWeight(Rx_Pawn Recipient, Rx_CratePickup CratePickup)
 {
     local Rx_Building Building;
     local float probability;
@@ -50,7 +50,7 @@ function float GetProbabilityWeight(Rx_Pawn Recipient, AGN_CratePickup CratePick
     }
 }
 
-function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, AGN_CratePickup CratePickup)
+function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, Rx_CratePickup CratePickup)
 {
     local Vector tmpSpawnPoint;
 

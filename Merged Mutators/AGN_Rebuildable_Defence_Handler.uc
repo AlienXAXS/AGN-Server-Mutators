@@ -17,11 +17,7 @@ function InitSystem()
 {
 	local string mapname;
 	local Rx_Defence xDefenceTurret;
-	
-	// Dont spawn these on a client
-	if(`WorldInfoObject.NetMode != NM_DedicatedServer)
-		return;
-	
+		
 	mapname=string(WorldInfo.GetPackageName()); 			
 	if(right(mapname, 6) ~= "_NIGHT") mapname = Left(mapname, Len(mapname)-6);   	
 	if(right(mapname, 4) ~= "_DAY") mapname = Left(mapname, Len(mapname)-4);

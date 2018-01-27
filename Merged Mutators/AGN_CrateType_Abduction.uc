@@ -9,10 +9,10 @@
  */
 
 
-class AGN_CrateType_Abduction extends AGN_CrateType
+class AGN_CrateType_Abduction extends Rx_CrateType 
 	config(AGN_Crates);
 
-function string GetGameLogMessage(Rx_PRI RecipientPRI, AGN_CratePickup CratePickup)
+function string GetGameLogMessage(Rx_PRI RecipientPRI, Rx_CratePickup CratePickup)
 {
 	return "GAME" `s "Crate;" `s "abduction" `s "by" `s `PlayerLog(RecipientPRI);
 }
@@ -22,7 +22,7 @@ function string GetPickupMessage()
     return "You're getting abducted!";
 }
 
-function float GetProbabilityWeight(Rx_Pawn Recipient, AGN_CratePickup CratePickup)
+function float GetProbabilityWeight(Rx_Pawn Recipient, Rx_CratePickup CratePickup)
 {
 	// 0 Probability if the area directly above us isn't clear
 	if (CratePickup.FastTrace(CratePickup.Location + vect(0,0,1000),CratePickup.Location + vect(0,0,256)))
@@ -31,7 +31,7 @@ function float GetProbabilityWeight(Rx_Pawn Recipient, AGN_CratePickup CratePick
 		return 0;
 }
 
-function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, AGN_CratePickup CratePickup)
+function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, Rx_CratePickup CratePickup)
 {
 	local Rx_AlienAbductionBeam Beam;
 

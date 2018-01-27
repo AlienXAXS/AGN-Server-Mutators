@@ -9,19 +9,19 @@
  */
 
 
-class AGN_CrateType_BasePower extends AGN_CrateType
+class AGN_CrateType_BasePower extends Rx_CrateType 
 	config(AGN_Crates);
 	
 var int LastPickupTeamID,RestorePowerInSeconds;
 var bool isActive;
 var array<Rx_Building_Team_Internals> BuildingsPoweredDown;
 
-function string GetGameLogMessage(Rx_PRI RecipientPRI, AGN_CratePickup CratePickup)
+function string GetGameLogMessage(Rx_PRI RecipientPRI, Rx_CratePickup CratePickup)
 {
 	return "GAME" `s "Crate;" `s "base-power" `s "by" `s `PlayerLog(RecipientPRI);
 }
 
-function float GetProbabilityWeight(Rx_Pawn Recipient, AGN_CratePickup CratePickup)
+function float GetProbabilityWeight(Rx_Pawn Recipient, Rx_CratePickup CratePickup)
 {
 	local Rx_Building building;
 	local bool hasDefences;
@@ -48,7 +48,7 @@ function float GetProbabilityWeight(Rx_Pawn Recipient, AGN_CratePickup CratePick
 // RX_EVA_VoiceClips.gdi_EVA.S_EVA_GDI_GDIPowerPlant_PowerOffline_Cue - GDI Self Power Offline
 // RX_EVA_VoiceClips.gdi_EVA.S_EVA_GDI_NodPowerPlant_PowerOffline_Cue - GDI Nod Power Offline
 
-function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, AGN_CratePickup CratePickup)
+function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, Rx_CratePickup CratePickup)
 {
 	local Rx_Building building;
 	local Rx_Building_Team_Internals buildingTeamInternals;
