@@ -49,22 +49,6 @@ function DrawHudCompoenents()
 	if ( AGN_HUDAdminComponent != None ) AGN_HUDAdminComponent.Draw();
 }
 
-function OpenOverviewMap()
-{
-	bToggleOverviewMap = true;
-
-	OverviewMapMovie = new class'AGN_Rx_GFxOverviewMap';
-	OverviewMapMovie.LocalPlayerOwnerIndex = GetLocalPlayerOwnerIndex();
-	OverviewMapMovie.SetViewport(0,0,Canvas.ClipX, Canvas.ClipY);
-	OverviewMapMovie.SetViewScaleMode(SM_ExactFit);
-	OverviewMapMovie.SetTimingMode(TM_Real);
-
-	OverviewMapMovie.Start();
-
-	//Hide our hud
-	SetVisible(false);
-}
-
 function float GetWeaponTargetingRange()
 {
     local Weapon OurWeapon;
@@ -328,7 +312,7 @@ function LocalizedMessage
 			break;
 		}
 	}
-	else if (InMessageClass == class'AGN_CratePickup'.default.MessageClass)
+	else if (InMessageClass == class'Rx_CratePickup'.default.MessageClass)
 	{
 		HudMovie.AddEVAMessage(CriticalString);
 	}

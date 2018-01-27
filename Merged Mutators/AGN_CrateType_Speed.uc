@@ -9,12 +9,12 @@
  */
 
 
-class AGN_CrateType_Speed extends AGN_CrateType
+class AGN_CrateType_Speed extends Rx_CrateType 
 	config(AGN_Crates);
 
 var int SpeedIncreasePercent;
 
-function string GetGameLogMessage(Rx_PRI RecipientPRI, AGN_CratePickup CratePickup)
+function string GetGameLogMessage(Rx_PRI RecipientPRI, Rx_CratePickup CratePickup)
 {
 	return "GAME" `s "Crate;" `s "speed" `s "by" `s `PlayerLog(RecipientPRI);
 }
@@ -24,7 +24,7 @@ function string GetPickupMessage()
 	return "You picked up a speed crate!";
 }
 
-function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, AGN_CratePickup CratePickup)
+function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, Rx_CratePickup CratePickup)
 {
 	Recipient.SpeedUpgradeMultiplier += SpeedIncreasePercent / 100.0;
 	Recipient.UpdateRunSpeedNode();

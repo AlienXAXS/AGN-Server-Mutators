@@ -9,16 +9,16 @@
  */
 
 
-class AGN_Veh_GfxPurchaseMenu extends Rx_GFxPurchaseMenu;
+class AGN_Veh_GfxPurchaseMenu extends Rx_GFxPurchaseMenu
 	dependson(Rx_InventoryManager);
 
-var GFxClikWidget VehicleMenuButton2[9];
+var GFxClikWidget VehicleMenuButton2[10];
 
 var PTMenuBlock GDIItemMenuData2[8];
 var PTMenuBlock NodItemMenuData2[8];
 
-var PTVehicleBlock GDIVehicleMenuData2[9];
-var PTVehicleBlock NodVehicleMenuData2[9];
+var PTVehicleBlock GDIVehicleMenuData2[10];
+var PTVehicleBlock NodVehicleMenuData2[10];
 
 var PTMenuBlock GDIClassMenuData2[10];
 var PTMenuBlock NodClassMenuData2[10];
@@ -66,7 +66,6 @@ function Initialize(LocalPlayer player, Rx_BuildingAttachment_PT PTOwner)
 	VehicleMenuGroup			=	InitButtonGroupWidget("vehicleMenu", Root);
 	EquipmentMenuGroup          =   InitButtonGroupWidget("equipmentMenu", Root);
 
-
 	VehicleDrawer				=	GetVariableObject("_root.vehicleDrawer");
 	EquipmentDrawer				=	GetVariableObject("_root.equipmentDrawer");
 	BottomDrawer				=	GetVariableObject("_root.bottomDrawer");
@@ -96,10 +95,10 @@ function Initialize(LocalPlayer player, Rx_BuildingAttachment_PT PTOwner)
 
 	//	[ASSIGN EXIT BACK VEHICLE CREDITS PURCHASEBUTTON]
 	ExitButton 					=	GFxClikWidget(GetVariableObject("_root.bottomDrawer.exitButton.PTButton."$WidgetTeamPrefix $"Button", class'GFxClikWidget'));
-	ExitButton.SetString("label", "<b>"$"<font size='14'>Exit [</font>" $ "<font size='10'> Escape </font>" $ "<font size='14'>]</font>"$"</b>");
+	ExitButton.SetString("label", "<b>"$"<font size='14'>Exit [" $ "<font size='10'> Escape " $ "<font size='14'>]"$"</b>");
 
 	BackButton 					=	GFxClikWidget(GetVariableObject("_root.bottomDrawer.backButton.PTButton."$WidgetTeamPrefix $"Button", class'GFxClikWidget'));
-	BackButton.SetString("label", "<b>"$"<font size='14'>Back [</font>" $ "<font size='10'> Back Space </font>" $ "<font size='14'>]</font>"$"</b>");
+	BackButton.SetString("label", "<b>"$"<font size='14'>Back [" $ "<font size='10'> Back Space " $ "<font size='14'>]"$"</b>");
 
 	VehicleInfoButton 			=	GFxClikWidget(GetVariableObject("_root.bottomDrawer.vehicleInfoButton.PTButton."$WidgetTeamPrefix $"Button", class'GFxClikWidget'));
 
@@ -107,10 +106,7 @@ function Initialize(LocalPlayer player, Rx_BuildingAttachment_PT PTOwner)
 	CreditsButton.SetString("label", "Credits: 0");
 	
 	PurchaseButton 				=	GFxClikWidget(GetVariableObject("_root.bottomDrawer.purchaseButton.PTButton."$WidgetTeamPrefix $"Button", class'GFxClikWidget'));
-	PurchaseButton.SetString("label", "<b>"$"<font size='14'>Purchase [</font>" $ "<font size='10'> Enter </font>" $ "<font size='14'>]</font>"$"</b>");
-
-
-
+	PurchaseButton.SetString("label", "<b>"$"<font size='14'>Purchase [" $ "<font size='10'> Enter " $ "<font size='14'>]"$"</b>");
 
 	OwnedFamilyInfo2 = Rx_Pawn(RxPC.Pawn).GetRxFamilyInfo();
 
@@ -128,49 +124,22 @@ function Initialize(LocalPlayer player, Rx_BuildingAttachment_PT PTOwner)
 		OwnedItem2               =   rxInv.Items[rxInv.Items.Length - 1];
 	}
 
-
-
-	`log("<PT Log> rxPC.bJustBaughtEngineer= "$ rxPC.bJustBaughtEngineer);
-	`log("<PT Log> rxPC.bJustBaughtHavocSakura= "$ rxPC.bJustBaughtHavocSakura);
-	`log("<PT Log> OwnedFamilyInfo2= " $ OwnedFamilyInfo2);
-	`log("");
-	`log("<PT Log> OwnedSidearm2= " $ OwnedSidearm2);
-	`log("<PT Log> OwnedExplosive2= " $ OwnedExplosive2);
-	`log("<PT Log> OwnedItem2= " $ OwnedItem2);
-	`log("");
-
-
-	`log("<PT Log> rxPC.CurrentSidearmWeapon= " $ rxPC.CurrentSidearmWeapon);
-
-	`log("<PT Log> rxPC.CurrentExplosiveWeapon= " $ rxPC.CurrentExplosiveWeapon);
-
-	`log("[AGN-PT] Assigning Character Classes (" $ WidgetTeamPrefix $ ")...");
 	for (i = 0; i < 10; i++) {
-		`log(" > On iteration " $ i $ " step 1");
 		GetVariableObject("_root.mainDrawer.tween.btnMenu"$i).GotoAndStopI(TeamID == TEAM_GDI? 1 : 2);
 		GetVariableObject("_root.classDrawer.tween.btnMenu"$i).GotoAndStopI(TeamID == TEAM_GDI? 1 : 2);
 		GetVariableObject("_root.itemDrawer.tween.btnMenu"$i).GotoAndStopI(TeamID == TEAM_GDI? 1 : 2);
-		
-		`log(" > On iteration " $ i $ " step 2");
-		
+				
 		MainMenuButton[i] 		= 	GFxClikWidget(GetVariableObject("_root.mainDrawer.tween.btnMenu"$i $"."$WidgetTeamPrefix$"Button", class'GFxClikWidget'));	
-		
-		`log(" > Assninging Button Data (" $ TeamID $ ")..." $ MainMenuButton[i]);
-		`log(" GDIMenuData: " $ GDIMainMenuData2[i].title);
-		`log(" NodMenuData: " $ NodMainMenuData2[i].title);
-		
+				
 		if(TeamID == TEAM_GDI && GDIMainMenuData.Length > i)
 			AssignButtonData(MainMenuButton[i], GDIMainMenuData[i], i);
 		else if(TeamID == TEAM_NOD && NodMainMenuData.Length > i)
 			AssignButtonData(MainMenuButton[i], NodMainMenuData[i], i);
 
-		
-		`log(" > Assining button group to " $ MainMenuGroup);
 		MainMenuButton[i].SetObject("group", MainMenuGroup);
 
 		if(i == 9)
 		{
-			`log(" > On iteration " $ i $ " step 2a");
 			MainMenuButton[i].SetBool("enable", false);
 			MainMenuButton[i].SetVisible(false);
 		}
@@ -184,13 +153,12 @@ function Initialize(LocalPlayer player, Rx_BuildingAttachment_PT PTOwner)
 		ClassMenuButton[i].SetObject("group", ClassMenuGroup);
 		
 		`log(" > On iteration " $ i $ " step 5");
+		
 		//Enable the first 8 items in item menu, disable the rest
 		if (i < 8) {
-			`log(" > On iteration " $ i $ " step 5a");
 			AssignButtonData(ItemMenuButton[i], TeamID == TEAM_GDI ? GDIItemMenuData2[i] : NodItemMenuData2[i], i);
 			ItemMenuButton[i].SetObject("group", ItemMenuGroup);
 		} else {
-			`log(" > On iteration " $ i $ " step 5b");
 			ItemMenuButton[i].SetBool("enable", false);
 			ItemMenuButton[i].SetVisible(false);
 		}
@@ -215,9 +183,7 @@ function Initialize(LocalPlayer player, Rx_BuildingAttachment_PT PTOwner)
  		VehicleMenuButton2[i].SetObject("group", VehicleMenuGroup);
 
 	}
-	
-	`log("[AGN-PT] >>  Done");
-	
+		
 	EquipSideArmButton 			=	GFxClikWidget(GetVariableObject("_root.equipmentDrawer.tween.equipsidearm."$WidgetTeamPrefix $"Button", class 'GFxClikWidget'));
 	EquipSideArmList 			=	GFxClikWidget(GetVariableObject("_root.equipmentDrawer.tween.equipsidearm."$WidgetTeamPrefix $"EquipmentList", class 'GFxClikWidget'));
 	EquipExplosivesButton 		=	GFxClikWidget(GetVariableObject("_root.equipmentDrawer.tween.equipexplosives."$WidgetTeamPrefix $"Button", class 'GFxClikWidget'));
@@ -236,36 +202,23 @@ function Initialize(LocalPlayer player, Rx_BuildingAttachment_PT PTOwner)
 
 	if (rxPC.bJustBaughtEngineer 
 		|| Rx_Pawn(rxPC.Pawn).GetRxFamilyInfo() == class'AGN_FamilyInfo_GDI_Hotwire' 
-		|| Rx_Pawn(rxPC.Pawn).GetRxFamilyInfo() == class'AGN_FamilyInfo_Nod_Technician'){
+		|| Rx_Pawn(rxPC.Pawn).GetRxFamilyInfo() == class'AGN_FamilyInfo_Nod_Technician')
+	{
 			explosiveData.RemoveItem(explosiveData[explosiveData.Find('WeaponClass', class'Rx_Weapon_TimedC4')]);
 			explosiveData.RemoveItem(explosiveData[explosiveData.Find('WeaponClass', class'Rx_Weapon_RemoteC4')]);
 			explosiveData[explosiveData.Find('WeaponClass', class'Rx_Weapon_ProxyC4')].bFree = true;
-
-			//log
-			`log("<PT Log>              ====================== ");
 			
-			for (i=0; i<explosiveData.Length; i++) {
-				`log("<PT Log> Engi explosiveData["$ i $"]= " $ explosiveData[i].title);
-			}
 
 	} else if (rxPC.bJustBaughtHavocSakura 
 		|| Rx_Pawn(rxPC.Pawn).GetRxFamilyInfo() == class'AGN_FamilyInfo_GDI_Havoc'
-		|| Rx_Pawn(rxPC.Pawn).GetRxFamilyInfo() == class'AGN_FamilyInfo_Nod_Sakura' ) {
-			explosiveData.RemoveItem(explosiveData[explosiveData.Find('WeaponClass', class'Rx_Weapon_TimedC4')]);
-			explosiveData.RemoveItem(explosiveData[explosiveData.Find('WeaponClass', class'Rx_Weapon_ProxyC4')]);
-			explosiveData[explosiveData.Find('WeaponClass', class'Rx_Weapon_RemoteC4')].bFree = true;
-		}
-	
-	else {
-		
-			explosiveData.RemoveItem(explosiveData[explosiveData.Find('WeaponClass', class'Rx_Weapon_RemoteC4')]);
-			explosiveData.RemoveItem(explosiveData[explosiveData.Find('WeaponClass', class'Rx_Weapon_ProxyC4')]);
-
-			//log
-			`log("<PT Log>              ====================== ");
-			for (i=0; i<explosiveData.Length; i++) {
-				`log("<PT Log> Norm explosiveData["$ i $"]= " $ explosiveData[i].title);
-			}
+		|| Rx_Pawn(rxPC.Pawn).GetRxFamilyInfo() == class'AGN_FamilyInfo_Nod_Sakura' )
+	{
+		explosiveData.RemoveItem(explosiveData[explosiveData.Find('WeaponClass', class'Rx_Weapon_TimedC4')]);
+		explosiveData.RemoveItem(explosiveData[explosiveData.Find('WeaponClass', class'Rx_Weapon_ProxyC4')]);
+		explosiveData[explosiveData.Find('WeaponClass', class'Rx_Weapon_RemoteC4')].bFree = true;
+	} else {
+		explosiveData.RemoveItem(explosiveData[explosiveData.Find('WeaponClass', class'Rx_Weapon_RemoteC4')]);
+		explosiveData.RemoveItem(explosiveData[explosiveData.Find('WeaponClass', class'Rx_Weapon_ProxyC4')]);
 	}
 
 	if (rxPC.CurrentExplosiveWeapon != none) {
@@ -295,14 +248,12 @@ function Initialize(LocalPlayer player, Rx_BuildingAttachment_PT PTOwner)
 		}
 	}
 	EquipExplosivesButton.SetObject("group", EquipmentMenuGroup);
-
-
+	
 	bIsInTransition = true;
 	BottomWidgetFadeIn(ExitTween);
 	BottomWidgetFadeIn(CreditsTween);
 	BottomWidgetFadeIn(PurchaseTween);
 	MainDrawerFadeIn();
-	//EquipmentDrawerFadeIn();
 	bIsInTransition = false;;
 
 	//  [WIRE EVENTS FOR EQUIPMENT BUTTON]
@@ -311,8 +262,6 @@ function Initialize(LocalPlayer player, Rx_BuildingAttachment_PT PTOwner)
 
 	//set the dummy pawn/vehicle here
 	SetupPTDummyActor();
-	
-	`log("[AGN-PT] Init Complete");
 }
 
 function OnPTButtonClick(EventData ev)
@@ -321,77 +270,49 @@ function OnPTButtonClick(EventData ev)
     local int hotkey;
 
     Button = GFxClikWidget(ev._this.GetObject("currentTarget", class'GFxClikWidget'));
-    switch(Button.GetString("hotkeyLabel"))
-    {
-        // End:0xB5
-        case "E":
-            // End:0xB2
-            if(bMainDrawerOpen)
-            {
-                hotkey = 5;
-            }
-            // End:0x17B
-            break;
-        // End:0xD7
-        case "R":
-            // End:0xD4
-            if(bMainDrawerOpen)
-            {
-                hotkey = 6;
-            }
-            // End:0x17B
-            break;
-        // End:0xF9
-        case "Q":
-            // End:0xF6
-            if(bMainDrawerOpen)
-            {
-                hotkey = 7;
-            }
-            // End:0x17B
-            break;
-        // End:0x11B
-        case "C":
-            // End:0x118
-            if(bMainDrawerOpen)
-            {
-                hotkey = 8;
-            }
-            // End:0x17B
-            break;
-        // End:0x13D
-        case "V":
-            // End:0x13A
-            if(bMainDrawerOpen)
-            {
-                hotkey = 9;
-            }
-            // End:0x17B
-            break;
-        // End:0xFFFF
-        default:
-            hotkey = int(Button.GetString("hotkeyLabel"));
-            // End:0x17B
-            break;
-    }
-    // End:0x240
-    if(Button.GetBool("toggle") && !Button.GetBool("selected"))
-    {
-        Button.SetBool("selected", true);
-        // End:0x231
-        if(bMainDrawerOpen && hotkey == 6)
-        {
-            SelectMenu(hotkey);
-        }
-        SelectPurchase();
-        return;
-    }
-    // End:0x253
-    else
-    {
-        SelectMenu(hotkey);
-    }
-    //return;    
+	switch (button.GetString("hotkeyLabel")) 
+	{
+		case "E":
+			if(bMainDrawerOpen) {
+				hotkey = 5;
+			}
+			break;
+		case "R":
+			if(bMainDrawerOpen) {
+				hotkey = 6;
+			}
+			break;
+		case "Q":
+			if(bMainDrawerOpen) {
+				hotkey = 7;
+			}
+			break;
+		case "C":
+			if(bMainDrawerOpen) {
+				hotkey = 8;
+			}
+			break;
+		case "V":
+			if(bMainDrawerOpen) {
+				hotkey = 9;
+			}
+			break;
+		default:
+			hotkey = int(button.GetString("hotkeyLabel"));
+			break;
+	}
+	
+    if (button.GetBool("toggle") && !button.GetBool("selected")) {
+		button.SetBool("selected", true);
+		//prototype double click
+		if (bMainDrawerOpen && hotkey == 6) {
+			SelectMenu(hotkey);
+		}
+		SelectPurchase();
+		return;
+	} else  {
+		SelectMenu(hotkey);
+	}  
 }
 
 function SelectClassPurchase(GFxClikWidget ButtonGroup) 
@@ -425,26 +346,6 @@ function SelectClassPurchase(GFxClikWidget ButtonGroup)
 	}
 }
 
-function class<Rx_FamilyInfo> IndexToClass(int Index, byte TeamNum)
-{
-    // End:0x75
-    if(rxPurchaseSystem != none)
-    {
-        // End:0x4C
-        if(TeamNum == 0)
-        {
-            return rxPurchaseSystem.GDIInfantryClasses[Index];
-        }
-        // End:0x75
-        else
-        {
-            return rxPurchaseSystem.NodInfantryClasses[Index];
-        }
-    }
-    return none;
-    //return ReturnValue;    
-}
-
 function bool FilterButtonInput(int ControllerId, name ButtonName, EInputEvent InputEvent)
 {
     // End:0x89
@@ -455,290 +356,163 @@ function bool FilterButtonInput(int ControllerId, name ButtonName, EInputEvent I
     }
     switch(ButtonName)
     {
-        // End:0xF1
         case 'Escape':
-            // End:0xEE
-            if(InputEvent == 0)
-            {
-                PlaySoundFromTheme('buttonClick', 'Default');
-                SetLoadout();
-                ClosePTMenu(false);
-            }
-            // End:0x14ED
-            break;
-        // End:0x13A
-        case 'Enter':
-            // End:0x137
-            if(InputEvent == 0)
-            {
-                PlaySoundFromTheme('buttonClick', 'Default');
-                SelectPurchase();
-            }
-            // End:0x14ED
-            break;
-        // End:0x183
-        case 'BackSpace':
-            // End:0x180
-            if(InputEvent == 0)
-            {
-                PlaySoundFromTheme('buttonClick', 'Default');
-                SelectBack();
-            }
-            // End:0x14ED
-            break;
-        // End:0x301
-        case 'One':
-            // End:0x2FE
-            if(InputEvent == 0)
-            {
-                // End:0x214
-                if(bVehicleDrawerOpen && VehicleMenuButton2[0].GetBool("enabled"))
-                {
-                    PlaySoundFromTheme('buttonClick', 'Default');
-                    SetSelectedButtonByIndex(0);
-                    SelectPurchase();
-                }
-                // End:0x2FE
-                else
-                {
-                    // End:0x2FE
-                    if(((bMainDrawerOpen && MainMenuButton[0].GetBool("enabled")) || bClassDrawerOpen && ClassMenuButton[0].GetBool("enabled")) || bItemDrawerOpen && ItemMenuButton[0].GetBool("enabled"))
-                    {
-                        PlaySoundFromTheme('buttonClick', 'Default');
-                        SetSelectedButtonByIndex(0);
-                        SelectPurchase();
-                    }
-                }
-            }
-            // End:0x14ED
-            break;
-        // End:0x49D
-        case 'Two':
-            // End:0x49A
-            if(InputEvent == 0)
-            {
-                // End:0x3B0
-                if(bVehicleDrawerOpen && VehicleMenuButton2[1].GetBool("enabled"))
-                {
-                    PlaySoundFromTheme('buttonClick', 'Default');
-                    // End:0x397
-                    if(TeamID == 0)
-                    {
-                        SetSelectedButtonByIndex(1);
-                    }
-                    // End:0x3A3
-                    else
-                    {
-                        SetSelectedButtonByIndex(1);
-                    }
-                    SelectPurchase();
-                }
-                // End:0x49A
-                else
-                {
-                    // End:0x49A
-                    if(((bMainDrawerOpen && MainMenuButton[1].GetBool("enabled")) || bClassDrawerOpen && ClassMenuButton[1].GetBool("enabled")) || bItemDrawerOpen && ItemMenuButton[1].GetBool("enabled"))
-                    {
-                        PlaySoundFromTheme('buttonClick', 'Default');
-                        SetSelectedButtonByIndex(1);
-                        SelectPurchase();
-                    }
-                }
-            }
-            // End:0x14ED
-            break;
-        // End:0x67F
-        case 'Three':
-            // End:0x67C
-            if(InputEvent == 0)
-            {
-                // End:0x54F
-                if(bVehicleDrawerOpen && VehicleMenuButton2[2].GetBool("enabled"))
-                {
-                    PlaySoundFromTheme('buttonClick', 'Default');
-                    // End:0x535
-                    if(TeamID == 0)
-                    {
-                        SetSelectedButtonByIndex(2);
-                    }
-                    // End:0x542
-                    else
-                    {
-                        SetSelectedButtonByIndex(2);
-                    }
-                    SelectPurchase();
-                }
-                // End:0x67C
-                else
-                {
-                    // End:0x67C
-                    if((((bMainDrawerOpen && MainMenuButton[2].GetBool("enabled")) || bClassDrawerOpen && ClassMenuButton[2].GetBool("enabled")) || bVehicleDrawerOpen && VehicleMenuButton2[2].GetBool("enabled")) || bItemDrawerOpen && ItemMenuButton[2].GetBool("enabled"))
-                    {
-                        PlaySoundFromTheme('buttonClick', 'Default');
-                        SetSelectedButtonByIndex(2);
-                        SelectPurchase();
-                    }
-                }
-            }
-            // End:0x14ED
-            break;
-        // End:0x822
-        case 'Four':
-            // End:0x81F
-            if(InputEvent == 0)
-            {
-                // End:0x731
-                if(bVehicleDrawerOpen && VehicleMenuButton2[3].GetBool("enabled"))
-                {
-                    PlaySoundFromTheme('buttonClick', 'Default');
-                    // End:0x717
-                    if(TeamID == 0)
-                    {
-                        SetSelectedButtonByIndex(3);
-                    }
-                    // End:0x724
-                    else
-                    {
-                        SetSelectedButtonByIndex(3);
-                    }
-                    SelectPurchase();
-                }
-                // End:0x81F
-                else
-                {
-                    // End:0x81F
-                    if(((bMainDrawerOpen && MainMenuButton[3].GetBool("enabled")) || bClassDrawerOpen && ClassMenuButton[3].GetBool("enabled")) || bItemDrawerOpen && ItemMenuButton[3].GetBool("enabled"))
-                    {
-                        PlaySoundFromTheme('buttonClick', 'Default');
-                        SetSelectedButtonByIndex(3);
-                        SelectPurchase();
-                    }
-                }
-            }
-            // End:0x14ED
-            break;
-        // End:0x9F9
-        case 'Five':
-            // End:0x9F6
-            if(InputEvent == 0)
-            {
-                // End:0x8D4
-                if(bVehicleDrawerOpen && VehicleMenuButton2[4].GetBool("enabled"))
-                {
-                    PlaySoundFromTheme('buttonClick', 'Default');
-                    // End:0x8BA
-                    if(TeamID == 0)
-                    {
-                        SetSelectedButtonByIndex(4);
-                    }
-                    // End:0x8C7
-                    else
-                    {
-                        SetSelectedButtonByIndex(4);
-                    }
-                    SelectPurchase();
-                }
-                // End:0x9F6
-                else
-                {
-                    // End:0x986
-                    if((bClassDrawerOpen && ClassMenuButton[4].GetBool("enabled")) || bItemDrawerOpen && ItemMenuButton[4].GetBool("enabled"))
-                    {
-                        SetSelectedButtonByIndex(4);
-                        PlaySoundFromTheme('buttonClick', 'Default');
-                        SelectPurchase();
-                    }
-                    // End:0x9F6
-                    else
-                    {
-                        // End:0x9F6
-                        if(bMainDrawerOpen && MainMenuButton[4].GetBool("enabled"))
-                        {
-                            PlaySoundFromTheme('buttonClick', 'Default');
-                            SetSelectedButtonByIndex(4);
-                            SelectPurchase();
-                        }
-                    }
-                }
-            }
-            // End:0x14ED
-            break;
-        // End:0xA08
-        case 'E':
-            // End:0x14ED
-            break;
-        // End:0xA90
-        case 'R':
-            // End:0xA8D
-            if(InputEvent == 0)
-            {
-                // End:0xA8D
-                if(bMainDrawerOpen && MainMenuButton[5].GetBool("enabled"))
-                {
-                    PlaySoundFromTheme('buttonClick', 'Default');
-                    SelectMenu(6);
-                }
-            }
-            // End:0x14ED
-            break;
-        // End:0xB18
-        case 'Q':
-            // End:0xB15
-            if(InputEvent == 0)
-            {
-                // End:0xB15
-                if(bMainDrawerOpen && MainMenuButton[8].GetBool("enabled"))
-                {
-                    PlaySoundFromTheme('buttonClick', 'Default');
-                    SelectMenu(7);
-                }
-            }
-            // End:0x14ED
-            break;
-        // End:0xBA0
-        case 'C':
-            // End:0xB9D
-            if(InputEvent == 0)
-            {
-                // End:0xB9D
-                if(bMainDrawerOpen && MainMenuButton[6].GetBool("enabled"))
-                {
-                    PlaySoundFromTheme('buttonClick', 'Default');
-                    SelectMenu(8);
-                }
-            }
-            // End:0x14ED
-            break;
-        // End:0xC28
-        case 'V':
-            // End:0xC25
-            if(InputEvent == 0)
-            {
-                // End:0xC25
-                if(bMainDrawerOpen && MainMenuButton[7].GetBool("enabled"))
-                {
-                    PlaySoundFromTheme('buttonClick', 'Default');
-                    SelectMenu(9);
-                }
-            }
-            // End:0x14ED
-            break;
-        // End:0xD7F
+			if (InputEvent == EInputEvent.IE_Pressed) {
+				PlaySoundFromTheme('buttonClick', 'default'); //TODO
+				SetLoadout();
+				ClosePTMenu(false);
+			}
+			break;
+		case 'Enter':
+			if (InputEvent == EInputEvent.IE_Pressed) {
+				PlaySoundFromTheme('buttonClick', 'default'); //TODO
+				SelectPurchase();
+			}
+			break;
+		case 'BackSpace':
+			if (InputEvent == EInputEvent.IE_Pressed) {
+				PlaySoundFromTheme('buttonClick', 'default'); //TODO
+				SelectBack();
+			}
+			break;
+		case 'R'://refill
+			if (InputEvent == EInputEvent.IE_Pressed) {
+				if ((bMainDrawerOpen && MainMenuButton[5].GetBool("enabled") ) ) {
+					PlaySoundFromTheme('buttonClick', 'default'); //TODO
+					SelectMenu(6);
+				}
+			}
+			break;
+        case 'Q'://item
+			if (InputEvent == EInputEvent.IE_Pressed) {
+				 if ((bMainDrawerOpen && MainMenuButton[8].GetBool("enabled") ) ) {
+					PlaySoundFromTheme('buttonClick', 'default'); //TODO
+					SelectMenu(7);
+				}
+			}
+			break;
+		case 'C'://char
+			if (InputEvent == EInputEvent.IE_Pressed) {
+				 if ((bMainDrawerOpen && MainMenuButton[6].GetBool("enabled") ) ) {
+					PlaySoundFromTheme('buttonClick', 'default'); //TODO
+					SelectMenu(8);
+				}
+			}
+			break;
+		case 'V'://veh
+			if (InputEvent == EInputEvent.IE_Pressed) {
+				 if ((bMainDrawerOpen && MainMenuButton[7].GetBool("enabled") ) ) {
+					PlaySoundFromTheme('buttonClick', 'default'); //TODO
+					SelectMenu(9);
+				}
+			}
+			break;
+		case 'One':
+			if (InputEvent == EInputEvent.IE_Pressed) {
+				if ((bVehicleDrawerOpen && VehicleMenuButton2[0].GetBool("enabled")) ) {
+					PlaySoundFromTheme('buttonClick', 'default'); //TODO
+					SetSelectedButtonByIndex(0);
+					SelectPurchase();
+				} else if ((bMainDrawerOpen && MainMenuButton[0].GetBool("enabled") ) 
+					|| (bClassDrawerOpen && ClassMenuButton[0].GetBool("enabled")) 
+					|| (bItemDrawerOpen && ItemMenuButton[0].GetBool("enabled"))) {
+					PlaySoundFromTheme('buttonClick', 'default'); //TODO
+					SetSelectedButtonByIndex(0);
+					SelectPurchase();
+				}
+			}
+			break;
+		case 'Two':
+			if (InputEvent == EInputEvent.IE_Pressed) {
+				if ((bVehicleDrawerOpen && VehicleMenuButton2[1].GetBool("enabled")) ) {
+					PlaySoundFromTheme('buttonClick', 'default'); //TODO
+					if (TeamID == TEAM_GDI) {
+						SetSelectedButtonByIndex(1);
+					} else {
+						SetSelectedButtonByIndex(1);
+					}
+					SelectPurchase();
+				} else if ((bMainDrawerOpen && MainMenuButton[1].GetBool("enabled") ) 
+					|| (bClassDrawerOpen && ClassMenuButton[1].GetBool("enabled")) 
+					|| (bItemDrawerOpen && ItemMenuButton[1].GetBool("enabled"))) {
+					PlaySoundFromTheme('buttonClick', 'default'); //TODO
+					SetSelectedButtonByIndex(1);
+					SelectPurchase();
+				}
+			}
+			break;
+		case 'Three':
+			if (InputEvent == EInputEvent.IE_Pressed) {
+				if ((bVehicleDrawerOpen && VehicleMenuButton2[2].GetBool("enabled")) ) {
+					PlaySoundFromTheme('buttonClick', 'default'); //TODO
+					if (TeamID == TEAM_GDI) {
+						SetSelectedButtonByIndex(2);
+					} else {
+						SetSelectedButtonByIndex(2);
+					}
+					SelectPurchase();
+				} else if ((bMainDrawerOpen && MainMenuButton[2].GetBool("enabled") ) 
+					|| (bClassDrawerOpen && ClassMenuButton[2].GetBool("enabled")) 
+					|| (bVehicleDrawerOpen && VehicleMenuButton2[2].GetBool("enabled")) 
+					|| (bItemDrawerOpen && ItemMenuButton[2].GetBool("enabled"))) {
+					PlaySoundFromTheme('buttonClick', 'default'); //TODO
+					SetSelectedButtonByIndex(2);
+					SelectPurchase();
+				}
+			}
+			break;
+		case 'Four':
+			if (InputEvent == EInputEvent.IE_Pressed) {
+				if ((bVehicleDrawerOpen && VehicleMenuButton2[3].GetBool("enabled")) ) {
+					PlaySoundFromTheme('buttonClick', 'default'); //TODO
+					if (TeamID == TEAM_GDI) {
+						SetSelectedButtonByIndex(3);
+					} else {
+						SetSelectedButtonByIndex(3);
+					}
+					SelectPurchase();
+				} else if ((bMainDrawerOpen && MainMenuButton[3].GetBool("enabled") ) 
+					|| (bClassDrawerOpen && ClassMenuButton[3].GetBool("enabled")) 
+					|| (bItemDrawerOpen && ItemMenuButton[3].GetBool("enabled"))) {
+					PlaySoundFromTheme('buttonClick', 'default'); //TODO
+					SetSelectedButtonByIndex(3);
+					SelectPurchase();
+				}
+			}
+			break;
+		case 'Five':
+			if (InputEvent == EInputEvent.IE_Pressed) {
+				if ((bVehicleDrawerOpen && VehicleMenuButton2[4].GetBool("enabled")) ) {
+					PlaySoundFromTheme('buttonClick', 'default'); //TODO
+					if (TeamID == TEAM_GDI) {
+						SetSelectedButtonByIndex(4);
+					} else {
+						SetSelectedButtonByIndex(4);
+					}
+					SelectPurchase();
+				} else if ((bClassDrawerOpen && ClassMenuButton[4].GetBool("enabled")) 
+					|| (bItemDrawerOpen && ItemMenuButton[4].GetBool("enabled"))) {
+					SetSelectedButtonByIndex(4);
+					PlaySoundFromTheme('buttonClick', 'default'); //TODO
+					SelectPurchase();
+				} else if(bMainDrawerOpen && MainMenuButton[4].GetBool("enabled") ) {
+					PlaySoundFromTheme('buttonClick', 'default'); //TODO
+					SetSelectedButtonByIndex(4);
+					SelectPurchase();
+				}
+			}
+			break;
         case 'Six':
-            // End:0xD7C
             if(InputEvent == 0)
             {
-                // End:0xCCD
                 if(bVehicleDrawerOpen && VehicleMenuButton2[5].GetBool("enabled"))
                 {
                     PlaySoundFromTheme('buttonClick', 'Default');
                     SetSelectedButtonByIndex(5);
                     SelectPurchase();
                 }
-                // End:0xD7C
                 else
                 {
-                    // End:0xD7C
                     if((bClassDrawerOpen && ClassMenuButton[5].GetBool("enabled")) || bItemDrawerOpen && ItemMenuButton[5].GetBool("enabled"))
                     {
                         PlaySoundFromTheme('buttonClick', 'Default');
@@ -747,28 +521,19 @@ function bool FilterButtonInput(int ControllerId, name ButtonName, EInputEvent I
                     }
                 }
             }
-            // End:0x14ED
             break;
-        // End:0xF07
         case 'Seven':
-            // End:0xF04
             if(InputEvent == 0)
             {
-                // End:0xE55
                 if(bVehicleDrawerOpen && VehicleMenuButton2[6].GetBool("enabled"))
                 {
-                    // End:0xE52
                     if(!rxBuildingOwner.AreAircraftDisabled())
                     {
                         PlaySoundFromTheme('buttonClick', 'Default');
                         SetSelectedButtonByIndex(6);
                         SelectPurchase();
                     }
-                }
-                // End:0xF04
-                else
-                {
-                    // End:0xF04
+                } else {
                     if((bClassDrawerOpen && ClassMenuButton[6].GetBool("enabled")) || bItemDrawerOpen && ItemMenuButton[6].GetBool("enabled"))
                     {
                         PlaySoundFromTheme('buttonClick', 'Default');
@@ -777,28 +542,19 @@ function bool FilterButtonInput(int ControllerId, name ButtonName, EInputEvent I
                     }
                 }
             }
-            // End:0x14ED
             break;
-        // End:0x108F
         case 'Eight':
-            // End:0x108C
             if(InputEvent == 0)
             {
-                // End:0xFDD
                 if(bVehicleDrawerOpen && VehicleMenuButton2[8].GetBool("enabled"))
                 {
-                    // End:0xFDA
                     if(!rxBuildingOwner.AreAircraftDisabled())
                     {
                         PlaySoundFromTheme('buttonClick', 'Default');
                         SetSelectedButtonByIndex(7);
                         SelectPurchase();
                     }
-                }
-                // End:0x108C
-                else
-                {
-                    // End:0x108C
+                } else {
                     if((bClassDrawerOpen && ClassMenuButton[7].GetBool("enabled")) || bItemDrawerOpen && ItemMenuButton[8].GetBool("enabled"))
                     {
                         PlaySoundFromTheme('buttonClick', 'Default');
@@ -807,28 +563,19 @@ function bool FilterButtonInput(int ControllerId, name ButtonName, EInputEvent I
                     }
                 }
             }
-            // End:0x14ED
             break;
-        // End:0x1161
         case 'Nine':
-            // End:0x115E
             if(InputEvent == 0)
             {
-                // End:0xFDD
                 if(bVehicleDrawerOpen && VehicleMenuButton2[9].GetBool("enabled"))
                 {
-                    // End:0xFDA
                     if(!rxBuildingOwner.AreAircraftDisabled())
                     {
                         PlaySoundFromTheme('buttonClick', 'Default');
                         SetSelectedButtonByIndex(8);
                         SelectPurchase();
                     }
-                }
-                // End:0x108C
-                else
-                {
-                    // End:0x108C
+                } else {
                     if((bClassDrawerOpen && ClassMenuButton[8].GetBool("enabled")) || bItemDrawerOpen && ItemMenuButton[8].GetBool("enabled"))
                     {
                         PlaySoundFromTheme('buttonClick', 'Default');
@@ -837,14 +584,10 @@ function bool FilterButtonInput(int ControllerId, name ButtonName, EInputEvent I
                     }
                 }
             }
-            // End:0x14ED
             break;
-        // End:0x1233
         case 'Zero':
-            // End:0x1230
             if(InputEvent == 0)
             {
-                // End:0x1230
                 if((bClassDrawerOpen && ClassMenuButton[9].GetBool("enabled")) || bItemDrawerOpen && ItemMenuButton[9].GetBool("enabled"))
                 {
                     PlaySoundFromTheme('buttonClick', 'Default');
@@ -852,71 +595,94 @@ function bool FilterButtonInput(int ControllerId, name ButtonName, EInputEvent I
                     SelectPurchase();
                 }
             }
-            // End:0x14ED
             break;
-        // End:0x1371
         case 'RightMouseButton':
-            // End:0x12AC
             if(InputEvent == 0)
             {
                 rxPC.PlaySound(soundcue'RenXPTSoundTest2_Cue');
                 LastCursorXPosition = CursorMC.GetFloat("x");
             }
-            // End:0x136E
             if(DummyPawn != none)
             {
                 MouseRotationIncrement = LastCursorXPosition - CursorMC.GetFloat("x");
                 RotateDummyPawn(int(float(DummyPawn.Rotation.Yaw) + (MouseRotationIncrement * float(128))));
                 LastCursorXPosition = CursorMC.GetFloat("x");
             }
-            // End:0x14ED
             break;
-        // End:0x1380
         case 'LeftMouseButton':
-            // End:0x14ED
             break;
-        // End:0x13E4
         case 'Left':
-            // End:0x13E1
             if(DummyPawn != none)
             {
                 RotateDummyPawn(DummyPawn.Rotation.Yaw + RotationIncrement);
             }
-            // End:0x14ED
             break;
-        // End:0x1448
         case 'Right':
-            // End:0x1445
             if(DummyPawn != none)
             {
                 RotateDummyPawn(DummyPawn.Rotation.Yaw - RotationIncrement);
             }
-            // End:0x14ED
             break;
-        // End:0x1498
-        case 'F1':
-            // End:0x1495
+        case 'F1': // Orca 9 + Transport 8 | Apache 10 + Transport 9
             if(InputEvent == 0)
             {
-                rxPC.PlaySound(soundcue'RenXPTSoundTest2_Cue');
+                if(bVehicleDrawerOpen)
+                {
+                    if(!rxBuildingOwner.AreAircraftDisabled())
+                    {
+                        PlaySoundFromTheme('buttonClick', 'Default');
+                        Switch (TeamID)
+						{
+							case TEAM_GDI:
+								PurchaseAircraft(9);
+								break;
+								
+							case TEAM_NOD:
+								PurchaseAircraft(10);
+								break;
+						}
+                    }
+				}
             }
-            // End:0x14ED
             break;
-        // End:0x14E8
-        case 'F2':
-            // End:0x14E5
+        case 'F2': // Transport Heli
             if(InputEvent == 0)
             {
-                rxPC.PlaySound(soundcue'RenXPTSoundTest2_Cue');
+                if(bVehicleDrawerOpen)
+                {
+                    if(!rxBuildingOwner.AreAircraftDisabled())
+                    {
+                        PlaySoundFromTheme('buttonClick', 'Default');
+                        Switch (TeamID)
+						{
+							case TEAM_GDI:
+								PurchaseAircraft(8);
+								break;
+								
+							case TEAM_NOD:
+								PurchaseAircraft(9);
+								break;
+						}
+                    }
+				}
             }
-            // End:0x14ED
             break;
-        // End:0xFFFF
         default:
             return false;
     }
-    return false;
-    //return ReturnValue;    
+    return false; 
+}
+
+function PurchaseAircraft(int vehID)
+{
+	local int Price;
+	
+	Price = rxPurchaseSystem == None ? 0 : rxPurchaseSystem.GetVehiclePrices(TeamID, vehID, rxPurchaseSystem.AirdropAvailable(rxPRI));
+	if (PlayerCredits >= Price) {
+		rxPC.PlaySound(SoundCue'RenXPurchaseMenu.Sounds.RenXPTSoundPurchase');
+		rxPC.PurchaseVehicle(TeamID, vehID);
+		ClosePTMenu(false);
+	}
 }
 
 function OnExitButtonClick(EventData ev)
@@ -938,117 +704,6 @@ function OnPurchaseButtonClick(EventData ev)
     //return;    
 }
 
-/*
-function AssignButtonData(GFxClikWidget widget, PTMenuBlock menuData, byte i)
-{
-	local GFxObject Type;
-
-	widget.SetString("hotkeyLabel", menuData.hotkey);
-	widget.SetString("data", "" $ menuData.ID);
-	widget.SetString("label", menuData.title);
-
-	if (menuData.title == "ENGINEER" || menuData.title == "HOTWIRE" || menuData.title == "TECHNICIAN") {
-		widget.SetBool("isDamageBar", false);
-	}
-	
-	switch (menuData.BlockType)
-	{
-		case EPBT_MENU:
-			widget.SetString("costLabel", "MENU");
-			widget.SetBool("toggle", false);
-			break;
-		case EPBT_CLASS:
-			if (rxPurchaseSystem.GetClassPrice(TeamID, IndexToClass(menuData.ID, TeamID)) > 0) {
-				widget.SetString("costLabel", "$" $ rxPurchaseSystem.GetClassPrice(TeamID, IndexToClass(menuData.ID, TeamID)));
-			} else {
-				widget.SetString("costLabel", "FREE");
-			}
-			widget.SetBool("toggle", true);
-			break;
-			break;
-		case EPBT_ITEM:
-			if (rxPurchaseSystem.GetItemPrices(TeamID, menuData.ID) > 0) {
-				widget.SetString("costLabel", "$" $ rxPurchaseSystem.GetItemPrices(TeamID, menuData.ID));
-			} else {
-				widget.SetString("costLabel", "FREE");
-			}
-			widget.SetBool("toggle", true);
-			break;
-		case EPBT_WEAPON:
-			if (rxPurchaseSystem.GetWeaponPrices(TeamID, menuData.ID) > 0) {
-				widget.SetString("costLabel", "$" $ rxPurchaseSystem.GetWeaponPrices(TeamID, menuData.ID));
-			} else {
-				widget.SetString("costLabel", "FREE");
-			}
-			widget.SetBool("toggle", true);
-			break;
-	}
-
-	//[VEHICLE COUNT]
-	Type = widget.GetObject("type");
-	Type.GotoAndStopI(menuData.type);
-	
-	LoadTexture("img://" $ PathName(menuData.PTIconTexture), Type.GetObject("icon"));
-
-	if (menuData.title == "VEHICLES" || menuData.title == "CHARACTERS" || menuData.title == "REFILL") {
-		widget.SetString("sublabel", rxPurchaseSystem.GetFactoryDescription(TeamID, menuData.title, rxPC));
-		if (menuData.title == "VEHICLES") {
-			widget.SetString("vehicleCountLabel", "( "$ VehicleCount $ " )");
-		}
-	} else {
-		widget.SetString("sublabel", menuData.desc);
-	}
-	if (menuData.type == 2) {
-		Type.GetObject("DamageBar").GotoAndStopI(menuData.damage + 1);
-		Type.GetObject("RangeBar").GotoAndStopI(menuData.range + 1);
-		Type.GetObject("RoFBar").GotoAndStopI(menuData.rateOfFire + 1);
-		Type.GetObject("MagCapBar").GotoAndStopI(menuData.magCap + 1);
-	}
-
-	widget.SetBool("enabled", menuData.bEnable);
-	//hide anything that is disabled
-	if (!menuData.bEnable) {
-		widget.SetBool("visible", menuData.bEnable);
-	}
-
-	if (!rxPurchaseSystem.AreSilosCaptured(TeamID)) {
-		if (menuData.bSilo) {
-			widget.SetBool("enabled", false);
-		}
-	}
-}
-*/
-
-/*
-function SetSelectedButtonByIndex (int index, optional bool selected = true)
-{
-	`log("<PT Log> Button Selected Index? " $ Index);
-	if (bMainDrawerOpen) {
-		if (index < 5) {
-			MainMenuGroup.ActionScriptVoid("setSelectedButtonByIndex");
-		}
-		return;
-	}
-	if (bClassDrawerOpen) {
-		ClassMenuGroup.ActionScriptVoid("setSelectedButtonByIndex");
-		return;
-	}
-	if (bItemDrawerOpen) {
-		if (index < 8){
-			ItemMenuGroup.ActionScriptVoid("setSelectedButtonByIndex");
-		}
-		return;
-	}
-	if (bVehicleDrawerOpen) {
-		if (index < 9) {
-			VehicleMenuGroup.ActionScriptVoid("setSelectedButtonByIndex");
-		}
-		return;
-	}
-}
-*/
-
-/*
 function RemoveWidgetEvents()
 {
 	local byte i;
@@ -1085,12 +740,9 @@ function RemoveWidgetEvents()
 	EquipExplosivesButton.RemoveAllEventListeners("buttonClick");
 	EquipExplosivesList.RemoveAllEventListeners("CLIK_itemClick");
 	EquipExplosivesList.RemoveAllEventListeners("itemClick");
-
-	
 }
-*/
 
-/*
+
 function AddWidgetEvents()
 {
 	local byte i;
@@ -1124,7 +776,7 @@ function AddWidgetEvents()
 	EquipExplosivesButton.AddEventListener('CLIK_buttonClick', OnEquipButtonClick);
 	EquipExplosivesList.AddEventListener('CLIK_itemClick', OnExplosivesListItemClick);
 }
-*/
+
 
 function ChangeDummyVehicleClass (int classNum) 
 {
@@ -1366,7 +1018,6 @@ function SelectMenu(int selectedIndex)
 				}
 			}else if (bClassDrawerOpen){
 				ChangeDummyPawnClass(TeamID == TEAM_GDI ? GDIClassMenuData2[selectedIndex-1].ID : NodClassMenuData2[selectedIndex - 1].ID); 
-				//ChangeDummyPawnClass(TeamID == TEAM_GDI ? GDIMainMenuData2[9].ID : NodClassMenuData2[9].ID);
 			}else if (bVehicleDrawerOpen) {
 				ChangeDummyVehicleClass(TeamID == TEAM_GDI ? GDIVehicleMenuData2[selectedIndex-1].ID : NodVehicleMenuData2[selectedIndex - 1].ID);
 			}
@@ -1380,9 +1031,9 @@ function TickHUD()
 	local Rx_Hud H;
 	local Rx_TeamInfo rxTeamInfo;
 	local byte i, j;
-	local int data;
+	local int data, vehPrice;
 	local Rx_Vehicle RxV;
-	local string hudMessage;
+	local string hudMessage, buyAircraftMessage;
 
 	if (!bMovieIsOpen) {
 		return;
@@ -1390,13 +1041,12 @@ function TickHUD()
 	
 	// Draw our custom text here
 	H = Rx_HUD(GetPC().myHUD);
-	//H = UTHUDBase(HUD);
 	if ( H == None )
 		return;
 	
 	H.Canvas.SetDrawColor(0, 255, 0, 120);
 	
-	hudMessage = "[AGN] Purchase Terminal v0.5 Beta (Team: " $ TeamID $ ")\n";
+	hudMessage = "[AGN] AlienX's Purchase Terminal - Now Flying Vehicles Ready!\n";
 	if ( rxPurchaseSystem.AreHighTierPayClassesDisabled(byte(TeamID)) )
 		hudMessage $= " > Adv Tier Classes Disabled\n";
 	else
@@ -1406,11 +1056,42 @@ function TickHUD()
 		hudMessage $= " > Vehicles Disabled (Airdrop Only)\n";
 	else
 		hudMessage $= " > Vehicles Enabled\n";
-	
+		
 	H.Canvas.DrawText(hudMessage,true,1.2f,1.2f);
 	
+	if (rxBuildingOwner.AreAircraftDisabled()) {
+		hudMessage $= " > Flying Vehicles Disabled\n";
+	} else {
+		hudMessage $= " > Flying Vehicles Enabled\n";
+		
+		if ( !rxPurchaseSystem.AreHighTierPayClassesDisabled(TeamID) && bVehicleDrawerOpen )
+		{
+			buyAircraftMessage $= "[ AIRCRAFT PURCHASES ]\n";
+			// Setup our extra text here for flying vehicle purchasing
+			switch (TeamID)
+			{ 
+				case TEAM_GDI: // Orca 9 + Transport 8
+					vehPrice = rxPurchaseSystem.GetVehiclePrices(TeamID, 9, rxPurchaseSystem.AirdropAvailable(rxPRI));
+					buyAircraftMessage $= "F1: Order Orca (" $ vehPrice $ " credits)\n";
+					
+					vehPrice = rxPurchaseSystem.GetVehiclePrices(TeamID, 8, rxPurchaseSystem.AirdropAvailable(rxPRI));
+					buyAircraftMessage $= "F2: Order Transport (" $ vehPrice $ " credits)\n";
+					break;
+					
+				case TEAM_NOD: // Apache 10 + Transport 9
+					vehPrice = rxPurchaseSystem.GetVehiclePrices(TeamID, 10, rxPurchaseSystem.AirdropAvailable(rxPRI));
+					buyAircraftMessage $= "F1: Order Apache (" $ vehPrice $ " credits)\n";
+					
+					vehPrice = rxPurchaseSystem.GetVehiclePrices(TeamID, 9, rxPurchaseSystem.AirdropAvailable(rxPRI));
+					buyAircraftMessage $= "F2: Order Transport (" $ vehPrice $ " credits)\n";
+					break;
+			}
+			
+			H.Canvas.SetPos( 2, 100 );
+			H.Canvas.DrawText(buyAircraftMessage,true,1.2f,1.2f);
+		}
+	}
 	
-
 	rxTeamInfo = Rx_TeamInfo(rxPRI.Team);
 
 	if (PlayerCredits != rxPRI.GetCredits()){
@@ -1421,26 +1102,32 @@ function TickHUD()
 	if (VehicleCount != rxTeamInfo.GetVehicleCount()){
 		VehicleCount = rxTeamInfo.GetVehicleCount();
 		
-		if (VehicleCount ==  Clamp(VehicleCount, 1, 10)) {
+		if (VehicleCount == Clamp(VehicleCount, 1, 10)) {
 			VehicleInfoButton.GetObject("vehicleCount").SetVisible(true);
 			VehicleInfoButton.GetObject("vehicleCount").GotoAndStopI(VehicleCount);
 
 			i = 0;			
-			foreach rxPC.WorldInfo.AllPawns(class'Rx_Vehicle', RxV) {
-				if (RxV.GetTeamNum() != TeamID || i > VehicleCount) {
+			foreach rxPC.WorldInfo.AllPawns(class'Rx_Vehicle', RxV)
+			{
+				if (RxV.GetTeamNum() != TeamID || i > VehicleCount)
 					continue;
-				} 
-				if (TeamID == TEAM_GDI){
-					for (j=0; j < rxPurchaseSystem.GDIVehicleClasses.Length; j++) {
+
+				if (TeamID == TEAM_GDI)
+				{
+					for (j=0; j < rxPurchaseSystem.GDIVehicleClasses.Length; j++)
+					{
 						if (RxV.Class != rxPurchaseSystem.GDIVehicleClasses[j])
 							continue;
-							
+
+						VehicleInfoButton.GetObject("vehicleCount").GetObject("icon"$i).GotoAndStopI(GDIVehicleMenuData2[j].iconID);
 						LoadTexture("img://" $ PathName(GDIVehicleMenuData2[j].PTIconTexture), VehicleInfoButton.GetObject("vehicleCount").GetObject("icon"$i));
 					}
 				} else if (TeamID == TEAM_NOD) {
 					for (j=0; j < rxPurchaseSystem.NodVehicleClasses.Length; j++) {
-						if (RxV.Class != rxPurchaseSystem.NodVehicleClasses[j])
+						if (RxV.Class != rxPurchaseSystem.NodVehicleClasses[j]) {
 							continue;
+						}
+						VehicleInfoButton.GetObject("vehicleCount").GetObject("icon"$i).GotoAndStopI(NodVehicleMenuData2[j].iconID);
 						LoadTexture("img://" $ PathName(NodVehicleMenuData2[j].PTIconTexture), VehicleInfoButton.GetObject("vehicleCount").GetObject("icon"$i));
 					}
 				}
@@ -1455,16 +1142,12 @@ function TickHUD()
 
 		VehicleInfoButton.SetString("label", "Vehicles: " $ VehicleCount $" / " $ rxTeamInfo.VehicleLimit);
 		MainMenuButton[7].SetString("vehicleCountLabel", "( "$ VehicleCount $ " )");
-		//vehicle button number update here
-		
 	}
 
 	//Pay Class Condition
-
-	if (rxPurchaseSystem.AreHighTierPayClassesDisabled(byte(TeamID))) {
+	if (rxPurchaseSystem.AreHighTierPayClassesDisabled(TeamID)) {
 		if (bClassDrawerOpen) {
-			//enabled deadeye/BHS when bar/hon is dead (nBab)
-			for (i = 9; i > 3; i--) {
+			for (i = 9; i > 2; i--) {
 				if (!ClassMenuButton[i].GetBool("enabled")) {
 					continue;
 				}
@@ -1472,14 +1155,12 @@ function TickHUD()
 				ClassMenuButton[i].SetBool("visible", false);
 				ClassMenuButton[i].SetBool("enabled", false);
 			}
-			//enabled deadeye/BHS when bar/hon is dead (nBab)
-			for (i = 0; i < 4; i++) {
+			for (i = 0; i < 3; i++) {
 				data = int(ClassMenuButton[i].GetString("data"));
  				ClassMenuButton[i].SetBool("enabled", TeamID == TEAM_GDI ? GDIClassMenuData2[i].bEnable : NodClassMenuData2[i].bEnable);
 			}			
-		} else if (bMainDrawerOpen) {
-			MainMenuButton[7].SetString("sublabel", rxPurchaseSystem.GetFactoryDescription(TeamID, (TeamID == TEAM_GDI ? GDIMainMenuData2[6].title : NodMainMenuData2[6].title), rxPC));
-			MainMenuButton[7].SetBool("enabled", true);
+		} else if (bMainDrawerOpen) {		
+			TickMainMenuButtons();
 		}
 	} else {
 		if (bClassDrawerOpen) {
@@ -1488,17 +1169,16 @@ function TickHUD()
  				ClassMenuButton[i].SetBool("enabled", TeamID == TEAM_GDI ? GDIClassMenuData2[i].bEnable : NodClassMenuData2[i].bEnable);
 			}
 		} else if (bMainDrawerOpen) {
-			MainMenuButton[7].SetString("sublabel", rxPurchaseSystem.GetFactoryDescription(TeamID, (TeamID == TEAM_GDI ? GDIMainMenuData2[6].title : NodMainMenuData2[6].title), rxPC));
-			MainMenuButton[7].SetBool("enabled", true);
+			TickMainMenuButtons();	
 		}
 	}
 
 	//Vehicle Condition
 
-	if (rxPurchaseSystem.AreVehiclesDisabled(byte(TeamID), rxPC)) {
+	if (rxPurchaseSystem.AreVehiclesDisabled(TeamID, rxPC)) {
 		if (bVehicleDrawerOpen) {
  			
-			for(i=0; i < 9; i++) {
+			for(i=0; i < 8; i++) {
 				if (!VehicleMenuButton2[i].GetBool("enabled")) {
 					continue;
 				}
@@ -1506,158 +1186,147 @@ function TickHUD()
  				VehicleMenuButton2[i].SetBool("enabled", false);
  			}
 			SelectBack();
-			MainMenuButton[7].SetString("sublabel", rxPurchaseSystem.GetFactoryDescription(TeamID, (TeamID == TEAM_GDI ? GDIMainMenuData2[7].title : NodMainMenuData2[7].title), rxPC ));
+			MainMenuButton[7].SetString("sublabel", rxPurchaseSystem.GetFactoryDescription(TeamID, (TeamID == TEAM_GDI ? GDIMainMenuData[7].title : NodMainMenuData[7].title), rxPC ));
 			MainMenuButton[7].SetBool("selected", false);
 			MainMenuButton[7].SetBool("enabled", false);
 		} else if (bMainDrawerOpen) {
-			MainMenuButton[7].SetString("sublabel", rxPurchaseSystem.GetFactoryDescription(TeamID, (TeamID == TEAM_GDI ? GDIMainMenuData2[7].title : NodMainMenuData2[7].title), rxPC));
+			MainMenuButton[7].SetString("sublabel", rxPurchaseSystem.GetFactoryDescription(TeamID, (TeamID == TEAM_GDI ? GDIMainMenuData[7].title : NodMainMenuData[7].title), rxPC));
 			MainMenuButton[7].SetBool("selected", false);
 			MainMenuButton[7].SetBool("enabled", false);
 		}
 	} else {
-		if (bVehicleDrawerOpen) {
- 			for(i=0; i < 9; i++) {
-				
-				//`log("Team ID = " @ TeamID);
+		if (bVehicleDrawerOpen)
+		{
+ 			for(i=0; i < 10; i++)
+			{
+				if ( VehicleMenuButton2[i] == None )
+					continue;
+					
 				if(rxPurchaseSystem.AreHighTierVehiclesDisabled(TeamID) && i > 1) //limit to buggies / APCs
 				{
 					if(!VehicleMenuButton2[i].GetBool("enabled")) 
 							continue; 
-					//enable bike and wolverine with airdrop (nBab)
-					if (i==6) 
-					{
-						VehicleMenuButton2[i].SetBool("visible", true);
-						VehicleMenuButton2[i].SetBool("enabled", true);
-						continue;
-					}
-
-						//`log("Parsed through vehicles");
-				VehicleMenuButton2[i].SetBool("selected", false);
-				VehicleMenuButton2[i].SetBool("visible", false);
-				VehicleMenuButton2[i].SetBool("enabled", false);
-						
-					
+							
+					VehicleMenuButton2[i].SetBool("selected", false);
+					VehicleMenuButton2[i].SetBool("visible", false);
+					VehicleMenuButton2[i].SetBool("enabled", false);
 				}
 				
 				data = int(VehicleMenuButton2[i].GetString("data"));
- 				VehicleMenuButton2[i].SetBool("enabled", TeamID == TEAM_GDI ? GDIVehicleMenuData2[i].bEnable : NodVehicleMenuData2[i].bEnable);
 
+				if(TeamID == TEAM_GDI)
+ 					VehicleMenuButton2[i].SetBool("enabled", GDIVehicleMenuData2[i].bEnable);
+				else if(TeamID == TEAM_NOD)
+					VehicleMenuButton2[i].SetBool("enabled", NodVehicleMenuData2[i].bEnable);
 
-				if (rxBuildingOwner.AreAircraftDisabled()) {
-					if (TeamID == TEAM_GDI) {
-						if (GDIVehicleMenuData2[data].bAircraft) {
+				if (rxBuildingOwner.AreAircraftDisabled())
+				{
+					if (TeamID == TEAM_GDI)
+					{
+						if (GDIVehicleMenuData2[data].bAircraft)
+						{
  							VehicleMenuButton2[i].SetBool("selected", false);
  							VehicleMenuButton2[i].SetBool("enabled", false);
 						}
 					} else {
-						if (NodVehicleMenuData2[data].bAircraft) {
+						if (NodVehicleMenuData2[data].bAircraft)
+						{
  							VehicleMenuButton2[i].SetBool("selected", false);
  							VehicleMenuButton2[i].SetBool("enabled", false);
 						}
 					}
 				}
-
  			}
 		} else if (bMainDrawerOpen) {
-			MainMenuButton[7].SetString("sublabel", rxPurchaseSystem.GetFactoryDescription(TeamID, (TeamID == TEAM_GDI ? GDIMainMenuData2[7].title : NodMainMenuData2[7].title), rxPC));
+			MainMenuButton[7].SetString("sublabel", rxPurchaseSystem.GetFactoryDescription(TeamID, (TeamID == TEAM_GDI ? GDIMainMenuData[7].title : NodMainMenuData[7].title), rxPC));
 			MainMenuButton[7].SetBool("enabled", true);
 		}
 	}
 	
 	//payment conditions
-
-		if (bClassDrawerOpen) {
-			for (i = 0; i < 10; i++) {
-				data = int(ClassMenuButton[i].GetString("data"));
-				if (TeamID == TEAM_GDI) {
-					if (!GDIClassMenuData2[i].bEnable) {
-						
-						continue;
-					}
-				} else {
-					if (!NodClassMenuData2[i].bEnable) {
-						continue;
-					}
+	if (bClassDrawerOpen) {
+		for (i = 0; i < 10; i++) {
+			data = int(ClassMenuButton[i].GetString("data"));
+			if (TeamID == TEAM_GDI) {
+				if (!GDIClassMenuData2[i].bEnable) {
+					
+					continue;
 				}
-				if (ClassMenuButton[i].GetBool("enabled") && PlayerCredits < rxPurchaseSystem.GetClassPrice(TeamID, IndexToClass(data, TeamID))){
-					ClassMenuButton[i].SetBool("enabled", false);
+			} else {
+				if (!NodClassMenuData2[i].bEnable) {
+					continue;
 				}
 			}
-		} else if (bVehicleDrawerOpen) 			
-			{
-				for (i = 0; i < 9; i++) {
-					
-					if(rxPurchaseSystem.AreHighTierVehiclesDisabled(TeamID) && i > 1 && i!=6)
-					{
-					if(VehicleMenuButton2[i].GetBool("enabled")) 
-						{
-						VehicleMenuButton2[i].SetBool("enabled",false); 					
-						}
-					continue; //No need to parse the info for everything else if it isn't enabled and visible.
-					}
-					data = int(VehicleMenuButton2[i].GetString("data"));
-					if (TeamID == TEAM_GDI && GDIVehicleMenuData.Length > i) {
-						if (!GDIVehicleMenuData2[i].bEnable) {
-							continue;
-						}
-					} else if(TeamID == TEAM_NOD && NodVehicleMenuData.Length > i){
-						if (!NodVehicleMenuData2[i].bEnable) {
-							continue;
-						}
-					}
-					if (rxBuildingOwner.AreAircraftDisabled()) {
-						if (TeamID == TEAM_GDI && GDIVehicleMenuData.Length > i) {
-							if (GDIVehicleMenuData2[i].bAircraft) {
-								continue;
-							}
-						} else if(TeamID == TEAM_NOD && NodVehicleMenuData.Length > i){
-							if (NodVehicleMenuData2[i].bAircraft) {
-								continue;
-							}
-						}
-					}
-				
-				
-					if (TeamID == TEAM_GDI && GDIVehicleMenuData.Length > i) {
-						VehicleMenuButton2[i].SetString("costLabel", "$" $ rxPurchaseSystem.GetVehiclePrices(TeamID, GDIVehicleMenuData2[i].ID, rxPurchaseSystem.AirdropAvailable(rxPRI)));
-					} else if (TeamID == TEAM_NOD && NodVehicleMenuData.Length > i){
-						VehicleMenuButton2[i].SetString("costLabel", "$" $ rxPurchaseSystem.GetVehiclePrices(TeamID, NodVehicleMenuData2[i].ID, rxPurchaseSystem.AirdropAvailable(rxPRI)));
-					}				
-				
-					if (PlayerCredits > rxPurchaseSystem.GetVehiclePrices(TeamID, data, rxPurchaseSystem.AirdropAvailable(rxPRI)) ){
-						//nBab
-		 				if (TeamID == TEAM_GDI)
-		 				{
-		 					VehicleMenuButton2[i].SetBool("enabled", true);
-		 				}
-		 				else if (TeamID == TEAM_Nod)
-		 				{
-		 					VehicleMenuButton2[i].SetBool("enabled", true);
-		 				}
-					} else {
-						VehicleMenuButton2[i].SetBool("enabled", false);
-					}
-				}
-		}	else if (bItemDrawerOpen) {
-			for (i = 0; i < 8; i++) {
-				data = int(ItemMenuButton[i].GetString("data"));
-				if (TeamID == TEAM_GDI) {
-					if (!GDIItemMenuData2[i].bEnable) {
-						continue;
-					}
-				} else {
-					if (!NodItemMenuData2[i].bEnable) {
-						continue;
-					}
-				}
-				if (PlayerCredits > rxPurchaseSystem.GetItemPrices(TeamID, data) && !rxPurchaseSystem.IsEquiped(rxPC, TeamID, data, CLASS_ITEM)){
-					ItemMenuButton[i].SetBool("enabled", true);
-				} else {
-					ItemMenuButton[i].SetBool("enabled", false);
-				}
+			if (ClassMenuButton[i].GetBool("enabled") && PlayerCredits < rxPurchaseSystem.GetClassPrice(TeamID, IndexToClass(data, TeamID))){
+				ClassMenuButton[i].SetBool("enabled", false);
 			}
 		}
-
+	} else if (bVehicleDrawerOpen) 			
+	{
+		for (i = 0; i < 9; i++)
+		{
+			if(rxPurchaseSystem.AreHighTierVehiclesDisabled(TeamID) && i > 1)
+			{
+				if(VehicleMenuButton2[i].GetBool("enabled")) 
+				{
+					VehicleMenuButton2[i].SetBool("enabled",false); 					
+				}
+				continue;
+			}
+			
+			data = int(VehicleMenuButton2[i].GetString("data"));
+			if (TeamID == TEAM_GDI) {
+				if (!GDIVehicleMenuData2[i].bEnable) {
+					continue;
+				}
+			} else if(TeamID == TEAM_NOD){
+				if (!NodVehicleMenuData2[i].bEnable) {
+					continue;
+				}
+			}
+			if (rxBuildingOwner.AreAircraftDisabled()) {
+				if (TeamID == TEAM_GDI) {
+					if (GDIVehicleMenuData2[i].bAircraft) {
+						continue;
+					}
+				} else if(TeamID == TEAM_NOD){
+					if (NodVehicleMenuData2[i].bAircraft) {
+						continue;
+					}
+				}
+			}
+		
+			if (TeamID == TEAM_GDI) {
+				VehicleMenuButton2[i].SetString("costLabel", "$" $ rxPurchaseSystem.GetVehiclePrices(TeamID, GDIVehicleMenuData2[i].ID, rxPurchaseSystem.AirdropAvailable(rxPRI)));
+			} else if (TeamID == TEAM_NOD){
+				VehicleMenuButton2[i].SetString("costLabel", "$" $ rxPurchaseSystem.GetVehiclePrices(TeamID, NodVehicleMenuData2[i].ID, rxPurchaseSystem.AirdropAvailable(rxPRI)));
+			}				
+		
+			if (PlayerCredits > rxPurchaseSystem.GetVehiclePrices(TeamID, data, rxPurchaseSystem.AirdropAvailable(rxPRI)) ){
+				VehicleMenuButton2[i].SetBool("enabled", true);
+			} else {
+				VehicleMenuButton2[i].SetBool("enabled", false);
+			}
+		}
+	} else if (bItemDrawerOpen) {
+		for (i = 0; i < 8; i++) {
+			data = int(ItemMenuButton[i].GetString("data"));
+			if (TeamID == TEAM_GDI) {
+				if (!GDIItemMenuData2[i].bEnable) {
+					continue;
+				}
+			} else {
+				if (!NodItemMenuData2[i].bEnable) {
+					continue;
+				}
+			}
+			if (PlayerCredits > rxPurchaseSystem.GetItemPrices(TeamID, data) && !rxPurchaseSystem.IsEquiped(rxPC, TeamID, data, CLASS_ITEM)){
+				ItemMenuButton[i].SetBool("enabled", true);
+			} else {
+				ItemMenuButton[i].SetBool("enabled", false);
+			}
+		}
+	}
 }
 
 DefaultProperties
@@ -1701,23 +1370,23 @@ DefaultProperties
 	////////////////////////////////////////////////////////////////////////////////////////////
 	// ITEMS START
 	////////////////////////////////////////////////////////////////////////////////////////////
-	NodItemMenuData2[0]				= (BlockType=EPBT_ITEM, id=0, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Item_NukeBeacon', iconID=71, hotkey="1", title="NUKE STRIKE BEACON", desc="<font size='8'>Pros:\n-Instant Building Destruction\nCons:\n-60 Seconds for impact\n-USES ITEM SLOT</font>", cost="1000", type=1)
-	NodItemMenuData2[1]				= (BlockType=EPBT_ITEM, id=1, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Item_Airstrike_AC130', iconID=63, hotkey="2", title="AC-130 AIRSTRIKE",	 desc="<font size='8'>Pros:\n-5 seconds to impact\n-Quick bombardment\n-Anti-Infrantry/Vehicle\nCons:\n-Weak Vs. Buildings\n-USES ITEM SLOT</font>",cost="800" , type=1)
-	NodItemMenuData2[2]				= (BlockType=EPBT_ITEM, id=2, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Weapon_RepairTool', iconID=73, hotkey="3", title="REPAIR TOOL",      desc="<font size='8'>Pros:\n-Repairs Units/Buildings\n-Disarms Mines\n\nCons:\n-Must Recharge\n-USES ITEM SLOT </font>", cost="200")
-	NodItemMenuData2[3]				= (BlockType=EPBT_ITEM, id=3, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Item_AmmoKit', iconID=64, hotkey="4", title="AMMUNITION KIT",	 desc="<font size='8'>Pros:\n-Rearms near by infrantry\n-30 seconds before depletion\n\nCons:\n-Rearms near by enemies as well\n-Cannot refill</font>",cost="150" , type=1, bEnable = false)
-	NodItemMenuData2[4]				= (BlockType=EPBT_ITEM, id=4, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Item_MechanicalKit', iconID=65, hotkey="5", title="MECHANICAL KIT",	 desc="<font size='8'>Pros:\n-Repairs near by vehicles\n-30 seconds before depletion\n\nCons:\n-Repairs near by enemies as well\n-Cannot refill</font>",cost="150" , type=1, bEnable = false)
-	NodItemMenuData2[5]				= (BlockType=EPBT_ITEM, id=5, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Item_MotionSensor', iconID=67, hotkey="6", title="MOTION SENSOR",	 	 desc="<font size='8'>Pros:\n-Relays enemy position in a radius\n-Detects mines and beacons\n\nCons:\n-Emits an audible sound\n-Cannot refill</font>",cost="200" , type=1, bEnable = false)
-	NodItemMenuData2[6]				= (BlockType=EPBT_ITEM, id=6, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Item_Sentry_MG', iconID=68, hotkey="7", title="MG SENTRY",	 		 desc="<font size='8'>Requires Armory\n\n-Automated Sentry Turret\n-Anti-Infrantry\n-Limited Ammo\n-Can be picked up\n-Cannot refill</font>",cost="300" , type=1, bEnable = false)
-	NodItemMenuData2[7]				= (BlockType=EPBT_ITEM, id=7, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Item_Sentry_AT', iconID=69, hotkey="8", title="AT SENTRY",	 		 desc="<font size='8'>Requires Armory\n\n-Automated Sentry Turret\n-Anti-Vehicle\n-Limited Ammo\n-Can be picked up\n-Cannot refill</font>",cost="300" , type=1, bEnable = false)
+	NodItemMenuData2[0]				= (BlockType=EPBT_ITEM, id=0, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Item_NukeBeacon', iconID=71, hotkey="1", title="NUKE STRIKE BEACON", desc="<font size='8'>Pros:\n-Instant Building Destruction\nCons:\n-60 Seconds for impact\n-USES ITEM SLOT", cost="1000", type=1)
+	NodItemMenuData2[1]				= (BlockType=EPBT_ITEM, id=1, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Item_Airstrike_AC130', iconID=63, hotkey="2", title="AC-130 AIRSTRIKE",	 desc="<font size='8'>Pros:\n-5 seconds to impact\n-Quick bombardment\n-Anti-Infrantry/Vehicle\nCons:\n-Weak Vs. Buildings\n-USES ITEM SLOT",cost="800" , type=1)
+	NodItemMenuData2[2]				= (BlockType=EPBT_ITEM, id=2, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Weapon_RepairTool', iconID=73, hotkey="3", title="REPAIR TOOL",      desc="<font size='8'>Pros:\n-Repairs Units/Buildings\n-Disarms Mines\n\nCons:\n-Must Recharge\n-USES ITEM SLOT ", cost="200")
+	NodItemMenuData2[3]				= (BlockType=EPBT_ITEM, id=3, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Item_AmmoKit', iconID=64, hotkey="4", title="AMMUNITION KIT",	 desc="<font size='8'>Pros:\n-Rearms near by infrantry\n-30 seconds before depletion\n\nCons:\n-Rearms near by enemies as well\n-Cannot refill",cost="150" , type=1, bEnable = false)
+	NodItemMenuData2[4]				= (BlockType=EPBT_ITEM, id=4, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Item_MechanicalKit', iconID=65, hotkey="5", title="MECHANICAL KIT",	 desc="<font size='8'>Pros:\n-Repairs near by vehicles\n-30 seconds before depletion\n\nCons:\n-Repairs near by enemies as well\n-Cannot refill",cost="150" , type=1, bEnable = false)
+	NodItemMenuData2[5]				= (BlockType=EPBT_ITEM, id=5, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Item_MotionSensor', iconID=67, hotkey="6", title="MOTION SENSOR",	 	 desc="<font size='8'>Pros:\n-Relays enemy position in a radius\n-Detects mines and beacons\n\nCons:\n-Emits an audible sound\n-Cannot refill",cost="200" , type=1, bEnable = false)
+	NodItemMenuData2[6]				= (BlockType=EPBT_ITEM, id=6, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Item_Sentry_MG', iconID=68, hotkey="7", title="MG SENTRY",	 		 desc="<font size='8'>Requires Armory\n\n-Automated Sentry Turret\n-Anti-Infrantry\n-Limited Ammo\n-Can be picked up\n-Cannot refill",cost="300" , type=1, bEnable = false)
+	NodItemMenuData2[7]				= (BlockType=EPBT_ITEM, id=7, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Item_Sentry_AT', iconID=69, hotkey="8", title="AT SENTRY",	 		 desc="<font size='8'>Requires Armory\n\n-Automated Sentry Turret\n-Anti-Vehicle\n-Limited Ammo\n-Can be picked up\n-Cannot refill",cost="300" , type=1, bEnable = false)
 	
-	GDIItemMenuData2(0) 				= (BlockType=EPBT_ITEM, id=0, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Item_IonCannonBeacon', iconID=70, hotkey="1", title="ION CANNON BEACON", desc="<font size='8'>Pros:\n-Instant Building Destruction\nCons:\n-60 Seconds for impact\n-USES ITEM SLOT</font>", 	cost="1000", type=1)
-	GDIItemMenuData2(1) 				= (BlockType=EPBT_ITEM, id=1, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Item_Airstrike_A10', iconID=62, hotkey="2", title="A-10 AIRSTRIKE",	desc="<font size='8'>Pros:\n-5 seconds to impact\n-Quick bombardment\n-Anti-Infrantry/Vehicle\nCons:\n-Weak Vs. Buildings\n-USES ITEM SLOT</font>",cost="800",  type=1)
-	GDIItemMenuData2(2) 				= (BlockType=EPBT_ITEM, id=2, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Weapon_RepairTool', iconID=73, hotkey="3", title="REPAIR TOOL",      desc="<font size='8'>Pros:\n-Repairs Units/Buildings\n-Disarms Mines\n\nCons:\n-Must Recharge\n-USES ITEM SLOT  </font>", cost="250")
-	GDIItemMenuData2(3) 				= (BlockType=EPBT_ITEM, id=3, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Item_AmmoKit', iconID=64, hotkey="4", title="AMMUNITION KIT",	desc="<font size='8'>Pros:\n-Rearms near by infrantry\n-30 seconds before depletion\n\nCons:\n-Rearms near by enemies as well\n-Cannot refill</font>",cost="150",  type=1 , bEnable = false)
-	GDIItemMenuData2(4) 				= (BlockType=EPBT_ITEM, id=4, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Item_MechanicalKit', iconID=65, hotkey="5", title="MECHANICAL KIT",	desc="<font size='8'>Pros:\n-Repairs near by vehicles\n-30 seconds before depletion\n\nCons:\n-Repairs near by enemies as well\n-Cannot refill</font>",cost="150",  type=1 , bEnable = false)
-	GDIItemMenuData2(5) 				= (BlockType=EPBT_ITEM, id=5, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Item_MotionSensor', iconID=67, hotkey="6", title="MOTION SENSOR",	 	desc="<font size='8'>Pros:\n-Relays enemy position in a radius\n-Detects mines and beacons\n\nCons:\n-Emits an audible sound\n-Cannot refill</font>",cost="200",  type=1 , bEnable = false)
-	GDIItemMenuData2(6) 				= (BlockType=EPBT_ITEM, id=6, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Item_Sentry_MG', iconID=68, hotkey="7", title="MG SENTRY",	 	 	desc="<font size='8'>Requires Armory\n\n-Automated Sentry Turret\n-Anti-Infrantry\n-Limited Ammo\n-Can be picked up\n-Cannot refill</font>",cost="300",  type=1 , bEnable = false)
-	GDIItemMenuData2(7) 				= (BlockType=EPBT_ITEM, id=7, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Item_Sentry_AT', iconID=69, hotkey="8", title="AT SENTRY",	 	 	desc="<font size='8'>Requires Armory\n\n-Automated Sentry Turret\n-Anti-Vehicle\n-Limited Ammo\n-Can be picked up\n-Cannot refill</font>",cost="300",  type=1 , bEnable = false)
+	GDIItemMenuData2(0) 				= (BlockType=EPBT_ITEM, id=0, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Item_IonCannonBeacon', iconID=70, hotkey="1", title="ION CANNON BEACON", desc="<font size='8'>Pros:\n-Instant Building Destruction\nCons:\n-60 Seconds for impact\n-USES ITEM SLOT", 	cost="1000", type=1)
+	GDIItemMenuData2(1) 				= (BlockType=EPBT_ITEM, id=1, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Item_Airstrike_A10', iconID=62, hotkey="2", title="A-10 AIRSTRIKE",	desc="<font size='8'>Pros:\n-5 seconds to impact\n-Quick bombardment\n-Anti-Infrantry/Vehicle\nCons:\n-Weak Vs. Buildings\n-USES ITEM SLOT",cost="800",  type=1)
+	GDIItemMenuData2(2) 				= (BlockType=EPBT_ITEM, id=2, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Weapon_RepairTool', iconID=73, hotkey="3", title="REPAIR TOOL",      desc="<font size='8'>Pros:\n-Repairs Units/Buildings\n-Disarms Mines\n\nCons:\n-Must Recharge\n-USES ITEM SLOT  ", cost="250")
+	GDIItemMenuData2(3) 				= (BlockType=EPBT_ITEM, id=3, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Item_AmmoKit', iconID=64, hotkey="4", title="AMMUNITION KIT",	desc="<font size='8'>Pros:\n-Rearms near by infrantry\n-30 seconds before depletion\n\nCons:\n-Rearms near by enemies as well\n-Cannot refill",cost="150",  type=1 , bEnable = false)
+	GDIItemMenuData2(4) 				= (BlockType=EPBT_ITEM, id=4, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Item_MechanicalKit', iconID=65, hotkey="5", title="MECHANICAL KIT",	desc="<font size='8'>Pros:\n-Repairs near by vehicles\n-30 seconds before depletion\n\nCons:\n-Repairs near by enemies as well\n-Cannot refill",cost="150",  type=1 , bEnable = false)
+	GDIItemMenuData2(5) 				= (BlockType=EPBT_ITEM, id=5, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Item_MotionSensor', iconID=67, hotkey="6", title="MOTION SENSOR",	 	desc="<font size='8'>Pros:\n-Relays enemy position in a radius\n-Detects mines and beacons\n\nCons:\n-Emits an audible sound\n-Cannot refill",cost="200",  type=1 , bEnable = false)
+	GDIItemMenuData2(6) 				= (BlockType=EPBT_ITEM, id=6, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Item_Sentry_MG', iconID=68, hotkey="7", title="MG SENTRY",	 	 	desc="<font size='8'>Requires Armory\n\n-Automated Sentry Turret\n-Anti-Infrantry\n-Limited Ammo\n-Can be picked up\n-Cannot refill",cost="300",  type=1 , bEnable = false)
+	GDIItemMenuData2(7) 				= (BlockType=EPBT_ITEM, id=7, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Item_Sentry_AT', iconID=69, hotkey="8", title="AT SENTRY",	 	 	desc="<font size='8'>Requires Armory\n\n-Automated Sentry Turret\n-Anti-Vehicle\n-Limited Ammo\n-Can be picked up\n-Cannot refill",cost="300",  type=1 , bEnable = false)
 	////////////////////////////////////////////////////////////////////////////////////////////
 	// ITEMS END
 	////////////////////////////////////////////////////////////////////////////////////////////
@@ -1728,25 +1397,25 @@ DefaultProperties
 	// VEHICLES START
 	////////////////////////////////////////////////////////////////////////////////////////////
 	
-	NodVehicleMenuData2(0)			= (BlockType=EPBT_VEHICLE, id=0, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Veh_Nod_Buggy', iconID=20, hotkey="1", title="BUGGY", 						desc="<font size='10'>-.50 Calibre Machine Gun\n-Light Armour\n-Fast Attack Scout\n-Driver + Passenger</font>", 		 cost="350")
-	NodVehicleMenuData2(1)			= (BlockType=EPBT_VEHICLE, id=1, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Veh_Nod_APC', iconID=18, hotkey="2", title="ARMOURED PERSONNEL CARRIER", desc="<font size='10'>-M134 Minigun\n-Heavy Armour\n-Troop Transport\n-Driver + 4 Passengers</font>", 					 cost="500")
-	NodVehicleMenuData2(2)			= (BlockType=EPBT_VEHICLE, id=2, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Veh_Nod_Artillery', iconID=19, hotkey="3", title="MOBILE ARTILLERY", 			desc="<font size='10'>\n-155mm Howitzer\n-Light Armour\n-Long Range Ballistics\n-Driver + Passenger</font>", 			 cost="450")
-	NodVehicleMenuData2(3)			= (BlockType=EPBT_VEHICLE, id=3, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Veh_Nod_FlameTank', iconID=21, hotkey="4", title="FLAME TANK", 				desc="<font size='10'>\n-2x Flame Throwers\n-Heavy Armour\n-Close Range Suppressor\n-Driver + Passenger</font>", 		 cost="800")
-	NodVehicleMenuData2(4)			= (BlockType=EPBT_VEHICLE, id=4, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Veh_Nod_LightTank', iconID=22, hotkey="5", title="LIGHT TANK", 				desc="<font size='10'>\n-75mm Cannon\n-Heavy Armour\n-Main Battle Tank\n-Driver + Passenger</font>", 					 cost="600")
-	NodVehicleMenuData2(5)			= (BlockType=EPBT_VEHICLE, id=5, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Veh_Nod_StealthTank', iconID=23, hotkey="6", title="STEALTH TANK", 				desc="<font size='10'>-2x TOW Missiles\n-Heavy Armour\n-Guerilla Combat Vehicle\n-Active Camouflage\n-Drive Only</font>", cost="900")
-	NodVehicleMenuData2(6)			= (BlockType=EPBT_VEHICLE, id=6, PTIconTexture=Texture2D'FortPurchaseMenu.bike_2', iconID=78, hotkey="7", title="RECON BIKE", 		desc="<font size='10'>\n-2x Dragon TOW Launchers\n-Light Armour\n-Fast Attack Scout\n-Driver Only</font>", 				 cost="1000")
-	NodVehicleMenuData2(7)			= (BlockType=EPBT_VEHICLE, id=7, PTIconTexture=Texture2D'FortPurchaseMenu.buggy_2', iconID=79, hotkey="8", title="BUGGY", 					desc="<font size='10'>-Raider Cannon\n-Heavy Armour\n-Anti-Infantry/Air Scout\n-Driver + Passenger</font>", 	 cost="1000")
-	NodVehicleMenuData2(8)			= (BlockType=EPBT_VEHICLE, id=8, PTIconTexture=Texture2D'FortPurchaseMenu.ticktank_2', iconID=80, hotkey="9", title="TICK TANK", 					desc="<font size='10'>-90mm APDS Cannon\n-Heavy Armour \n-Increased Defence When Deployed  \n-Driver + Passenger</font>", 	 cost="1500")
+	NodVehicleMenuData2(0)			= (BlockType=EPBT_VEHICLE, id=0, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Veh_Nod_Buggy', iconID=20, hotkey="1", title="BUGGY", 						desc="<font size='10'>-.50 Calibre Machine Gun\n-Light Armour\n-Fast Attack Scout\n-Driver + Passenger", 		 cost="350")
+	NodVehicleMenuData2(1)			= (BlockType=EPBT_VEHICLE, id=1, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Veh_Nod_APC', iconID=18, hotkey="2", title="ARMOURED PERSONNEL CARRIER", desc="<font size='10'>-M134 Minigun\n-Heavy Armour\n-Troop Transport\n-Driver + 4 Passengers", 					 cost="500")
+	NodVehicleMenuData2(2)			= (BlockType=EPBT_VEHICLE, id=2, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Veh_Nod_Artillery', iconID=19, hotkey="3", title="MOBILE ARTILLERY", 			desc="<font size='10'>\n-155mm Howitzer\n-Light Armour\n-Long Range Ballistics\n-Driver + Passenger", 			 cost="450")
+	NodVehicleMenuData2(3)			= (BlockType=EPBT_VEHICLE, id=3, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Veh_Nod_FlameTank', iconID=21, hotkey="4", title="FLAME TANK", 				desc="<font size='10'>\n-2x Flame Throwers\n-Heavy Armour\n-Close Range Suppressor\n-Driver + Passenger", 		 cost="800")
+	NodVehicleMenuData2(4)			= (BlockType=EPBT_VEHICLE, id=4, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Veh_Nod_LightTank', iconID=22, hotkey="5", title="LIGHT TANK", 				desc="<font size='10'>\n-75mm Cannon\n-Heavy Armour\n-Main Battle Tank\n-Driver + Passenger", 					 cost="600")
+	NodVehicleMenuData2(5)			= (BlockType=EPBT_VEHICLE, id=5, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Veh_Nod_StealthTank', iconID=23, hotkey="6", title="STEALTH TANK", 				desc="<font size='10'>-2x TOW Missiles\n-Heavy Armour\n-Guerilla Combat Vehicle\n-Active Camouflage\n-Drive Only", cost="900")
+	NodVehicleMenuData2(6)			= (BlockType=EPBT_VEHICLE, id=6, PTIconTexture=Texture2D'FortPurchaseMenu.bike_2', iconID=78, hotkey="7", title="RECON BIKE", 		desc="<font size='10'>\n-2x Dragon TOW Launchers\n-Light Armour\n-Fast Attack Scout\n-Driver Only", 				 cost="1000")
+	NodVehicleMenuData2(7)			= (BlockType=EPBT_VEHICLE, id=7, PTIconTexture=Texture2D'FortPurchaseMenu.buggy_2', iconID=79, hotkey="8", title="BUGGY", 					desc="<font size='10'>-Raider Cannon\n-Heavy Armour\n-Anti-Infantry/Air Scout\n-Driver + Passenger", 	 cost="1000")
+	NodVehicleMenuData2(8)			= (BlockType=EPBT_VEHICLE, id=8, PTIconTexture=Texture2D'FortPurchaseMenu.ticktank_2', iconID=80, hotkey="9", title="TICK TANK", 					desc="<font size='10'>-90mm APDS Cannon\n-Heavy Armour \n-Increased Defence When Deployed  \n-Driver + Passenger", 	 cost="1500")
 	
-	GDIVehicleMenuData2(0) 			= (BlockType=EPBT_VEHICLE, id=0, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Veh_GDI_Humvee', iconID=9,  hotkey="1",title="HUMVEE",								desc="<font size='10'>-.50 Calibre Machine Gun\n-Light Armour\n-Fast Attack Scout\n-Driver + Passenger</font>",				cost="350")
-	GDIVehicleMenuData2(1) 			= (BlockType=EPBT_VEHICLE, id=1, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Veh_GDI_APC', iconID=7,  hotkey="2",title="ARMOURED PERSONNEL CARRIER",			desc="<font size='10'>-M134 Minigun\n-Heavy Armour\n-Troop Transport\n-Driver + 4 Passengers</font>",						cost="500")
-	GDIVehicleMenuData2(2) 			= (BlockType=EPBT_VEHICLE, id=2, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Veh_GDI_MRLS', iconID=12, hotkey="3",title="MOBILE ROCKET LAUNCHER SYSTEM",		desc="<font size='10'>-M269 Missiles\n-Light Armour\n-Long Range Ballistics\n-Driver + Passenger</font>",					cost="450")
-	GDIVehicleMenuData2(3) 			= (BlockType=EPBT_VEHICLE, id=3, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Veh_GDI_MediumTank', iconID=11, hotkey="4",title="MEDIUM TANK",							desc="<font size='10'>-105mm Cannon\n-Heavy Armour\n-Main Battle Tank\n-Driver + Passenger</font>",							cost="800")
-	GDIVehicleMenuData2(4) 			= (BlockType=EPBT_VEHICLE, id=4, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Veh_GDI_MammothTank', iconID=10, hotkey="5",title="MAMMOTH TANK",						desc="<font size='10'>-2x 120mm Cannons\n-4x Tusk Missiles\n-Heavy Armour\n-Heavy Battle Tank\n-Driver + Passenger</font>",	cost="1500")
-	GDIVehicleMenuData2(5) 			= (BlockType=EPBT_VEHICLE, id=5, PTIconTexture=Texture2D'FortPurchaseMenu.hovermrls_2', iconID=75, hotkey="6",title="HOVER MRLS",				desc="<font size='10'>-M269 Missiles\n-Light Armour\n-Short Range\n-Driver + Passenger</font>",					cost="1000")
-	GDIVehicleMenuData2(6) 			= (BlockType=EPBT_VEHICLE, id=6, PTIconTexture=Texture2D'FortPurchaseMenu.wolverine_2', iconID=76, hotkey="7",title="WOLVERINE",						desc="<font size='10'>-2x M134 Miniguns\n-Anti-Infantry\n-Heavy Armour\n-Driver Only</font>",		cost="1000")
-	GDIVehicleMenuData2(7) 			= (BlockType=EPBT_VEHICLE, id=7, PTIconTexture=Texture2D'FortPurchaseMenu.titan_2', iconID=77, hotkey="8",title="TITAN",							desc="<font size='10'>-120mm Cannon\n-Heavy Armour\n-Heavy Battle Walker\n-Driver + Passenger</font>",							cost="1500")
-	GDIVehicleMenuData2(8) 			= (BlockType=EPBT_VEHICLE, id=8, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Veh_GDI_MediumTank', iconID=77, hotkey="9",title="TITAN",							desc="<font size='10'>-105mm Cannon\n-Heavy Armour\n-Main Battle Tank\n-Driver + Passenger</font>",							cost="1500")
+	GDIVehicleMenuData2(0) 			= (BlockType=EPBT_VEHICLE, id=0, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Veh_GDI_Humvee', iconID=9,  hotkey="1",title="HUMVEE",								desc="<font size='10'>-.50 Calibre Machine Gun\n-Light Armour\n-Fast Attack Scout\n-Driver + Passenger",				cost="350")
+	GDIVehicleMenuData2(1) 			= (BlockType=EPBT_VEHICLE, id=1, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Veh_GDI_APC', iconID=7,  hotkey="2",title="ARMOURED PERSONNEL CARRIER",			desc="<font size='10'>-M134 Minigun\n-Heavy Armour\n-Troop Transport\n-Driver + 4 Passengers",						cost="500")
+	GDIVehicleMenuData2(2) 			= (BlockType=EPBT_VEHICLE, id=2, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Veh_GDI_MRLS', iconID=12, hotkey="3",title="MOBILE ROCKET LAUNCHER SYSTEM",		desc="<font size='10'>-M269 Missiles\n-Light Armour\n-Long Range Ballistics\n-Driver + Passenger",					cost="450")
+	GDIVehicleMenuData2(3) 			= (BlockType=EPBT_VEHICLE, id=3, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Veh_GDI_MediumTank', iconID=11, hotkey="4",title="MEDIUM TANK",							desc="<font size='10'>-105mm Cannon\n-Heavy Armour\n-Main Battle Tank\n-Driver + Passenger",							cost="800")
+	GDIVehicleMenuData2(4) 			= (BlockType=EPBT_VEHICLE, id=4, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Veh_GDI_MammothTank', iconID=10, hotkey="5",title="MAMMOTH TANK",						desc="<font size='10'>-2x 120mm Cannons\n-4x Tusk Missiles\n-Heavy Armour\n-Heavy Battle Tank\n-Driver + Passenger",	cost="1500")
+	GDIVehicleMenuData2(5) 			= (BlockType=EPBT_VEHICLE, id=5, PTIconTexture=Texture2D'FortPurchaseMenu.hovermrls_2', iconID=75, hotkey="6",title="HOVER MRLS",				desc="<font size='10'>-M269 Missiles\n-Light Armour\n-Short Range\n-Driver + Passenger",					cost="1000")
+	GDIVehicleMenuData2(6) 			= (BlockType=EPBT_VEHICLE, id=6, PTIconTexture=Texture2D'FortPurchaseMenu.wolverine_2', iconID=76, hotkey="7",title="WOLVERINE",						desc="<font size='10'>-2x M134 Miniguns\n-Anti-Infantry\n-Heavy Armour\n-Driver Only",		cost="1000")
+	GDIVehicleMenuData2(7) 			= (BlockType=EPBT_VEHICLE, id=7, PTIconTexture=Texture2D'FortPurchaseMenu.titan_2', iconID=77, hotkey="8",title="TITAN",							desc="<font size='10'>-120mm Cannon\n-Heavy Armour\n-Heavy Battle Walker\n-Driver + Passenger",							cost="1500")
+	GDIVehicleMenuData2(8) 			= (BlockType=EPBT_VEHICLE, id=8, PTIconTexture=Texture2D'RenXPurchaseMenu.T_Icon_Veh_GDI_MediumTank', iconID=77, hotkey="9",title="TITAN",							desc="<font size='10'>-105mm Cannon\n-Heavy Armour\n-Main Battle Tank\n-Driver + Passenger",							cost="1500")
 	
 	////////////////////////////////////////////////////////////////////////////////////////////
 	// VEHICLES END

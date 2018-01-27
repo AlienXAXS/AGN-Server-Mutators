@@ -9,7 +9,7 @@
  */
 
 
-class AGN_CrateType_Spy extends AGN_CrateType
+class AGN_CrateType_Spy extends Rx_CrateType 
 	config(AGN_Crates);
 
 var int BroadcastMessageAltIndex;
@@ -18,7 +18,7 @@ var config float ProbabilityIncreasePerMinute;
 var config float MaxProbabilityIncrease;
 
 
-function string GetGameLogMessage(Rx_PRI RecipientPRI, AGN_CratePickup CratePickup)
+function string GetGameLogMessage(Rx_PRI RecipientPRI, Rx_CratePickup CratePickup)
 {
 	return "GAME" `s "Crate;" `s "spy" `s RecipientPRI.CharClassInfo.name `s "by" `s `PlayerLog(RecipientPRI);
 }
@@ -28,7 +28,7 @@ function string GetPickupMessage()
     return "You picked up a spy crate! You're now invisible to base defenses.";
 }
 
-function float GetProbabilityWeight(Rx_Pawn Recipient, AGN_CratePickup CratePickup)
+function float GetProbabilityWeight(Rx_Pawn Recipient, Rx_CratePickup CratePickup)
 {
 	local float Probability, ProbabilityIncrease;
 	Probability = Super.GetProbabilityWeight(Recipient,CratePickup);
@@ -39,7 +39,7 @@ function float GetProbabilityWeight(Rx_Pawn Recipient, AGN_CratePickup CratePick
 	return Probability;
 }
 
-function BroadcastMessage(Rx_PRI RecipientPRI, AGN_CratePickup CratePickup)
+function BroadcastMessage(Rx_PRI RecipientPRI, Rx_CratePickup CratePickup)
 {
 	if (RecipientPRI.GetTeamNum() == TEAM_NOD)
 	{
@@ -53,7 +53,7 @@ function BroadcastMessage(Rx_PRI RecipientPRI, AGN_CratePickup CratePickup)
 	}
 }
 
-function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, AGN_CratePickup CratePickup)
+function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, Rx_CratePickup CratePickup)
 {
 	RecipientPRI.SetChar(
 		(Recipient.GetTeamNum() == TEAM_NOD ?

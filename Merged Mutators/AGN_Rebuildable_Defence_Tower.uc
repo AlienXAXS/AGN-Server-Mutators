@@ -95,7 +95,7 @@ simulated event TakeDamage(int Damage, Controller EventInstigator, vector HitLoc
 {
 	if ( bDefenseIsActive )
 	{
-		if ( Health - Damage < 0 )
+		if ( Health - Damage < 1 )
 		{
 			// Ensures the building never actually dies
 			DeactivateStructure();

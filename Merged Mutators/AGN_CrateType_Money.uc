@@ -9,7 +9,7 @@
  */
 
 
-class AGN_CrateType_Money extends AGN_CrateType
+class AGN_CrateType_Money extends Rx_CrateType
 	config(AGN_Crates);
 
 var config float MinutesToGiveSmallSum;
@@ -18,7 +18,7 @@ var config float ProbabilityIncreaseWhenRefineryDestroyed;
 
 var transient int credits;
 
-function string GetGameLogMessage(Rx_PRI RecipientPRI, AGN_CratePickup CratePickup)
+function string GetGameLogMessage(Rx_PRI RecipientPRI, Rx_CratePickup CratePickup)
 {
 	return "GAME" `s "Crate;" `s "money" `s credits `s "by" `s `PlayerLog(RecipientPRI);
 }
@@ -28,7 +28,7 @@ function string GetPickupMessage()
 	return "You found a money crate and got " $ credits $ " credits!";
 }
 
-function float GetProbabilityWeight(Rx_Pawn Recipient, AGN_CratePickup CratePickup)
+function float GetProbabilityWeight(Rx_Pawn Recipient, Rx_CratePickup CratePickup)
 {
 	local Rx_Building building;
 	local float Probability;
@@ -52,7 +52,7 @@ function float GetProbabilityWeight(Rx_Pawn Recipient, AGN_CratePickup CratePick
 }
 
 
-function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, AGN_CratePickup CratePickup)
+function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, Rx_CratePickup CratePickup)
 {
 	if(CratePickup.WorldInfo.GRI.ElapsedTime < MinutesToGiveSmallSum * 60.0f) // 100 to 200 credits in 25 intervals
 		credits = 100 + (Rand(5) * 25);
