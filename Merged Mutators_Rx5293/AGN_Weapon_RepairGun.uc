@@ -9,8 +9,6 @@
  */
 
 
- AGN_Weapon_RepairGun extends Rx_Weapon_RepairGun;
-
 class AGN_Weapon_RepairGun extends RX_Weapon_RepairGun;
 
 simulated function RepairDeployedActor(Rx_Weapon_DeployedActor deployedActor, float DeltaTime)
