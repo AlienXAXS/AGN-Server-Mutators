@@ -13,6 +13,10 @@ struct native DefencePositionStruct {
 var string CurrentMapName;
 var transient array<DefencePositionStruct> DefenceStructures;
 
+var int NOD_TURRET;
+var int NOD_GUARDTOWER;
+var int GDI_GUARDTOWER;
+
 function InitSystem()
 {
 	local string mapname;
@@ -23,16 +27,42 @@ function InitSystem()
 	if(right(mapname, 4) ~= "_DAY") mapname = Left(mapname, Len(mapname)-4);
 	CurrentMapName = mapname;
 	
+	///
+	// Islands
+	///
+	
 	//Islands - GDI, by the WF
 	//					  MAP				TEAM		Location									ROTATION			StartDead	Price	TurretType
-	AddDefensiveStructure("CNC-Islands",	TEAM_GDI,	vect(9563.457031,10765.051758,-171.459473), rot(0,-32672,0), 	true, 		1500,	0);
-	AddDefensiveStructure("CNC-Islands",	TEAM_GDI,	vect(15270.881836,8603.498047,-265.831451),	rot(0,-93408,0), 	true, 		1500,	0);
+	AddDefensiveStructure("CNC-Islands",	TEAM_GDI,	vect(9563.457031,10765.051758,-171.459473), rot(0,-32672,0), 	true, 		550,	GDI_GUARDTOWER);
+	AddDefensiveStructure("CNC-Islands",	TEAM_GDI,	vect(15270.881836,8603.498047,-265.831451),	rot(0,-93408,0), 	true, 		550,	GDI_GUARDTOWER);
 	
 	// Islands Nod Infrantry Path
-	AddDefensiveStructure("CNC-Islands",	TEAM_NOD,	vect(9535.521484,3132.285889,-136.438507),	rot(0,2496,0),		true,		1500,	0);
+	AddDefensiveStructure("CNC-Islands",	TEAM_NOD,	vect(9535.521484,3132.285889,-136.438507),	rot(0,2496,0),		true,		550,	NOD_GUARDTOWER);
 	
 	//Islands Nod Turret
-	AddDefensiveStructure("CNC-Islands",	TEAM_NOD,	vect(8935.323242,2062.293457,-187.514847),	rot(0,-29632,0),	true,		1500,	1);
+	AddDefensiveStructure("CNC-Islands",	TEAM_NOD,	vect(8935.323242,2062.293457,-187.514847),	rot(0,-29632,0),	true,		550,	NOD_TURRET);
+	
+	///
+	// Under
+	///
+	
+	// Under Nod GT by end of Strip
+	AddDefensiveStructure("CNC-Under",		TEAM_NOD,	vect(4922.829102,-1268.094727,133.085495), 	rot(0,16288,0),		true,		550,	NOD_GUARDTOWER);
+
+	// Under GDI GT by WF
+	AddDefensiveStructure("CNC-Under",		TEAM_GDI,	vect(-3031.028809,-7673.423340,229.389114),	rot(0,32768,0), 	true, 		550,	GDI_GUARDTOWER);
+
+	// Under GDI GT middle of base
+	AddDefensiveStructure("CNC-Under",		TEAM_GDI,	vect(-1074.669800,-4904.338867,123.952759),	rot(0,32768,0), 	true, 		550,	GDI_GUARDTOWER);
+
+	///
+	// Field_X
+	///
+	//Nod GT by PP
+	AddDefensiveStructure("CNC-Field_X",	TEAM_GDI,	vect(7634.499512,-3708.821289,266.901215),	rot(0,16384,0), 	true, 		550,	NOD_GUARDTOWER);
+	
+	//GDI by PP
+	AddDefensiveStructure("CNC-Field_X",	TEAM_GDI,	vect(-2956.268311,7779.490234,Z=204.547958),rot(0,0,0), 		true, 		550,	GDI_GUARDTOWER);
 
 	// Add the defence turrets that are already on the existing map
 	foreach class'WorldInfo'.static.GetWorldInfo().AllActors(class'Rx_Defence', xDefenceTurret)
@@ -40,14 +70,14 @@ function InitSystem()
 		if ( Rx_Defence_GuardTower(xDefenceTurret) != None || Rx_Defence_GuardTower_Nod(xDefenceTurret) != None )
 		{
 			`log("Found a defence turret in-map at " $ xDefenceTurret.Location $ " - We will be spawning our own");
-			AddDefensiveStructure(CurrentMapName, xDefenceTurret.TeamID, xDefenceTurret.Location, xDefenceTurret.Rotation, false, 1500, 0);
+			AddDefensiveStructure(CurrentMapName, xDefenceTurret.TeamID, xDefenceTurret.Location, xDefenceTurret.Rotation, false, 550, 0);
 			xDefenceTurret.Destroy();
 		}
 		
 		if ( Rx_Defence_Turret(xDefenceTurret) != None )
 		{
 			`log("Found a defence turret in-map at " $ xDefenceTurret.Location $ " - We will be spawning our own");
-			AddDefensiveStructure(CurrentMapName, xDefenceTurret.TeamID, xDefenceTurret.Location, xDefenceTurret.Rotation, false, 1500, 1);
+			AddDefensiveStructure(CurrentMapName, xDefenceTurret.TeamID, xDefenceTurret.Location, xDefenceTurret.Rotation, false, 550, 1);
 			xDefenceTurret.Destroy();
 		}
 	}
@@ -55,7 +85,7 @@ function InitSystem()
 	SpawnDefensiveStructures();
 }
 
-function AddDefensiveStructure(string MapName, byte TheTeam, Vector TheLocation, Rotator TheRotation, bool bStartDead = false, int PurchasePrice = 1500, byte TurretType = 0)
+function AddDefensiveStructure(string MapName, byte TheTeam, Vector TheLocation, Rotator TheRotation, bool bStartDead = false, int PurchasePrice = 550, byte TurretType = 0)
 {
 	local DefencePositionStruct DefenceStructure;
 	
@@ -131,4 +161,11 @@ function SpawnDefensiveStructures()
 				_thisTurret.DeactivateStructure();
 		}
 	}
+}
+
+defaultproperties
+{
+	NOD_TURRET = 1
+	NOD_GUARDTOWER = 0
+	GDI_GUARDTOWER = 0
 }

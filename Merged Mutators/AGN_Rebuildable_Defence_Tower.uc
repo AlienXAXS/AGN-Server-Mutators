@@ -33,7 +33,7 @@ simulated function string GetTooltip(Rx_Controller PC)
 		return "";
 
 	if ( !bDefenseIsActive )
-		return "Tower Offline <font color='#ff0000' size='20'>repair gun</font> to purchase, needs " $ CreditsNeededToActivate $ " more credits";
+		return "Offline: Use repair gun to purchase, needs <font color='#ff0000' size='20'>" $ CreditsNeededToActivate $ "</font> more credits";
 	else
 		return "<font color='#00ff00' size='20'>Tower is Online</font>";
 }
