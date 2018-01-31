@@ -88,7 +88,7 @@ function PreBeginPlay()
 DefaultProperties
 {
     Begin Object Name=SkeletalMeshComponent0
-        SkeletalMesh=SkeletalMesh'RX_WP_PersonalIonCannon.Mesh.SK_PersonalIonCannon_3P'
+        SkeletalMesh=SkeletalMesh'AGN_WP_PersonalUnicornCannon.Mesh.SK_PersonalIonCannon_3P'
     End Object
 
     DefaultImpactEffect=(ParticleTemplate=ParticleSystem'AGN_WP_PersonalUnicornCannon.Effects.P_PersonalIonCannon_Impact',Sound=SoundCue'RX_SoundEffects.Explosions.SC_Explosion_Electric')
