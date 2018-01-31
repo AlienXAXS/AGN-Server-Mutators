@@ -140,14 +140,14 @@ function string OnCratePickupMessageBroadcastPre(int CrateMesageID, PlayerReplic
 defaultproperties
 {
 	DefaultCrateTypes[0] = class'AGN_CrateType_Money'
-	DefaultCrateTypes[1] = class'AGN_CrateType_Spy'
-	DefaultCrateTypes[2] = class'AGN_CrateType_Refill'
+	DefaultCrateTypes[1] = class'Rx_CrateType_Spy'
+	DefaultCrateTypes[2] = class'Rx_CrateType_Refill'
 	DefaultCrateTypes[3] = class'AGN_CrateType_Vehicle'
 	DefaultCrateTypes[4] = class'AGN_CrateType_Suicide'
 	DefaultCrateTypes[5] = class'AGN_CrateType_Character'
 	DefaultCrateTypes[6] = class'AGN_CrateType_TimeBomb'
 	DefaultCrateTypes[7] = class'AGN_CrateType_Nuke'
-	DefaultCrateTypes[8] = class'AGN_CrateType_Speed'
+	DefaultCrateTypes[8] = class'Rx_CrateType_Speed'
 	DefaultCrateTypes[9] = class'AGN_CrateType_Abduction'
 	DefaultCrateTypes[10] = class'AGN_CrateType_TSVehicle'
 	DefaultCrateTypes[11] = class'AGN_CrateType_SuperMoney'
@@ -158,4 +158,6 @@ defaultproperties
 	DefaultCrateTypes[16] = class'AGN_CrateType_Veterancy'
 	DefaultCrateTypes[17] = class'AGN_CrateType_PersonalObeliskCannon'
 	DefaultCrateTypes[18] = class'AGN_CrateType_RAVehicle'
+	DefaultCrateTypes[19] = class'Rx_CrateType_DamageResistance'
+	DefaultCrateTypes[20] = class'Rx_CrateType_ClassicVehicle'
 }

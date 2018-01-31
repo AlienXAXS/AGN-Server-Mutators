@@ -165,6 +165,11 @@ reliable server function ServerDeactivateStructure()
 	bDefenseIsActive = false;
 }
 
+function DeactivateStructureViaTimer()
+{
+	SetTimer(5, false, 'DeactivateStructure');
+}
+
 function DeactivateStructure()
 {
 	if(`WorldInfoObject.NetMode == NM_DedicatedServer)

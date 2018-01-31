@@ -62,7 +62,7 @@ function InitSystem()
 	AddDefensiveStructure("CNC-Field_X",	TEAM_GDI,	vect(7634.499512,-3708.821289,266.901215),	rot(0,16384,0), 	true, 		750,	NOD_GUARDTOWER);
 	
 	//GDI by PP
-	AddDefensiveStructure("CNC-Field_X",	TEAM_GDI,	vect(-2956.268311,7779.490234,Z=204.547958),rot(0,0,0), 		true, 		750,	GDI_GUARDTOWER);
+	AddDefensiveStructure("CNC-Field_X",	TEAM_GDI,	vect(-2956.268311,7779.490234,204.547958),	rot(0,0,0), 		true, 		750,	GDI_GUARDTOWER);
 
 	// Add the defence turrets that are already on the existing map
 	foreach class'WorldInfo'.static.GetWorldInfo().AllActors(class'Rx_Defence', xDefenceTurret)
@@ -137,7 +137,7 @@ function SpawnDefensiveStructures()
 		_thisGDITower.InitializeDefence();
 		_thisGDITower.SetPurchasePrice(_thisStruct.PurchasePrice);
 		if ( _thisStruct.bStartDead )
-			_thisGDITower.DeactivateStructure();
+			_thisGDITower.DeactivateStructureViaTimer();
 	}
 	
 	// Spawn all Nod Structures
@@ -150,7 +150,7 @@ function SpawnDefensiveStructures()
 			_thisNodTower.InitializeDefence();
 			_thisNodTower.SetPurchasePrice(_thisStruct.PurchasePrice);
 			if ( _thisStruct.bStartDead )
-				_thisNodTower.DeactivateStructure();
+				_thisNodTower.DeactivateStructureViaTimer();
 		}
 		else
 		{
@@ -158,7 +158,7 @@ function SpawnDefensiveStructures()
 			_thisTurret.InitializeDefence();
 			_thisTurret.SetPurchasePrice(_thisStruct.PurchasePrice);
 			if ( _thisStruct.bStartDead )
-				_thisTurret.DeactivateStructure();
+				_thisTurret.DeactivateStructureViaTimer();
 		}
 	}
 }

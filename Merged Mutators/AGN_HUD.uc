@@ -343,6 +343,5 @@ function LocalizedMessage
 
 DefaultProperties
 {
-	TargetingBoxClass = class'AGN_HUD_TargetingBox';
 	DefaultTargettingRangex = 10000;
 }

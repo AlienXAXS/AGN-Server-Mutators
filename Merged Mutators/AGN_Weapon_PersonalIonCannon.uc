@@ -53,7 +53,7 @@ DefaultProperties
 
     // Weapon SkeletalMesh
     Begin Object Name=PickupMesh
-        SkeletalMesh=SkeletalMesh'AGN_WP_PersonalUnicornCannon.Mesh.SK_PersonalIonCannon_Back'
+        SkeletalMesh=SkeletalMesh'RX_WP_PersonalIonCannon.Mesh.SK_PersonalIonCannon_Back'
         Scale=1.0
     End Object
 
