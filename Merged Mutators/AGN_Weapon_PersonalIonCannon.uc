@@ -44,7 +44,7 @@ DefaultProperties
 
     // Weapon SkeletalMesh
     Begin Object Name=FirstPersonMesh
-        SkeletalMesh=SkeletalMesh'RX_WP_PersonalIonCannon.Mesh.SK_PersonalIonCannon_1P'
+        SkeletalMesh=SkeletalMesh'AGN_WP_PersonalUnicornCannon.Mesh.SK_PersonalIonCannon_1P'
         AnimSets(0)=AnimSet'RX_WP_PersonalIonCannon.Anims.AS_PersonalIonCannon_1P'
         Animations=MeshSequenceA
         FOV=55
@@ -53,7 +53,7 @@ DefaultProperties
 
     // Weapon SkeletalMesh
     Begin Object Name=PickupMesh
-        SkeletalMesh=SkeletalMesh'RX_WP_PersonalIonCannon.Mesh.SK_PersonalIonCannon_Back'
+        SkeletalMesh=SkeletalMesh'AGN_WP_PersonalUnicornCannon.Mesh.SK_PersonalIonCannon_Back'
         Scale=1.0
     End Object
 
