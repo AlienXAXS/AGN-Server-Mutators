@@ -11,8 +11,6 @@
 
 class AGN_Veh_PurchaseSystem extends Rx_PurchaseSystem;
 
-// Maybe fix for UDKCrash?
-// Turns out yes -- AlienX
 var int GDIInfantryPricesAGN[15];
 var int GDIVehiclePricesAGN[11];
 var int GDIWeaponPricesAGN[7];
@@ -21,33 +19,6 @@ var int NodInfantryPricesAGN[15];
 var int NodVehiclePricesAGN[11];
 var int NodWeaponPricesAGN[7];
 var int NodItemPricesAGN[8];
-
-simulated function PostBeginPlay()
-{
-	local byte i;
-	
-	for ( i=0; i<15; i++)
-	{
-		`log("GDIInfantryPricesAGN["$i$"] = "$GDIInfantryPricesAGN[i]);
-	}
-	
-	for ( i=0; i<15; i++)
-	{
-		`log("NodInfantryPricesAGN["$i$"] = "$NodInfantryPricesAGN[i]);
-	}
-	
-	for ( i=0; i<=7; i++)
-	{
-		`log("GDIVehiclePricesAGN["$i$"] = "$GDIVehiclePricesAGN[i]);
-	}
-	
-	for ( i=0; i<=8; i++)
-	{
-		`log("NodVehiclePricesAGN["$i$"] = "$NodVehiclePricesAGN[i]);
-	}
-	
-	Super.PostBeginPlay();
-}
 
 simulated function int GetClassPrices(byte teamID, int charid)
 {
@@ -169,9 +140,6 @@ DefaultProperties
 	GDIInfantryClasses[13] = class'AGN_FamilyInfo_GDI_Mobius'
 	GDIInfantryClasses[14] = class'AGN_FamilyInfo_GDI_Hotwire'
 	
-	GDIItemClasses[2]  = class'AGN_Weapon_RepairTool'
-	NodItemClasses[2]  = class'AGN_Weapon_RepairTool'
-
 	GDIInfantryPricesAGN[0] = 0
 	GDIInfantryPricesAGN[1] = 0
 	GDIInfantryPricesAGN[2] = 0

@@ -18,18 +18,18 @@ var array< class<Rx_Weapon> > BeaconType;
 
 function string GetGameLogMessage(Rx_PRI RecipientPRI, Rx_CratePickup CratePickup)
 {
-    return ((((((("GAME" $ Chr(2)) $ "Crate;") $ Chr(2)) $ "`beacon`") $ Chr(2)) $ "by") $ Chr(2)) $ class'Rx_Game'.static.GetPRILogName(RecipientPRI);
+	return "GAME" `s "Crate;" `s "beacon" `s string(WeaponClass) `s "by" `s `PlayerLog(RecipientPRI);
 }
 
 function string GetPickupMessage()
 {
     if(WeaponClass == class'Rx_Weapon_NukeBeacon')
     {
-        return Repl("You got a `beacon`!", "`beacon`", "Nuclear Strike Beacon", false);
+        return "You got a Nuclear Strike Beacon!";
     }
     else
     {
-        return Repl("You got an `beacon`!", "`beacon`", "Ion Cannon Beacon", false);
+        return "You got an Ion Cannon Beacon!";
     }
 }
 
