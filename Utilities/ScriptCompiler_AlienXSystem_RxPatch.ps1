@@ -36,10 +36,10 @@
 [string]$MutatorStartupParam = "AGN_Mut_AlienXSystem.AGN_InitModPackage"
 
 # Where is RenX installed? (root path, not to the binary - we'll work that out for you)
-[string]$RenXBaseDirectory = "E:\SVN"
+[string]$RenXBaseDirectory = "C:\Program Files (x86)\Renegade X"
 
 # Where is the UDK Directory? (root path, not to the binary)
-[string]$RenXUDKDirectory = "E:\SVN"
+[string]$RenXUDKDirectory = "E:\My SDK"
 
 # Change these if u want
 [string]$RenXAdditionalStartupParams = "-log -windowed -nomoviestartup -ResX=1920 -ResY=1080"
@@ -89,7 +89,7 @@ Write-Output "Checking for Mutator: $CompiledMutatorPath"
 if ( (Test-Path $CompiledMutatorPath -PathType Any) -eq $true )
 {
     #Write-Output "Build Passed, copying to Renx"
-    #Copy-Item ($CompiledMutatorPath) $FinalMutatorPath
+    Copy-Item ($CompiledMutatorPath) $FinalMutatorPath
     Write-Output "Starting Game"
     Start-Process $RenXBinary -ArgumentList "CNC-Islands?Mutator=$MutatorStartupParam $RenXAdditionalStartupParams"
 } else {

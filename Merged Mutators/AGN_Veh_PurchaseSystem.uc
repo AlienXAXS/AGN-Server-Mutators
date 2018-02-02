@@ -168,6 +168,9 @@ DefaultProperties
 	GDIInfantryClasses[12] = class'AGN_FamilyInfo_GDI_Sydney'
 	GDIInfantryClasses[13] = class'AGN_FamilyInfo_GDI_Mobius'
 	GDIInfantryClasses[14] = class'AGN_FamilyInfo_GDI_Hotwire'
+	
+	GDIItemClasses[2]  = class'AGN_Weapon_RepairTool'
+	NodItemClasses[2]  = class'AGN_Weapon_RepairTool'
 
 	GDIInfantryPricesAGN[0] = 0
 	GDIInfantryPricesAGN[1] = 0

@@ -190,19 +190,22 @@ function BroadcastEnemySpotMessages()
 			{
 				//`log("Set Vehicle Spotted");
 				SetPlayerSpotted(Rx_PRI(Rx_Vehicle(SpotTarget).PlayerReplicationInfo).PlayerID );
+				if(bCommandSpotting || bPlayerIsCommander()) SetPlayerCommandSpotted(Rx_PRI(Rx_Vehicle(SpotTarget).PlayerReplicationInfo).PlayerID); //Rx_PRI(Rx_Vehicle(SpotTarget).PlayerReplicationInfo).SetAsTarget(1);
 			}
 			else
 			if(Rx_DefencePRI(Rx_Vehicle(SpotTarget).PlayerReplicationInfo) != none)
 			{
 				//`log("Set Defense Spotted");
 				SetPlayerSpotted(Rx_DefencePRI(Rx_Vehicle(SpotTarget).PlayerReplicationInfo).PlayerID);
+				
+				if(bCommandSpotting || bPlayerIsCommander()) SetPlayerCommandSpotted(Rx_DefencePRI(Rx_Vehicle(SpotTarget).PlayerReplicationInfo).PlayerID);
 			}
 			/**foreach WorldInfo.AllPawns(class'Pawn', P)
 			{
 				if(P.DrivenVehicle == Rx_Vehicle(SpotTarget))
-					SetPlayerSpotted(P.PlayerReplicationInfo.PlayerID);
+					SetPlayerSpotted(P.PlayerReplicationInfo.PlayerID);		
 			}*/
-
+			
 		}
 	}
 

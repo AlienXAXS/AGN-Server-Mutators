@@ -68,8 +68,21 @@ function Rx_CrateType OnDetermineCrateType(Rx_Pawn Recipient)
 	local int i;
 	local float probabilitySum, random;
 	local array<float> probabilities;
+	local Rx_CratePickup cratePickup, chosenCratePickup;
+	local float distance, computedDistance;
 	
-	if ( GlobalCratePickup == None )
+	distance = 10000;
+	foreach Rx_Game(`WorldInfoObject.Game).AllActors(class'Rx_CratePickup', cratePickup)
+	{ 
+		computedDistance = VSizeSq(cratePickup.Location - Recipient.Location);
+		if ( computedDistance < distance )
+		{
+			distance = computedDistance;
+			chosenCratePickup = cratePickup;
+		}
+	}
+			
+	if ( GlobalCratePickup == None || chosenCratePickup != None )
 		return None;
 	
 	// Get sum of probabilities, and cache values
@@ -77,7 +90,7 @@ function Rx_CrateType OnDetermineCrateType(Rx_Pawn Recipient)
 	{
 		if (WorldInfo.GRI.ElapsedTime >= InstancedCrateTypes[i].StartSpawnTime)
 		{
-			probabilities.AddItem(InstancedCrateTypes[i].GetProbabilityWeight(Recipient,GlobalCratePickup));
+			probabilities.AddItem(InstancedCrateTypes[i].GetProbabilityWeight(Recipient,chosenCratePickup == None ? GlobalCratePickup : chosenCratePickup));
 			probabilitySum += probabilities[i];
 		}
 		else

@@ -65,6 +65,7 @@ function ExecuteCrateBehaviour(Rx_Pawn Recipient, Rx_PRI RecipientPRI, Rx_CrateP
 					{
 						BuildingsPoweredDown.AddItem(buildingTeamInternals);
 						buildingTeamInternals.PowerLost();
+						buildingTeamInternals.SetTimer(RestorePowerInSeconds, false, 'PowerRestore');
 						`log("[AGN_CrateType_BasePower] ExecuteCrateBehaviour | BUILDING POWER OFFLINE " $ building.Name);
 					}
 			}

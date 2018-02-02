@@ -15,6 +15,8 @@ DefaultProperties
 {
     PrimaryWeapons(0)=class'Rx_Weapon_TacticalRifle'
     SidearmWeapons(0)=class'Rx_Weapon_HeavyPistol'
-    AvailableSidearmWeapons(0)=class'Rx_Weapon_HeavyPistol'
+    AvailableSidearmWeapons(0) = class'Rx_Weapon_HeavyPistol'
+
+	AvailableAbilityWeapons(0)=class'Rx_WeaponAbility_TacRifleGrenade'
 }
 

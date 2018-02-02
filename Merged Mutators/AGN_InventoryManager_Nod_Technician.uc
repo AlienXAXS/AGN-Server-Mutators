@@ -15,9 +15,10 @@ function int GetPrimaryWeaponSlots() { return 3; }
 
 DefaultProperties
 {
-    PrimaryWeapons(0)=class'Rx_Weapon_RepairGunAdvanced'
+    PrimaryWeapons(0)=class'AGN_Weapon_RepairGunAdvanced'
     PrimaryWeapons(1)=class'Rx_Weapon_RemoteC4'
     PrimaryWeapons(2)=class'Rx_Weapon_TimedC4_Multiple'
+	
     SidearmWeapons(0)=class'AGN_Weapon_Carbine_Silencer'
     ExplosiveWeapons(0)=class'Rx_Weapon_ProxyC4'
     AvailableSidearmWeapons(0)=class'AGN_Weapon_Carbine_Silencer'

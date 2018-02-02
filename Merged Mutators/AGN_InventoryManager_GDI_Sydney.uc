@@ -18,5 +18,6 @@ DefaultProperties
     PrimaryWeapons(2)=class'Rx_Weapon_ATMine'
     SidearmWeapons(0)=class'Rx_Weapon_HeavyPistol'
     AvailableSidearmWeapons(0)=class'Rx_Weapon_HeavyPistol'
+	ExplosiveWeapons[0] = class'Rx_Weapon_TimedC4'
     AvailableAbilityWeapons(0)=class'Rx_WeaponAbility_EMPGrenade'
 }
