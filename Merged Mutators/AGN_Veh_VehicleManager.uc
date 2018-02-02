@@ -188,7 +188,7 @@ function Actor SpawnVehicle_AGN(VQueueElement_AGN VehToSpawn, optional byte Team
 				if (AirStrip != None)
 					TempLoc.Z -= 500;
 					
-				AirdropingChinook = Spawn(class'Rx_Chinook_Airdrop', , , TempLoc, NOD_ProductionPlace.R, , false);
+				AirdropingChinook = Spawn(class'AGN_Chinook_Airdrop', , , TempLoc, NOD_ProductionPlace.R, , false);
 				AirdropingChinook.initialize(VehToSpawn.Buyer,VehToSpawn.VehicleID, TeamNum);			
 			}
 			else
@@ -203,10 +203,10 @@ function Actor SpawnVehicle_AGN(VQueueElement_AGN VehToSpawn, optional byte Team
 				if (WeaponsFactory != None) {
 					TempLoc = GDI_ProductionPlace.L + vector(GDI_ProductionPlace.R) * 950;
 					TempLoc.Z -= 500;
-					AirdropingChinook = Spawn(class'Rx_Chinook_Airdrop', , , TempLoc, GDI_ProductionPlace.R, , false);
+					AirdropingChinook = Spawn(class'AGN_Chinook_Airdrop', , , TempLoc, GDI_ProductionPlace.R, , false);
 				}
 				else
-					AirdropingChinook = Spawn(class'Rx_Chinook_Airdrop', , , GDI_ProductionPlace.L, GDI_ProductionPlace.R, , false);
+					AirdropingChinook = Spawn(class'AGN_Chinook_Airdrop', , , GDI_ProductionPlace.L, GDI_ProductionPlace.R, , false);
 				AirdropingChinook.initialize(VehToSpawn.Buyer,VehToSpawn.VehicleID, TeamNum);			
 			}
 			else
