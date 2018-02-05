@@ -107,7 +107,7 @@ defaultproperties
 
     ShotCost(0)=1
     ShotCost(1)=1
-    Spread(0)=0.17 //0.18
+    Spread(0)=0.18 //0.18
 //    Spread(1)=0.3
 
 	IronSightAndScopedSpread(0)= 0.17
@@ -120,7 +120,7 @@ defaultproperties
     InitalNumClips = 8
     MaxClips = 8
  
-    FireInterval(0)=1.45 //1.5
+    FireInterval(0)=1.5 //1.5
 //    FireInterval(1)=0.65
     
     WeaponFireAnim(0)=WeaponFire
@@ -132,10 +132,10 @@ defaultproperties
     WeaponFireTypes(1)=EWFT_None
     WeaponRange=800.0
 
-    InstantHitDamage(0)=16
+    InstantHitDamage(0)=14
 //    InstantHitDamage(1)=16
 	
-	HeadShotDamageMult=1.25 //1.25
+	HeadShotDamageMult=1.10 //1.25
 	
     InstantHitDamageTypes(0)=class'Rx_DmgType_Shotgun'
 //    InstantHitDamageTypes(1)=class'Rx_DmgType_Shotgun'
