@@ -209,7 +209,12 @@ function Message( PlayerReplicationInfo PRI, coerce string Msg, name MsgType, op
 	}
 	else if (MsgType == 'Radio')
 	{
-		fMsg = "<font color='" $RadioColor $"'>" $ cName $": "$ Msg $"</font>";
+		if(Rx_PRI(PRI).bGetIsCommander())
+			fMsg = "<font color='" $CommandTextColor $"'>" $ "[Commander]" $ cName $": "$ Msg $"</font>"; 
+		else
+			fMsg = "<font color='" $RadioColor $"'>" $ cName $": "$ Msg $"</font>"; 
+		
+		fMsg = HighlightStructureNames(fMsg); 
 		//PublicChatMessageLog $= "\n" $ fMsg;
 		rMsg = cName $": "$ Msg;
 	}
@@ -282,4 +287,5 @@ function Message( PlayerReplicationInfo PRI, coerce string Msg, name MsgType, op
 DefaultProperties
 {
 	DefaultTargettingRangex = 10000;
+	HudMovieClass = class'AGN_GFxHud'
 }

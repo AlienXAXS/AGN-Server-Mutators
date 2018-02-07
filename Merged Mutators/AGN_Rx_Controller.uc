@@ -112,10 +112,11 @@ function BroadcastEnemySpotMessages()
 		{
 			NumInfs++;
 			if(UTPlayerReplicationInfo(Rx_Pawn(SpotTarget).PlayerReplicationInfo) == None)
-				continue;
+				continue; 
 			PRI = UTPlayerReplicationInfo(Rx_Pawn(SpotTarget).PlayerReplicationInfo);
-
-			Rx_PRI(Rx_Pawn(SpotTarget).PlayerReplicationInfo).SetSpotted(10.0);
+			
+			Rx_PRI(Rx_Pawn(SpotTarget).PlayerReplicationInfo).SetSpotted(10.0); 
+				if((bCommandSpotting || bPlayerIsCommander()) && SpotTarget == FirstSpotTarget)  SetPlayerCommandSpotted(Rx_PRI(Rx_Pawn(SpotTarget).PlayerReplicationInfo).PlayerID);
 
 			if(PRI.CharClassInfo == class'AGN_FamilyInfo_GDI_Soldier' || PRI.CharClassInfo == class'RX_FamilyInfo_GDI_Soldier') {
 				SpottedInfs[0]++;

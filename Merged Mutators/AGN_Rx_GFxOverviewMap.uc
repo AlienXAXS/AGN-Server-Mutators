@@ -65,7 +65,7 @@ function UpdateActorBlips()
 		
 		if ((RxP == none) && (RxV == none)) continue;
 
-		if (Rx_Defence(P) != none) continue;
+		if (Rx_Defence(P) != none || AGN_Rebuildable_Defence_DestroyedTowerHandler(P) != None) continue;
 
 		switch (P.GetTeamNum())
 		{
@@ -204,7 +204,7 @@ function UpdatePawnInfoCount(  )
 		RxP = Rx_Pawn(P);
 		RxV = Rx_Vehicle(P);
 
-		if (Rx_Defence(P) != none) {
+		if (Rx_Defence(P) != none || AGN_Rebuildable_Defence_DestroyedTowerHandler(P) != None) {
 			continue;
 		}
 		
