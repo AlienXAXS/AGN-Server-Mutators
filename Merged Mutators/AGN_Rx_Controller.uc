@@ -47,6 +47,7 @@ function BroadcastEnemySpotMessages()
 	local UTPlayerReplicationInfo PRI;
 	//local Pawn P;
 
+	FirstSpotTarget = Rx_Hud(MyHUD).SpotTargets[0];											  
 	SpottingMsg = "";
 	foreach Rx_Hud(MyHUD).SpotTargets(SpotTarget)
 	{
@@ -191,7 +192,7 @@ function BroadcastEnemySpotMessages()
 			{
 				//`log("Set Vehicle Spotted");
 				SetPlayerSpotted(Rx_PRI(Rx_Vehicle(SpotTarget).PlayerReplicationInfo).PlayerID );
-				if(bCommandSpotting || bPlayerIsCommander()) SetPlayerCommandSpotted(Rx_PRI(Rx_Vehicle(SpotTarget).PlayerReplicationInfo).PlayerID); //Rx_PRI(Rx_Vehicle(SpotTarget).PlayerReplicationInfo).SetAsTarget(1);
+				if((bCommandSpotting || bPlayerIsCommander()) && SpotTarget == FirstSpotTarget) SetPlayerCommandSpotted(Rx_PRI(Rx_Vehicle(SpotTarget).PlayerReplicationInfo).PlayerID);
 			}
 			else
 			if(Rx_DefencePRI(Rx_Vehicle(SpotTarget).PlayerReplicationInfo) != none)
@@ -199,7 +200,7 @@ function BroadcastEnemySpotMessages()
 				//`log("Set Defense Spotted");
 				SetPlayerSpotted(Rx_DefencePRI(Rx_Vehicle(SpotTarget).PlayerReplicationInfo).PlayerID);
 				
-				if(bCommandSpotting || bPlayerIsCommander()) SetPlayerCommandSpotted(Rx_DefencePRI(Rx_Vehicle(SpotTarget).PlayerReplicationInfo).PlayerID);
+				if((bCommandSpotting || bPlayerIsCommander()) && SpotTarget == FirstSpotTarget) SetPlayerCommandSpotted(Rx_DefencePRI(Rx_Vehicle(SpotTarget).PlayerReplicationInfo).PlayerID);
 			}
 			/**foreach WorldInfo.AllPawns(class'Pawn', P)
 			{
@@ -210,15 +211,16 @@ function BroadcastEnemySpotMessages()
 		}
 	}
 
-	FirstSpotTarget = Rx_Hud(MyHUD).SpotTargets[0];
+	
 
 	LocationInfo = GetSpottargetLocationInfo(FirstSpotTarget);
 
 	if(numberOfRadioCommandsLastXSeconds++ > 5)
 	{
-	spotMessagesBlocked = true;
-	SetTimer(2.5, false, 'resetSpotMessageCountTimer'); //5.0 seconds is REALLY annoying and sometimes game breaking.
+		spotMessagesBlocked = true;
+		SetTimer(2.5, false, 'resetSpotMessageCountTimer'); //5.0 seconds is REALLY annoying and sometimes game breaking.
 	}
+	
 	if(NumVehicles > 0)
 	{
 		for(i=20; i>=0; i--)

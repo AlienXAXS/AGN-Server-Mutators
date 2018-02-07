@@ -121,10 +121,10 @@ function OnMatchStart()
 		AGN_RebuildableDefenceHandler.OnMatchStart();
 }
 
-function Rx_CrateType OnDetermineCrateType(Rx_Pawn Recipient)
+function Rx_CrateType OnDetermineCrateType(Rx_Pawn Recipient, Rx_CratePickup CratePickup)
 {
 	if ( AGNCrateExtension != None )
-		return AGNCrateExtension.OnDetermineCrateType(Recipient);
+		return AGNCrateExtension.OnDetermineCrateType(Recipient, CratePickup);
 	else
 		return None;
 }
@@ -146,6 +146,7 @@ function bool CheckReplacement(Actor Other)
 	if(Other.IsA('Rx_TeamInfo'))
 	{
 		Rx_Game(WorldInfo.Game).PlayerControllerClass = class'AGN_Rx_Controller';
+		Rx_Game(WorldInfo.Game).PlayerReplicationInfoClass = class'AGN_Rx_PRI';
 	}
 
 	return true;

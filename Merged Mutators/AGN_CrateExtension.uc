@@ -63,38 +63,26 @@ function OnAdminDespawnCrates(PlayerController Sender)
 	Sender.ClientMessage("[AGN-CrateExtension] Despawned " $ count $ " crates");
 }
 
-function Rx_CrateType OnDetermineCrateType(Rx_Pawn Recipient)
+function Rx_CrateType OnDetermineCrateType(Rx_Pawn Recipient, Rx_CratePickup CratePickup)
 {
 	local int i;
 	local float probabilitySum, random;
 	local array<float> probabilities;
-	local Rx_CratePickup cratePickup, chosenCratePickup;
-	local float distance, computedDistance;
-	
-	distance = 10000;
-	foreach Rx_Game(`WorldInfoObject.Game).AllActors(class'Rx_CratePickup', cratePickup)
-	{ 
-		computedDistance = VSizeSq(cratePickup.Location - Recipient.Location);
-		if ( computedDistance < distance )
-		{
-			distance = computedDistance;
-			chosenCratePickup = cratePickup;
-		}
-	}
-			
-	if ( GlobalCratePickup == None || chosenCratePickup != None )
-		return None;
 	
 	// Get sum of probabilities, and cache values
 	for (i = 0; i < InstancedCrateTypes.Length; i++)
 	{
 		if (WorldInfo.GRI.ElapsedTime >= InstancedCrateTypes[i].StartSpawnTime)
 		{
-			probabilities.AddItem(InstancedCrateTypes[i].GetProbabilityWeight(Recipient,chosenCratePickup == None ? GlobalCratePickup : chosenCratePickup));
+			probabilities.AddItem(InstancedCrateTypes[i].GetProbabilityWeight(Recipient,CratePickup));
+			`log("[AGN-Crate-System] probabilities for type " $ string(InstancedCrateTypes[i]) $ " is " $ string(probabilities[i]));
 			probabilitySum += probabilities[i];
 		}
 		else
+		{
+			`log( "Not enough time passed for " $ string(InstancedCrateTypes[i]) $ " got " $ string(WorldInfo.GRI.ElapsedTime) $ " expected " $ string(InstancedCrateTypes[i].StartSpawnTime) );
 			probabilities.AddItem(0.0f);
+		}
 	}
 
 	random = FRand() * probabilitySum;
@@ -153,7 +141,7 @@ function string OnCratePickupMessageBroadcastPre(int CrateMesageID, PlayerReplic
 defaultproperties
 {
 	DefaultCrateTypes[0] = class'AGN_CrateType_Money'
-	DefaultCrateTypes[1] = class'Rx_CrateType_Spy'
+	DefaultCrateTypes[1] = class'AGN_CrateType_Spy'
 	DefaultCrateTypes[2] = class'Rx_CrateType_Refill'
 	DefaultCrateTypes[3] = class'AGN_CrateType_Vehicle'
 	DefaultCrateTypes[4] = class'AGN_CrateType_Suicide'

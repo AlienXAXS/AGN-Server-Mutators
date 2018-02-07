@@ -60,6 +60,15 @@ simulated function int GetItemPrices(byte teamID, int charid)
 	}
 }
 
+simulated function bool IsStealthBlackHand(Rx_PRI pri)
+{
+	if ( pri.CharClassInfo == NodInfantryClasses[9] )
+	{
+		return True;
+	}
+	return False;
+}
+
 simulated function int GetVehiclePrices(byte teamID, int VehicleID, bool bViaAirdrop)
 {
 	local float Multiplier;
