@@ -14,12 +14,6 @@ class AGN_RepairPad_Nod_Internals extends Rx_Building_Team_Internals
 
 DefaultProperties
 {
-	Begin Object Name=BuildingSkeletalMeshComponent
-		SkeletalMesh        = None
-		AnimSets(0)         = None
-		AnimTreeTemplate    = None
-		PhysicsAsset        = None
-	End Object
 
 	FriendlyBuildingSounds(BuildingDestroyed)           = SoundNodeWave'RX_EVA_VoiceClips.nod_eva.S_EVA_Nod_NodRepairFacility_Destroyed'
     FriendlyBuildingSounds(BuildingUnderAttack)         = SoundNodeWave'RX_EVA_VoiceClips.nod_eva.S_EVA_Nod_NodRepairFacility_UnderAttack'

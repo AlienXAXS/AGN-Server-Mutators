@@ -152,12 +152,20 @@ reliable server function createPad()
 	{
 		LogInternal ( "[AGN-RepairPads] SPAWNING GDI REPAIRPAD");
 		GDIPad = Spawn(class'AGN_Mut_AlienXSystem.AGN_RepairPad_GDI',,, ActiveRepairPad_GDI.Location, ActiveRepairPad_GDI.Rotation);
+		if ( GDIPad != None )
+			`log("[AGN-RepairPads] Spawning GDI Repair Pad Successful");
+		else
+			`log("[AGN-RepairPads] Spawning GDI Repair Pad Failed");
 	}
 	
 	if ( ActiveRepairPad_Nod.Team != "" )
 	{
 		LogInternal ( "[AGN-RepairPads] SPAWNING NOD REPAIRPAD");
 		NodPad = Spawn(class'AGN_Mut_AlienXSystem.AGN_RepairPad_NOD',,, ActiveRepairPad_Nod.Location, ActiveRepairPad_Nod.Rotation);
+		if ( NodPad != None )
+			`log("[AGN-RepairPads] Spawning NOD Repair Pad Successful");
+		else
+			`log("[AGN-RepairPads] Spawning NOD Repair Pad Failed");
 	}
 }
 
