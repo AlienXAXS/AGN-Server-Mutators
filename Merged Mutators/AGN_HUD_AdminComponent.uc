@@ -57,7 +57,7 @@ simulated function DrawServerFPS()
 		Canvas.DrawText("AGN-Admin-HUD Loading...");
 	} else {
 		//ServerFPS,CurrentActors,CurrentVehiclesNod,CurrentVehiclesGDI,CurrentVehiclesUnoccupied,ServerDeltaTime
-				
+		
 		hudMessage = "[AGN-Admin-Stats]\n";
 		fpsMessage = AGN_MutController.ServerFPS == 0 ? "Running As Client Or No Data!" : string(AGN_MutController.ServerFPS);
 		hudMessage $= "  SFPS: " $ fpsMessage $ " | DT: " $ AGN_MutController.ServerDeltaTime $ " | AA: " $ string(AGN_MutController.CurrentActors) $ "\n";
