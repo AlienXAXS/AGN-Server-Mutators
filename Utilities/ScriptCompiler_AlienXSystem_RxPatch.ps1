@@ -39,7 +39,7 @@
 [string]$RenXBaseDirectory = "C:\Program Files (x86)\Renegade X"
 
 # Where is the UDK Directory? (root path, not to the binary)
-[string]$RenXUDKDirectory = "E:\My SDK"
+[string]$RenXUDKDirectory = "D:\RenX_SDK\5332"
 
 # Change these if u want
 [string]$RenXAdditionalStartupParams = "-log -windowed -nomoviestartup -ResX=1920 -ResY=1080"
@@ -91,7 +91,7 @@ if ( (Test-Path $CompiledMutatorPath -PathType Any) -eq $true )
     #Write-Output "Build Passed, copying to Renx"
     Copy-Item ($CompiledMutatorPath) $FinalMutatorPath
     Write-Output "Starting Game"
-    Start-Process $RenXBinary -ArgumentList "CNC-Islands?Mutator=$MutatorStartupParam $RenXAdditionalStartupParams"
+    Start-Process $RenXBinary -ArgumentList "CNC-Field_X?Mutator=$MutatorStartupParam $RenXAdditionalStartupParams"
 } else {
     Write-Output " --------- BUILD FAILED ----------- "
 }

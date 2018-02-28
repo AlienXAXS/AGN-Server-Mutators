@@ -47,6 +47,7 @@ function BroadcastEnemySpotMessages()
 	local UTPlayerReplicationInfo PRI;
 	//local Pawn P;
 
+	FirstSpotTarget = Rx_Hud(MyHUD).SpotTargets[0];											  
 	SpottingMsg = "";
 	foreach Rx_Hud(MyHUD).SpotTargets(SpotTarget)
 	{
@@ -103,7 +104,7 @@ function BroadcastEnemySpotMessages()
 				SpottedVehicles[19]++;
 			} else if(TS_Vehicle_Titan(SpotTarget) != None) {
 				SpottedVehicles[20]++;
-			} else if(APB_Vehicle_TeslaTank(SpotTarget) != None) {
+			} else if(Rx_Vehicle_M2Bradley(SpotTarget) != None) {
 				SpottedVehicles[21]++;
 			}
 		}
@@ -112,10 +113,11 @@ function BroadcastEnemySpotMessages()
 		{
 			NumInfs++;
 			if(UTPlayerReplicationInfo(Rx_Pawn(SpotTarget).PlayerReplicationInfo) == None)
-				continue;
+				continue; 
 			PRI = UTPlayerReplicationInfo(Rx_Pawn(SpotTarget).PlayerReplicationInfo);
-
-			Rx_PRI(Rx_Pawn(SpotTarget).PlayerReplicationInfo).SetSpotted(10.0);
+			
+			Rx_PRI(Rx_Pawn(SpotTarget).PlayerReplicationInfo).SetSpotted(10.0); 
+				if((bCommandSpotting || bPlayerIsCommander()) && SpotTarget == FirstSpotTarget)  SetPlayerCommandSpotted(Rx_PRI(Rx_Pawn(SpotTarget).PlayerReplicationInfo).PlayerID);
 
 			if(PRI.CharClassInfo == class'AGN_FamilyInfo_GDI_Soldier' || PRI.CharClassInfo == class'RX_FamilyInfo_GDI_Soldier') {
 				SpottedInfs[0]++;
@@ -190,7 +192,7 @@ function BroadcastEnemySpotMessages()
 			{
 				//`log("Set Vehicle Spotted");
 				SetPlayerSpotted(Rx_PRI(Rx_Vehicle(SpotTarget).PlayerReplicationInfo).PlayerID );
-				if(bCommandSpotting || bPlayerIsCommander()) SetPlayerCommandSpotted(Rx_PRI(Rx_Vehicle(SpotTarget).PlayerReplicationInfo).PlayerID); //Rx_PRI(Rx_Vehicle(SpotTarget).PlayerReplicationInfo).SetAsTarget(1);
+				if((bCommandSpotting || bPlayerIsCommander()) && SpotTarget == FirstSpotTarget) SetPlayerCommandSpotted(Rx_PRI(Rx_Vehicle(SpotTarget).PlayerReplicationInfo).PlayerID);
 			}
 			else
 			if(Rx_DefencePRI(Rx_Vehicle(SpotTarget).PlayerReplicationInfo) != none)
@@ -198,7 +200,7 @@ function BroadcastEnemySpotMessages()
 				//`log("Set Defense Spotted");
 				SetPlayerSpotted(Rx_DefencePRI(Rx_Vehicle(SpotTarget).PlayerReplicationInfo).PlayerID);
 				
-				if(bCommandSpotting || bPlayerIsCommander()) SetPlayerCommandSpotted(Rx_DefencePRI(Rx_Vehicle(SpotTarget).PlayerReplicationInfo).PlayerID);
+				if((bCommandSpotting || bPlayerIsCommander()) && SpotTarget == FirstSpotTarget) SetPlayerCommandSpotted(Rx_DefencePRI(Rx_Vehicle(SpotTarget).PlayerReplicationInfo).PlayerID);
 			}
 			/**foreach WorldInfo.AllPawns(class'Pawn', P)
 			{
@@ -209,15 +211,16 @@ function BroadcastEnemySpotMessages()
 		}
 	}
 
-	FirstSpotTarget = Rx_Hud(MyHUD).SpotTargets[0];
+	
 
 	LocationInfo = GetSpottargetLocationInfo(FirstSpotTarget);
 
 	if(numberOfRadioCommandsLastXSeconds++ > 5)
 	{
-	spotMessagesBlocked = true;
-	SetTimer(2.5, false, 'resetSpotMessageCountTimer'); //5.0 seconds is REALLY annoying and sometimes game breaking.
+		spotMessagesBlocked = true;
+		SetTimer(2.5, false, 'resetSpotMessageCountTimer'); //5.0 seconds is REALLY annoying and sometimes game breaking.
 	}
+	
 	if(NumVehicles > 0)
 	{
 		for(i=20; i>=0; i--)
@@ -268,6 +271,8 @@ function BroadcastEnemySpotMessages()
 				SpottingMsg = SpottingMsg $  "<font color ='" $GDIColor$ "'>" $  SpottedVehicles[19] @ "Wolverine</font>";
 			else if(i==20 && SpottedVehicles[20] > 0)
 				SpottingMsg = SpottingMsg $  "<font color ='" $GDIColor$ "'>" $  SpottedVehicles[20] @ "Titan</font>";
+			else if(i==20 && SpottedVehicles[21] > 0)
+				SpottingMsg = SpottingMsg $  "<font color ='" $NodColor$ "'>" $  SpottedVehicles[21] @ "Light Tank[M2]</font>";								
 			
 			if(SpottedVehicles[i] > 1)
 				SpottingMsg = SpottingMsg @ "s";	

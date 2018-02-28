@@ -209,7 +209,12 @@ function Message( PlayerReplicationInfo PRI, coerce string Msg, name MsgType, op
 	}
 	else if (MsgType == 'Radio')
 	{
-		fMsg = "<font color='" $RadioColor $"'>" $ cName $": "$ Msg $"</font>";
+		if(Rx_PRI(PRI).bGetIsCommander())
+			fMsg = "<font color='" $CommandTextColor $"'>" $ "[Commander]" $ cName $": "$ Msg $"</font>"; 
+		else
+			fMsg = "<font color='" $RadioColor $"'>" $ cName $": "$ Msg $"</font>"; 
+		
+		fMsg = HighlightStructureNames(fMsg); 
 		//PublicChatMessageLog $= "\n" $ fMsg;
 		rMsg = cName $": "$ Msg;
 	}
@@ -218,13 +223,13 @@ function Message( PlayerReplicationInfo PRI, coerce string Msg, name MsgType, op
 		if(Left(Caps(msg), 2) == "/C") 
 		{
 			msg = Right(msg, Len(msg)-2);
-			Rx_Controller(PlayerOwner).CTextMessage(msg,'LightBlue', 120.0);
+			Rx_Controller(PlayerOwner).CTextMessage(msg,'Pink', 120.0,,true);
 		}
 		else
 		if(Left(Caps(msg), 2) == "/R") 
 		{
 			msg = Right(msg, Len(msg)-2);
-			Rx_Controller(PlayerOwner).CTextMessage(msg,'LightBlue', 360.0);
+			Rx_Controller(PlayerOwner).CTextMessage(msg,'Pink', 360.0,,true);
 		}
 		fMsg = "<b><font color='" $CommandTextColor $"'>" $ "[Commander]"$ cName $": "$ CleanHTMLMessage(Msg) $"</font></b>";
 		//PublicChatMessageLog $= "\n" $ fMsg;
@@ -282,4 +287,5 @@ function Message( PlayerReplicationInfo PRI, coerce string Msg, name MsgType, op
 DefaultProperties
 {
 	DefaultTargettingRangex = 10000;
+	HudMovieClass = class'AGN_GFxHud'
 }

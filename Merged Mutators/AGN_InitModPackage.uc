@@ -117,12 +117,14 @@ function OnMatchStart()
 {
 	`log( "############# MATCH HAS STARTED IN AGN CODE #############" );
 	class'AGN_UtilitiesX'.static.SendMessageToAllPlayers("Welcome to AGN Gaming.\nThis is a heavily modified server and is in no way a reflection of the base Renegade-X Game\nEnjoy your stay!", 400);
+	if ( AGN_RebuildableDefenceHandler != None )
+		AGN_RebuildableDefenceHandler.OnMatchStart();
 }
 
-function Rx_CrateType OnDetermineCrateType(Rx_Pawn Recipient)
+function Rx_CrateType OnDetermineCrateType(Rx_Pawn Recipient, Rx_CratePickup CratePickup)
 {
 	if ( AGNCrateExtension != None )
-		return AGNCrateExtension.OnDetermineCrateType(Recipient);
+		return AGNCrateExtension.OnDetermineCrateType(Recipient, CratePickup);
 	else
 		return None;
 }
@@ -144,6 +146,7 @@ function bool CheckReplacement(Actor Other)
 	if(Other.IsA('Rx_TeamInfo'))
 	{
 		Rx_Game(WorldInfo.Game).PlayerControllerClass = class'AGN_Rx_Controller';
+		Rx_Game(WorldInfo.Game).PlayerReplicationInfoClass = class'AGN_Rx_PRI';
 	}
 
 	return true;

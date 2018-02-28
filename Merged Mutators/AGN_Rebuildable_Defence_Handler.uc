@@ -59,7 +59,7 @@ function InitSystem()
 	// Field_X
 	///
 	//Nod GT by PP
-	AddDefensiveStructure("CNC-Field_X",	TEAM_GDI,	vect(7634.499512,-3708.821289,266.901215),	rot(0,16384,0), 	true, 		750,	NOD_GUARDTOWER);
+	AddDefensiveStructure("CNC-Field_X",	TEAM_NOD,	vect(7634.499512,-3708.821289,266.901215),	rot(0,16384,0), 	true, 		750,	NOD_GUARDTOWER);
 	
 	//GDI by PP
 	AddDefensiveStructure("CNC-Field_X",	TEAM_GDI,	vect(-2956.268311,7779.490234,204.547958),	rot(0,0,0), 		true, 		750,	GDI_GUARDTOWER);
@@ -81,7 +81,13 @@ function InitSystem()
 			xDefenceTurret.Destroy();
 		}
 	}
-	
+}
+
+function OnMatchStart()
+{
+	`log("=================================================================================");
+	`log("=================              AGN TURRET SYSTEM              ===================");
+	`log("=================================================================================");
 	SpawnDefensiveStructures();
 }
 
@@ -116,50 +122,116 @@ function array<DefencePositionStruct> FindDefenceStructuresForMap(byte TeamID)
 	return _defStruct;
 }
 
-function SpawnDefensiveStructures()
+function OnDefenceDestroyed(byte Team, int towerID)
 {
 	local array<DefencePositionStruct> _defStructGDI;
 	local array<DefencePositionStruct> _defStructNod;
 	
-	local DefencePositionStruct _thisStruct;
+	if ( Team == TEAM_GDI )
+	{
+		_defStructGDI = FindDefenceStructuresForMap(TEAM_GDI);
+		SpawnPurchaseableTurret(_defStructGDI[towerID], towerID);
+	} else {
+		_defStructNod = FindDefenceStructuresForMap(TEAM_NOD);
+		SpawnPurchaseableTurret(_defStructNod[towerID], towerID);
+	}
+}
+
+function SpawnPurchaseableTurret(DefencePositionStruct _thisTurret, int towerID)
+{
+	local AGN_Rebuildable_Defence_Tower_Destroyed _thisGDITower;
+	local AGN_Rebuildable_Defence_TowerNod_Destroyed _thisNodTower;
+	local AGN_Rebuildable_Defence_Turret_Destroyed _thisNodTurret;
 	
-	local AGN_Rebuildable_Defence_Tower _thisGDITower;
-	local AGN_Rebuildable_Defence_TowerNod _thisNodTower;
-	local AGN_Rebuildable_Defence_Turret _thisTurret;
+	local vector HitLocation;
+	
+	HitLocation = _thisTurret.Location;// + vect(0,0,50);
+	
+	if ( _thisTurret.Team == TEAM_GDI )
+	{
+		_thisGDITower = Spawn(class'AGN_Rebuildable_Defence_Tower_Destroyed', , , HitLocation, _thisTurret.Rotation, , false);
+		_thisGDITower.InitializeDefence(self, towerID);
+		_thisGDITower.SetPurchasePrice(_thisTurret.PurchasePrice);
+	} else {
+		if ( _thisTurret.TurretType == NOD_GUARDTOWER )
+		{
+			_thisNodTower = Spawn(class'AGN_Rebuildable_Defence_TowerNod_Destroyed', , , HitLocation, _thisTurret.Rotation, , false);
+			_thisNodTower.InitializeDefence(self, towerID);
+			_thisNodTower.SetPurchasePrice(_thisTurret.PurchasePrice);
+		} else {
+			_thisNodTurret = Spawn(class'AGN_Rebuildable_Defence_Turret_Destroyed', , , HitLocation, _thisTurret.Rotation, , false);
+			_thisNodTurret.InitializeDefence(self, towerID);
+			_thisNodTurret.SetPurchasePrice(_thisTurret.PurchasePrice);
+		}
+	}
+}
+
+function CallInTowerAirDropFromTowerID(byte Team, int towerID)
+{
+	local array<DefencePositionStruct> _defStructGDI;
+	local array<DefencePositionStruct> _defStructNod;
+	
+	if ( Team == TEAM_GDI )
+	{
+		_defStructGDI = FindDefenceStructuresForMap(TEAM_GDI);
+		CallInTowerAirdropFromDataObject(_defStructGDI[towerID], towerID);
+	} else {
+		_defStructNod = FindDefenceStructuresForMap(TEAM_NOD);
+		CallInTowerAirdropFromDataObject(_defStructNod[towerID], towerID);
+	}
+}
+
+function CallInTowerAirdropFromDataObject(DefencePositionStruct thisTower, int towerID)
+{
+	local vector tempLocation;
+	local AGN_Rebuildable_Defence_Airdrop AirdropingChinook;
+	
+	tempLocation = thisTower.Location;
+	tempLocation.Z -= 350;
+	
+	AirdropingChinook = Spawn(class'AGN_Rebuildable_Defence_Airdrop', , , tempLocation, thisTower.Rotation, , false);
+	//byte TeamID, AGN_Rebuildable_Defence_Handler OurHandler, vector thisLocation, rotator thisRotation, int OurHandlerID, int OurTurretType
+	AirdropingChinook.Init(thisTower.Team, self, thisTower.Location, thisTower.Rotation, towerID, thisTower.TurretType);
+}
+
+function SpawnDefensiveStructures()
+{
+	local array<DefencePositionStruct> _defStructGDI;
+	local array<DefencePositionStruct> _defStructNod;
+	local DefencePositionStruct _thisStruct;
+	local int counter;
 	
 	_defStructGDI = FindDefenceStructuresForMap(TEAM_GDI);
 	_defStructNod = FindDefenceStructuresForMap(TEAM_NOD);
 	
+	counter = 0;
 	// Spawn all GDI Structures
 	foreach _defStructGDI(_thisStruct)
 	{
-		_thisGDITower = Spawn(class'AGN_Rebuildable_Defence_Tower',,, _thisStruct.Location, _thisStruct.Rotation);
-		_thisGDITower.InitializeDefence();
-		_thisGDITower.SetPurchasePrice(_thisStruct.PurchasePrice);
 		if ( _thisStruct.bStartDead )
-			_thisGDITower.DeactivateStructureViaTimer();
+		{
+			`log("[AGN-Turret-System] Spawning a purchaseable turret of type " $ string(_thisStruct.TurretType) $ " for team " $ string(_thisStruct.Team) $ " at coords " $ string(_thisStruct.Location));
+			SpawnPurchaseableTurret(_thisStruct, counter);
+		} else {
+			`log("[AGN-Turret-System] Calling in an airdrop for the tower type of " $ string(_thisStruct.TurretType) $ " for team " $ string(_thisStruct.Team) $ " at coords " $ string(_thisStruct.Location));
+			CallInTowerAirdropFromDataObject(_thisStruct, counter);
+		}
+		counter++;
 	}
 	
+	counter = 0;
 	// Spawn all Nod Structures
 	foreach _defStructNod(_thisStruct)
 	{
-		// Nod have both Turrets, and a special Tower
-		if ( _thisStruct.TurretType == 0 )
+		if ( _thisStruct.bStartDead )
 		{
-			_thisNodTower = Spawn(class'AGN_Rebuildable_Defence_TowerNod',,, _thisStruct.Location, _thisStruct.Rotation);
-			_thisNodTower.InitializeDefence();
-			_thisNodTower.SetPurchasePrice(_thisStruct.PurchasePrice);
-			if ( _thisStruct.bStartDead )
-				_thisNodTower.DeactivateStructureViaTimer();
+			`log("[AGN-Turret-System] Spawning a purchaseable turret of type " $ string(_thisStruct.TurretType) $ " for team " $ string(_thisStruct.Team) $ " at coords " $ string(_thisStruct.Location));
+			SpawnPurchaseableTurret(_thisStruct, counter);
+		} else {
+			`log("[AGN-Turret-System] Calling in an airdrop for the tower type of " $ string(_thisStruct.TurretType) $ " for team " $ string(_thisStruct.Team) $ " at coords " $ string(_thisStruct.Location));
+			CallInTowerAirdropFromDataObject(_thisStruct, counter);
 		}
-		else
-		{
-			_thisTurret = Spawn(class'AGN_Rebuildable_Defence_Turret',,, _thisStruct.Location, _thisStruct.Rotation);
-			_thisTurret.InitializeDefence();
-			_thisTurret.SetPurchasePrice(_thisStruct.PurchasePrice);
-			if ( _thisStruct.bStartDead )
-				_thisTurret.DeactivateStructureViaTimer();
-		}
+		counter++;
 	}
 }
 
