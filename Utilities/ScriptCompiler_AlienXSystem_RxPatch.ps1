@@ -39,7 +39,7 @@
 [string]$RenXBaseDirectory = "C:\Program Files (x86)\Renegade X"
 
 # Where is the UDK Directory? (root path, not to the binary)
-[string]$RenXUDKDirectory = "D:\RenX_SDK\5332"
+[string]$RenXUDKDirectory = "E:\My SDK"
 
 # Change these if u want
 [string]$RenXAdditionalStartupParams = "-log -windowed -nomoviestartup -ResX=1920 -ResY=1080"

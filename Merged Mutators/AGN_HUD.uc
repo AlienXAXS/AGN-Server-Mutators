@@ -223,13 +223,13 @@ function Message( PlayerReplicationInfo PRI, coerce string Msg, name MsgType, op
 		if(Left(Caps(msg), 2) == "/C") 
 		{
 			msg = Right(msg, Len(msg)-2);
-			Rx_Controller(PlayerOwner).CTextMessage(msg,'Pink', 120.0,,true);
+			Rx_Controller(PlayerOwner).CTextMessage(msg,'LightBlue', 120.0);
 		}
 		else
 		if(Left(Caps(msg), 2) == "/R") 
 		{
 			msg = Right(msg, Len(msg)-2);
-			Rx_Controller(PlayerOwner).CTextMessage(msg,'Pink', 360.0,,true);
+			Rx_Controller(PlayerOwner).CTextMessage(msg,'LightBlue', 360.0);
 		}
 		fMsg = "<b><font color='" $CommandTextColor $"'>" $ "[Commander]"$ cName $": "$ CleanHTMLMessage(Msg) $"</font></b>";
 		//PublicChatMessageLog $= "\n" $ fMsg;

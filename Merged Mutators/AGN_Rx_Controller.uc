@@ -104,7 +104,7 @@ function BroadcastEnemySpotMessages()
 				SpottedVehicles[19]++;
 			} else if(TS_Vehicle_Titan(SpotTarget) != None) {
 				SpottedVehicles[20]++;
-			} else if(Rx_Vehicle_M2Bradley(SpotTarget) != None) {
+			} else if(APB_Vehicle_TeslaTank(SpotTarget) != None) {
 				SpottedVehicles[21]++;
 			}
 		}
@@ -271,8 +271,6 @@ function BroadcastEnemySpotMessages()
 				SpottingMsg = SpottingMsg $  "<font color ='" $GDIColor$ "'>" $  SpottedVehicles[19] @ "Wolverine</font>";
 			else if(i==20 && SpottedVehicles[20] > 0)
 				SpottingMsg = SpottingMsg $  "<font color ='" $GDIColor$ "'>" $  SpottedVehicles[20] @ "Titan</font>";
-			else if(i==20 && SpottedVehicles[21] > 0)
-				SpottingMsg = SpottingMsg $  "<font color ='" $NodColor$ "'>" $  SpottedVehicles[21] @ "Light Tank[M2]</font>";								
 			
 			if(SpottedVehicles[i] > 1)
 				SpottingMsg = SpottingMsg @ "s";	
