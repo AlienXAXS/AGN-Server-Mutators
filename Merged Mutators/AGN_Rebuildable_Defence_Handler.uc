@@ -27,35 +27,32 @@ function InitSystem()
 	if(right(mapname, 4) ~= "_DAY") mapname = Left(mapname, Len(mapname)-4);
 	CurrentMapName = mapname;
 	
-	///
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Islands
 	///
-	
-	//Islands - GDI, by the WF
-	//					  MAP				TEAM		Location									ROTATION			StartDead	Price	TurretType
+	//GDI, by the WF + Tunnels
 	AddDefensiveStructure("CNC-Islands",	TEAM_GDI,	vect(9563.457031,10765.051758,-171.459473), rot(0,-32672,0), 	true, 		750,	GDI_GUARDTOWER);
 	AddDefensiveStructure("CNC-Islands",	TEAM_GDI,	vect(15270.881836,8603.498047,-265.831451),	rot(0,-93408,0), 	true, 		750,	GDI_GUARDTOWER);
 	
-	// Islands Nod Infrantry Path
+	//Nod Infrantry Path
 	AddDefensiveStructure("CNC-Islands",	TEAM_NOD,	vect(9535.521484,3132.285889,-136.438507),	rot(0,2496,0),		true,		750,	NOD_GUARDTOWER);
 	
 	//Islands Nod Turret
 	AddDefensiveStructure("CNC-Islands",	TEAM_NOD,	vect(8935.323242,2062.293457,-187.514847),	rot(0,-29632,0),	true,		550,	NOD_TURRET);
 	
-	///
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Under
 	///
-	
-	// Under Nod GT by end of Strip
+	// Nod GT by end of Strip
 	AddDefensiveStructure("CNC-Under",		TEAM_NOD,	vect(4922.829102,-1268.094727,133.085495), 	rot(0,16288,0),		true,		750,	NOD_GUARDTOWER);
 
-	// Under GDI GT by WF
+	// GDI GT by WF
 	AddDefensiveStructure("CNC-Under",		TEAM_GDI,	vect(-3031.028809,-7673.423340,229.389114),	rot(0,32768,0), 	true, 		750,	GDI_GUARDTOWER);
 
-	// Under GDI GT middle of base
+	// GDI GT middle of base
 	AddDefensiveStructure("CNC-Under",		TEAM_GDI,	vect(-1074.669800,-4904.338867,123.952759),	rot(0,32768,0), 	true, 		750,	GDI_GUARDTOWER);
 
-	///
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// Field_X
 	///
 	//Nod GT by PP
@@ -64,6 +61,23 @@ function InitSystem()
 	//GDI by PP
 	AddDefensiveStructure("CNC-Field_X",	TEAM_GDI,	vect(-2956.268311,7779.490234,204.547958),	rot(0,0,0), 		true, 		750,	GDI_GUARDTOWER);
 
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Walls Flying
+	///
+	// GDI Left
+	AddDefensiveStructure("CNC-Walls_Flying",	TEAM_GDI,	vect(-8671.990234,4034.258789,737.538513), rot(0,-16384,0), 	true, 		750,	GDI_GUARDTOWER);
+	
+	// GDI Right
+	AddDefensiveStructure("CNC-Walls_Flying",	TEAM_GDI,	vect(-14383.990234,4034.258789,737.538513), rot(0,-16384,0),	true, 		750,	GDI_GUARDTOWER);
+	
+	// Nod Left
+	AddDefensiveStructure("CNC-Walls_Flying",	TEAM_GDI,	vect(-14383.990234,-4541.740723,737.538513), rot(0,16384,0),	true, 		750,	NOD_GUARDTOWER);
+	
+	// Nod Right
+	AddDefensiveStructure("CNC-Walls_Flying",	TEAM_GDI,	vect(-8671.990234,-4541.740723,737.538513), rot(0,-49152,0),	true, 		750,	NOD_GUARDTOWER);
+
+	
 	// Add the defence turrets that are already on the existing map
 	foreach class'WorldInfo'.static.GetWorldInfo().AllActors(class'Rx_Defence', xDefenceTurret)
 	{
