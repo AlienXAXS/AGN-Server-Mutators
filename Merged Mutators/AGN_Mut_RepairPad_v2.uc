@@ -104,8 +104,8 @@ reliable server function SetRepairPadsForMaps()
 	AddRepairPad("CNC-Field", "Nod", vect(6677.260254,115.203735,44.816742), rot(0,0,0));
 
 	//CNC-LakeSide
-	AddRepairPad("CNC-LakeSide", "GDI", vect(-379.420929, 5134.744141, -5270.529297), rot(192,-43, 832));
-	AddRepairPad("CNC-LakeSide", "Nod", vect(-34.048794, -7152.664551, -5301.770020), rot(344, -252, 435));
+	AddRepairPad("CNC-LakeSide", "GDI", vect(-1746.484253,5710.000000,683.543701), rot(315,-5187,780));
+	AddRepairPad("CNC-LakeSide", "Nod", vect(-201.661652,-7169.651855,723.187866), rot(-296,6768,-256));
 
 	//CNC-Tunnels
 	AddRepairPad("CNC-Tunnels", "GDI", vect(12068.624023 , 7013.181641, -10.813853), rot(0,0, -64));

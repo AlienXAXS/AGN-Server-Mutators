@@ -68,6 +68,10 @@ function bool HealDamage(int Amount, Controller Healer, class<DamageType> Damage
 	local Rx_PRI playerRepInfo;
 	local float captureProgress;
 	
+	// If we dont have a healer, we can't do anything (most likely a bot)
+	if ( Healer == None )
+		return false;
+	
 	// Our tower is dead, let's activate it.
 	if ( Rx_Controller(Healer).PlayerReplicationInfo != None )
 	{

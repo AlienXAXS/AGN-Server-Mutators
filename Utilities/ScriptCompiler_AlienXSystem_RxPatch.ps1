@@ -73,7 +73,7 @@ Write-Output " --> Done"
 
 #Run UDK.EXE MAKE
 Write-Output "Running $UDKBinary MAKE - Check for errors and close the window once done"
-$process = Start-Process $UDKBinary -ArgumentList "make -unattended" -PassThru -Wait -WorkingDirectory $RenXUDKDirectory
+$process = Start-Process $UDKBinary -ArgumentList "make -unattended -stripsource" -PassThru -Wait -WorkingDirectory $RenXUDKDirectory
 
 Write-host "Continue?" -ForegroundColor Yellow 
     $Readhost = Read-Host " ( y / n ) " 

@@ -66,16 +66,16 @@ function InitSystem()
 	// Walls Flying
 	///
 	// GDI Left
-	AddDefensiveStructure("CNC-Walls_Flying",	TEAM_GDI,	vect(-8671.990234,4034.258789,737.538513), rot(0,-16384,0), 	true, 		750,	GDI_GUARDTOWER);
+	//AddDefensiveStructure("CNC-Walls_Flying",	TEAM_GDI,	vect(-8671.990234,4034.258789,737.538513), rot(0,-16384,0), 	true, 		750,	GDI_GUARDTOWER);
 	
 	// GDI Right
-	AddDefensiveStructure("CNC-Walls_Flying",	TEAM_GDI,	vect(-14383.990234,4034.258789,737.538513), rot(0,-16384,0),	true, 		750,	GDI_GUARDTOWER);
+	//AddDefensiveStructure("CNC-Walls_Flying",	TEAM_GDI,	vect(-14383.990234,4034.258789,737.538513), rot(0,-16384,0),	true, 		750,	GDI_GUARDTOWER);
 	
 	// Nod Left
-	AddDefensiveStructure("CNC-Walls_Flying",	TEAM_GDI,	vect(-14383.990234,-4541.740723,737.538513), rot(0,16384,0),	true, 		750,	NOD_GUARDTOWER);
+	//AddDefensiveStructure("CNC-Walls_Flying",	TEAM_NOD,	vect(-14383.990234,-4541.740723,737.538513), rot(0,16384,0),	true, 		750,	NOD_GUARDTOWER);
 	
 	// Nod Right
-	AddDefensiveStructure("CNC-Walls_Flying",	TEAM_GDI,	vect(-8671.990234,-4541.740723,737.538513), rot(0,-49152,0),	true, 		750,	NOD_GUARDTOWER);
+	//AddDefensiveStructure("CNC-Walls_Flying",	TEAM_NOD,	vect(-8671.990234,-4541.740723,737.538513), rot(0,-49152,0),	true, 		750,	NOD_GUARDTOWER);
 
 	
 	// Add the defence turrets that are already on the existing map

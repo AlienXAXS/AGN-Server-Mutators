@@ -24,6 +24,8 @@ var bool modPackageInitComplete;
 var bool mutatorInitDone;
 
 var config int MaxPlayersAllowed;
+var config int ReservedSlotCount;
+var config Array<string> AGNPlayerList;
 
 simulated function Tick(float DeltaTime)
 {
@@ -46,8 +48,8 @@ function InitMutator(string options, out string errorMessage)
 		MaxPlayersAllowed = 40;
 
 	// From an INI Now, yay!
-	WorldInfo.Game.MaxPlayersAllowed = MaxPlayersAllowed;
-	WorldInfo.Game.MaxPlayers = MaxPlayersAllowed;
+	WorldInfo.Game.MaxPlayersAllowed = MaxPlayersAllowed + ReservedSlotCount;
+	WorldInfo.Game.MaxPlayers = MaxPlayersAllowed + ReservedSlotCount;
 
 	if ( mutatorInitDone )
 	{
@@ -150,6 +152,40 @@ function bool CheckReplacement(Actor Other)
 	}
 
 	return true;
+}
+
+function OnPlayerConnect(PlayerController NewPlayer, string SteamID)
+{
+	local int PlayerCount;
+	local AGN_ReservedSlotsController AGNReservedSlotsController;
+	
+	PlayerCount = `WorldInfoObject.Game.NumPlayers-1;
+	
+	`log("[AGN-ReservedSlots] PLAYER_CONNECTING | Player: " $ SteamID $ " | Current Players: " $ string(PlayerCount) $ " | Max Players: " $ string(MaxPlayersAllowed) $ " | Total Slots: " $ string(MaxPlayersAllowed + ReservedSlotCount));
+	
+	// If player count is equal to or above max players, and we have reserved slots, and we're not at possible max players.
+	if ( PlayerCount >= MaxPlayersAllowed && ReservedSlotCount > 0 )
+	{
+		`log("[AGN-ReservedSlots] We're above our allocated player counts, checking if the new player is an AGN Member");
+		if ( IsPlayerAGNMember(SteamID) == False )
+		{
+			AGNReservedSlotsController = Spawn(class'AGN_ReservedSlotsController');
+			if ( AGNReservedSlotsController != None )
+				AGNReservedSlotsController.StartPlayerKickProcess(NewPlayer);
+		}
+	}
+}
+
+function bool IsPlayerAGNMember(string SteamID)
+{
+    local string member;
+    
+    // Loop around each donator inside the INI config file
+    foreach AGNPlayerList(member)
+        if ( InStr(SteamID, member) >= 0 )
+            return true;
+
+    return false;
 }
 
 DefaultProperties

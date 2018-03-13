@@ -163,18 +163,30 @@ function RepairPadTick()
 	local int calculatedRepairCost;
 	local Rx_PRI playerRepInfo;
 	local int count;
+	local vector thisLocation;
 
 	// Is this repairpad dead?
 	if ( IsDestroyed() )
 	{
+		`log("[AGN-RepairPad] Repair Pad " $ string(self) $ " is dead, tick timer is about to be killed");
 		ClearTimer('RepairPadTick'); // Stop the timer
 		return;
 	}
+	
+	thisLocation = Location;
+	thisLocation.Z += 50;
 
-	ForEach VisibleCollidingActors(class'UTVehicle', thisVehicle, RepairDistance, Location, IgnoreHiddenCollidingActors)
+	ForEach VisibleCollidingActors(class'UTVehicle', thisVehicle, RepairDistance, thisLocation, IgnoreHiddenCollidingActors)
 	{
 		if ( IsValidVehicle(thisVehicle) == false )
+		{
+			`log("[AGN-RepairPad] Repair Pad " $ string(self) $ " : Found an invalid vehicle " $ string(thisVehicle) $ ", more details below if possible");
+		
+			if ( thisVehicle.Driver != None )
+				`log("[AGN-RepairPad] Repair Pad " $ string(self) $ " : Driver Object: " $ string(thisVehicle.Driver) $ " team:" $ string(thisVehicle.Driver.GetTeamNum()) $ " expected " $ string(TeamID));
+			
 			continue;
+		}
 
 		calculatedRepairRate = CalculateRepairRate();
 		calculatedRepairCost = CalculateCostPerRepair();

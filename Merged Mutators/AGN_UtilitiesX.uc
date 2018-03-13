@@ -85,22 +85,28 @@ static function string GetWeaponNameIncludingCustomWeapons(UTWeapon WeaponClass)
 		return "Personal Obelisk Cannon";
 	else if (WeaponClass.IsA('AGN_Weapon_Carbine_Silencer') )
 		return "Silenced Carbine";
+	else if (WeaponClass.IsA('AGN_Weapon_PersonalIonCannon') )
+		return "Personal Ion Cannon";
 	else
 		return WeaponClass.ItemName;
 }
 
 static function DumpAllActors(PlayerController sender)
 {
-      local Actor thisActor;
-      local int aCount;
-			`log("-------------- STARTING DUMP -------------------");
-    	foreach class'WorldInfo'.static.GetWorldInfo().AllActors(class'Actor', thisActor)
-    {
-         aCount++;
-        `log("[AGN-Dump] " $ string(thisActor));
-    }
-		`log("----------- DUMP FINISHED " $ string(aCount) $ " actors dumped! --------------");
-		Sender.ClientMessage("[AGN-Dump] " $ string(aCount) $ " actors dumped!");
+	local Actor thisActor;
+	local int aCount;
+	
+	`log("-------------- STARTING DUMP -------------------");
+	
+	foreach class'WorldInfo'.static.GetWorldInfo().AllActors(class'Actor', thisActor)
+	{
+		aCount++;
+		`log("[AGN-Dump] " $ string(thisActor));
+	}
+	
+	`log("----------- DUMP FINISHED " $ string(aCount) $ " actors dumped! --------------");
+	
+	Sender.ClientMessage("[AGN-Dump] " $ string(aCount) $ " actors dumped!");
 }
 
 static function bool IsPlayerSpecial(PlayerReplicationInfo pri, byte SpecialHow)
