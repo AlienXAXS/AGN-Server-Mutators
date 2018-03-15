@@ -25,6 +25,21 @@ function float GetProbabilityWeight(Rx_Pawn Recipient, Rx_CratePickup CratePicku
 {
 	local Rx_Building building;
 	local bool hasDefences;
+	local Rx_Building_PowerFactory building;
+	local bool foundPowerPlant;
+	
+	//Check for Powerplants
+	foreach AllActors(class'Rx_Building_PowerFactory', building) {
+		if(TeamID == building.TeamID)
+		{	
+			foundPowerPlant = true;
+			break;
+		}
+	}
+	
+	// If we have no PP, do not turn off the defences on this map (bug in RenX 5.333)
+	if ( foundPowerPlant == false )
+		return 0;
 	
 	// If the map has no ob/agt - dont get this crate
 	foreach CratePickup.AllActors(class'Rx_Building', building) {
